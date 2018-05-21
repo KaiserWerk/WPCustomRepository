@@ -4,7 +4,7 @@ require '../bootstrap.php';
 
 ini_set('log_errors', true);
 ini_set('error_log', tempDir().'/php-errors.log');
-if (getenv('DEBUG') === true) {
+if (getenv('DEBUG') == true) {
     error_reporting(E_ALL);
     ini_set('display_errors', true);
 } else {
@@ -33,16 +33,5 @@ while($f = readdir($h)) {
 }
 closedir($h);
 
-function projectDir() {
-    return __DIR__;
-}
-function fileDir()
-{
-    return __DIR__."/public";
-}
-function tempDir()
-{
-    return __DIR__."/var";
-}
 
 $klein->dispatch();
