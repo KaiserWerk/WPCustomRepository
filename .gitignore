@@ -1,6 +1,5 @@
 .env
 *.log
 /.idea
-/dl/*.*
 /vendor
 /var/*

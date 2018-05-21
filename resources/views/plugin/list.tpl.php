@@ -9,7 +9,6 @@
                     <th>Plugin Name</th>
                     <th>Plugin Slug</th>
                     <th>Version</th>
-                    <th>Download</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -19,7 +18,6 @@
                     echo '<td>' . $row['plugin_name'] . '</td>';
                     echo '<td>' . $row['slug'] . '</td>';
                     echo '<td>' . $row['version'] . '</td>';
-                    echo '<td><a href="/download/plugin/' . $row['slug'] . '">Link</a></td>';
                     echo '</tr>';
                 }
                 ?>

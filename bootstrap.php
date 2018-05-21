@@ -10,31 +10,31 @@ $dotenv->load();
 
 function projectDir($echo = false) {
     if (!$echo) {
-        return __DIR__;
+        return '/';
     }
-    echo __DIR__;
+    echo '/';
 }
 function fileDir($echo = false) {
     if (!$echo) {
-        return __DIR__ . '/public';
+        return 'public';
     }
-    echo __DIR__ . '/public';
+    echo 'public';
 }
 function tempDir($echo = false) {
     if (!$echo) {
-        return __DIR__ . '/var';
+        return 'var';
     }
-    echo  __DIR__ . '/var';
+    echo  'var';
 }
 function viewsDir($echo = false) {
     if ( ! $echo ) {
-        return __DIR__ . '/resources/views';
+        return __DIR__.'/resources/views';
     }
-    echo __DIR__ . '/resources/views';
+    echo  __DIR__.'/resources/views';
 }
-function pluginFileDir($echo = false) {
+function downloadDir($echo = false) {
     if ( ! $echo ) {
-        return __DIR__ . '/var/plugin_files';
+        return 'plugin_files';
     }
-    echo __DIR__ . '/var/plugin_files';
+    echo 'plugin_files';
 }

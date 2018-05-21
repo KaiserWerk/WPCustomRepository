@@ -18,7 +18,8 @@ $klein->respond('GET', '/api/plugins/check-latest-version/[:slug]', function ($r
     $response->slug = $slug;
     $response->new_version = $row['version'];
     $response->url = $row['url'];
-    $response->package = 'http://wpcustomrepository.local/dl/' . $slug . '/' . $slug . '_v' . $response->new_version . '.zip';
+    #$response->package = 'http://wpcustomrepository.local/' . downloadDir() . '/' . $slug . '/' . $slug . '_v' . $row['version'] . '.zip';
+    $response->package = 'http://wpcustomrepository.local/download/plugin/' . $slug;
     
     echo serialize($response);
 });
@@ -58,7 +59,11 @@ $klein->respond('GET', '/api/plugins/get-plugin-information/[:slug]', function (
     ]);*/
     
     $ratings_sum = $row['rating5']+$row['rating4']+$row['rating3']+$row['rating2']+$row['rating1'];
-    $rating = $row['rating5'] * 100 / $ratings_sum;
+    if ($ratings_sum > 0) {
+        $rating = $row['rating5'] * 100 / $ratings_sum;
+    } else {
+        $rating = 0.0;
+    }
     
     $response = new stdClass();
     $response->name = $row['plugin_name'];
@@ -92,7 +97,8 @@ $klein->respond('GET', '/api/plugins/get-plugin-information/[:slug]', function (
         #'changelog' =>  'changelock',
         #'screenshots' => 'screensh',
     );
-    $response->download_link = 'http://wpcustomrepository.local/dl/' . $slug . '/' . $slug . '_v' . $row['version'] . '.zip';
+    #$response->download_link = 'http://wpcustomrepository.local/' . downloadDir() . '/' . $slug . '/' . $slug . '_v' . $row['version'] . '.zip';
+    $response->download_link = 'http://wpcustomrepository.local/download/plugin/' . $slug;
     
     #echo '<br><br><pre>';
     #var_dump($response);
