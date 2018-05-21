@@ -10,21 +10,21 @@ $dotenv->load();
 
 function projectDir($echo = false) {
     if (!$echo) {
-        return '/';
+        return __DIR__;
     }
-    echo '/';
+    echo __DIR__;
 }
 function fileDir($echo = false) {
     if (!$echo) {
-        return 'public';
+        return __DIR__.'/public';
     }
-    echo 'public';
+    echo __DIR__.'/public';
 }
 function tempDir($echo = false) {
     if (!$echo) {
-        return 'var';
+        return __DIR__.'/var';
     }
-    echo  'var';
+    echo  __DIR__.'/var';
 }
 function viewsDir($echo = false) {
     if ( ! $echo ) {

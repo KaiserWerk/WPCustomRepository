@@ -26,7 +26,7 @@ class LoggerHelper
             @mkdir($dir, 0775);
         }
 
-        $file_single = $dir . 'debug.log';
+        $file_single = $dir . '/debug.log';
 
         $h = @fopen($file_single, 'a+');
         if ($h !== false) {
