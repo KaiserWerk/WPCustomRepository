@@ -76,7 +76,7 @@ $klein->respond(['GET', 'POST'], '/plugin/add', function ($request) {
     }
 });*/
 
-/*
+
 $klein->respond('GET', '/plugin/[:id]/remove', function ($request) {
 
-});*/
+});
