@@ -1,7 +1,9 @@
 <?php
 
 $klein->respond('GET', '/plugin/list', function ($request) {
-    
+    if (!AuthHelper::isLoggedIn()) {
+        Helper::redirect('/login');
+    }
     $db = new DBHelper();
     
     $rows = $db->select('plugin', '*', [
@@ -17,6 +19,9 @@ $klein->respond('GET', '/plugin/list', function ($request) {
 });
 
 $klein->respond(['GET', 'POST'], '/plugin/add', function ($request) {
+    if (!AuthHelper::isLoggedIn()) {
+        Helper::redirect('/login');
+    }
     if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         require_once viewsDir() . '/header.tpl.php';
         require_once viewsDir() . '/plugin/add.tpl.php';
