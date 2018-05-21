@@ -30,35 +30,15 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">WPCustomRepository</a>
+            <a class="navbar-brand" href="/">WPCustomRepository</a>
         </div>
         
-        
-        
         <div id="navbar" class="navbar-collapse collapse">
-            
-            <?php
-            if (!AuthHelper::isLoggedIn()) {
-                ?>
-                <form class="navbar-form navbar-right" role="form">
-                    <div class="form-group">
-                        <input type="text" placeholder="Username / Email" class="form-control" name="_login[username]">
-                    </div>
-                    <div class="form-group">
-                        <input type="password" placeholder="Password" class="form-control" name="_login[password]">
-                    </div>
-                    <button type="submit" class="btn btn-success">Sign in</button>
-                </form>
-                <?php
-            } else {
-                ?>
-                f
-                <?php
-            }
-            ?>
             <ul class="nav navbar-nav pull-right">
-                <li class="active"><a href="#">Home</a></li>
-                <li><a href="#">Page 1</a></li>
+                <li><a href="#">Home</a></li>
+                <li><a href="/plugin/list">Plugins</a></li>
+                <?php if (!AuthHelper::isLoggedIn()) { ?> <li><a href="/login">Login</a></li> <?php } ?>
+                <?php if (AuthHelper::isLoggedIn()) { ?> <li><a title="Logged in as <?php echo AuthHelper::getUsername(); ?>" href="/logout">Logout</a></li> <?php } ?>
             </ul>
         </div><!--/.navbar-collapse -->
         

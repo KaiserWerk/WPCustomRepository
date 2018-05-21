@@ -129,7 +129,7 @@ class Helper
         $db->insert('mail_sent', [
             'confirmation_token' => $confirmation_token,
             'recipient' => $recipient,
-            'sent_at' => 'NOW()',
+            'sent_at' => date('Y-m-d H:i:s'),
         ]);
         
         return $db->id();

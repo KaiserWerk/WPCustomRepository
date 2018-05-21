@@ -59,7 +59,7 @@ class LoggerHelper
                 'useragent' => $_SERVER['HTTP_USER_AGENT'],
                 'lang' => $_SERVER['HTTP_ACCEPT_LANGUAGE'],
                 'ip' => Helper::getIP(),
-                'created_at' => 'NOW()',
+                'created_at' => date('Y-m-d H:i:s'),
             ]);
         } catch (PDOException $e) {
             return false;

@@ -16,19 +16,25 @@ function projectDir($echo = false) {
 }
 function fileDir($echo = false) {
     if (!$echo) {
-        return __DIR__ . "/public";
+        return __DIR__ . '/public';
     }
-    echo __DIR__ . "/public";
+    echo __DIR__ . '/public';
 }
 function tempDir($echo = false) {
     if (!$echo) {
-        return __DIR__ . "/var";
+        return __DIR__ . '/var';
     }
-    echo  __DIR__ . "/var";
+    echo  __DIR__ . '/var';
 }
 function viewsDir($echo = false) {
     if ( ! $echo ) {
         return __DIR__ . '/resources/views';
     }
     echo __DIR__ . '/resources/views';
+}
+function pluginFileDir($echo = false) {
+    if ( ! $echo ) {
+        return __DIR__ . '/var/plugin_files';
+    }
+    echo __DIR__ . '/var/plugin_files';
 }

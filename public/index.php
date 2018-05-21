@@ -4,6 +4,7 @@ require '../bootstrap.php';
 
 ini_set('log_errors', true);
 ini_set('error_log', tempDir().'/php-errors.log');
+ini_set('session.name', getenv('SESSNAME'));
 if (getenv('DEBUG') == true) {
     error_reporting(E_ALL);
     ini_set('display_errors', true);
@@ -33,5 +34,6 @@ while($f = readdir($h)) {
 }
 closedir($h);
 
+AuthHelper::__init();
 
 $klein->dispatch();

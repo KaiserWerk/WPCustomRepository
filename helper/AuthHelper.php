@@ -51,7 +51,6 @@ class AuthHelper
      */
     public static function checkCSRFToken($_csrf_token)
     {
-        
         if ($_csrf_token !== null) {
             if ($_csrf_token === $_SESSION['_csrf_token']) {
                 return true;
@@ -76,7 +75,9 @@ class AuthHelper
     {
         $db = new DBHelper();
         if (self::isLoggedIn()) {
-            $row = $db->get('user', 'username', [
+            $row = $db->get('user', [
+                'username'
+            ], [
                 'id' => $_SESSION['user'],
             ]);
             return $row['username'];
@@ -88,7 +89,9 @@ class AuthHelper
     {
         if (self::isLoggedIn()) {
             $db = new DBHelper();
-            $row = $db->get('user', 'locale', [
+            $row = $db->get('user', [
+                'locale'
+            ], [
                 'id' => $_SESSION['user'],
             ]);
             return $row['locale'];
