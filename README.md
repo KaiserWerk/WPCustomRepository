@@ -39,6 +39,6 @@ You can contact me via mail: m@r-k.mx
 
 # Further Reading & Thoughts
 
-In order for newly uploaded plugin versions to be recogized, the version string the main file's comment **must** be higher than the currently installed version's. Naturally, it would make no sense to execute an automatic update to the same version that is already installed.
+In order for newly uploaded plugin versions to be recogized, the version string in the main file's comment **must** be higher than the currently installed version's. Naturally, it would make no sense to execute an automatic update to the same version that is already installed.
 
 An automatic __installation__ would be reeeally great, but to my knowledge is not currently possible. You have to manually install your custom plugin first. If you set up everything correctly, the automatic updates will take over.
