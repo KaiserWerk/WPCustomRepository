@@ -31,6 +31,11 @@ I developed a plugin exclusive to one client to be installed on nine different s
 
 * Step 1: Add the code from ```etc/wp-config.txt```to the end of your wordpress' wp-config.php file and add the hostname of your WPCR installation to the array, e.g. ```wpcr.yourdomain.com```. Without this snippet, your Wordpress installation would only accept automatic updates from the official wordpress.org repository - which is not what you want.
 
+# Contributing
+
+Either branch it and create a pull request open an issue.
+ou can contact me via mail: m@r-k.mx
+
 # Further Reading & Thoughts
 
 In order for newly uploaded plugin versions to be recogized, the version string the main file's comment **must** be higher than the currently installed version's. Naturally, it would make no sense to execute an automatic update to the same version that is already installed.
