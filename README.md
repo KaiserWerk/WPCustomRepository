@@ -1,4 +1,4 @@
-# WPCustomRepository
+# WPCustomRepository (= WPCR)
 
 Everyone who used Wordpress at least once or twice knows about the wordpress.org plugin/theme repository. It allows your Wordpress site to automatically pull updates for your plugins and themes (if you installed them from there).
 
@@ -28,8 +28,8 @@ I developed a plugin exclusive to one client to be installed on nine different s
 
 ### Part III: In Wordpress
 
-* Step 1: Add the code from 
+* Step 1: Add the code from ```etc/wp-config.txt```to the end of your wordpress' wp-config.php file and add the hostname of your WPCR installation to the array, e.g. ```wpcr.yourdomain.com```. Without this snippet, your Wordpress installation would only accept automatic updates from the official wordpress.org repository - which is not what you want.
 
 # Further Info
 
-In order for newly uploaded plugin versions to be recogized, the version string the main file's comment **must** be higher than the currently installed version's.
+In order for newly uploaded plugin versions to be recogized, the version string the main file's comment **must** be higher than the currently installed version's. It would naturally make no sense to execute an automatic update to the same version that is already installed.
