@@ -13,9 +13,12 @@ I developed a plugin exclusive to one client to be installed on nine different s
 # Installation
 ### Part I: On your server
 
-* Step 1: Upload the WPCustomRepository files on your webserver, either by zip file or a ``git pull https://github.com/KaiserWerk/WPCustomRepository.git``
-* Step 2: do the infamous ``composer install``
-* Step 3: Edit the values in the .env file according to your needs
+* Step 1: Upload the WPCustomRepository files on your webserver, either by zip file or a *git pull https://github.com/KaiserWerk/WPCustomRepository.git*.
+* Step 2: Do the infamous *composer install* to get started.
+
+* Step 3: Edit the values in the `` .env `` file according to your needs.
+
+* Step 4: Import the sql dump file from the ``etc`` directory. It contains a standard admin user with the credentials ``admin/test``.
 
 ### Part II: In your custom plugin
 ### Part III: In Wordpress
