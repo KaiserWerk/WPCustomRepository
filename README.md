@@ -17,7 +17,6 @@ I developed a plugin exclusive to one client to be installed on nine different s
 * Step 2: Do the infamous ```composer install``` to get started.
 * Step 3: Edit the values in the ```.env``` file according to your needs.
 * Step 4: Import the sql dump file from the ```etc``` directory. It contains a standard admin user with the credentials ``admin/test``.
-* Step 5: Profit???
 
 ### Part II: In your custom plugin
 
