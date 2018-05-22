@@ -18,6 +18,8 @@ I developed a plugin exclusive to one client to be installed on nine different s
 * Step 3: Edit the values in the ```.env``` file according to your needs.
 * Step 4: Import the sql dump file from the ```etc``` directory. It contains a standard admin user with the credentials ``admin/test``.
 
+* Optional Step: If you have composer installed locally but not on your server, you can execute the whole installation process locally and upload everything via FTP.
+
 ### Part II: In your custom plugin
 
 * Step 1: Add the code from the ```etc/plugin_code.txt``` to the end of the main file of your plugin. If your plugin directory is called ```test-plugin```, then your main plugin file is ```test-plugin.php```.
