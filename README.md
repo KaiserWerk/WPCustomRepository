@@ -23,7 +23,7 @@ I developed a plugin exclusive to one client to be installed on nine different s
 ### Part II: In your custom plugin
 
 * Step 1: Add the code from the ```etc/plugin_code.txt``` to the end of the main file of your plugin. If your plugin directory is called ```test-plugin```, then your main plugin file is ```test-plugin.php```.
-* Step 2: Change the class name to something unique, ideally something like ```test_plugin_*update*``` or similar.
+* Step 2: Change the class name to something unique, ideally something like ```test_plugin_update``` or similar.
 * Step 3: Change the class name in the add_filter() functions accordingly.
 * Step 4: Change the ```private static $endpoint``` to the address of your WPCR Installation.
 
