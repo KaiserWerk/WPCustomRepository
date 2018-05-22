@@ -1,6 +1,6 @@
 <?php
 
-class Trans
+class TranslationHelper
 {
     public static function _t($string, $return = false)
     {
