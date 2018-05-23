@@ -3,9 +3,9 @@
 require '../bootstrap.php';
 
 ini_set('log_errors', true);
-ini_set('error_log', tempDir().'/php-errors.log');
+ini_set('error_log', tempDir().'/logs/php-errors.log');
 ini_set('session.name', getenv('SESSNAME'));
-if (getenv('DEBUG') == true) {
+if (getenv('DEBUG') === true) {
     error_reporting(E_ALL);
     ini_set('display_errors', true);
 } else {
@@ -17,7 +17,7 @@ if (getenv('DEBUG') == true) {
 $helperPath = '../helper/';
 $h = opendir($helperPath);
 while($f = readdir($h)) {
-    if ($f != '.' && $f != '..' && strpos($f, 'Helper.php') !== false) {
+    if ($f !== '.' && $f !== '..' && strpos($f, 'Helper.php') !== false) {
         require $helperPath . $f;
     }
 }
@@ -28,7 +28,7 @@ closedir($h);
 $controllerPath = '../controller/';
 $h = opendir($controllerPath);
 while($f = readdir($h)) {
-    if ($f != '.' && $f != '..' && strpos($f, 'Controller.php') !== false) {
+    if ($f !== '.' && $f !== '..' && strpos($f, 'Controller.php') !== false) {
         require $controllerPath . $f;
     }
 }
