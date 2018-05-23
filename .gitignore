@@ -5,3 +5,4 @@
 /vendor
 /var/logs/*
 /var/plugin_files/*
+public/.DS_Store
