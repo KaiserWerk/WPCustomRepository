@@ -2,6 +2,11 @@
 
 class AuthHelper
 {
+    /**
+     * Starts the session, independent from any authentication process
+     *
+     * @return null
+     */
     public static function __init()
     {
         if (!self::isSessionStarted()) {
@@ -34,6 +39,12 @@ class AuthHelper
         return null;
     }
     
+    /**
+     * Checks whether the session is already started
+     * session_status() is buggy, don't use it
+     *
+     * @return bool
+     */
     private static function isSessionStarted()
     {
         #if (version_compare(phpversion(), '5.4.0', '>=')) {
@@ -52,25 +63,29 @@ class AuthHelper
     public static function checkCSRFToken($_csrf_token)
     {
         if ($_csrf_token !== null) {
-            if ($_csrf_token === $_SESSION['_csrf_token']) {
-                return true;
-            }
-            return false;
+            return $_csrf_token === $_SESSION['_csrf_token'];
         }
         return false;
     }
     
+    /**
+     * Returns true if the current user is considered to be logged in
+     *
+     * @return bool
+     */
     public static function isLoggedIn()
     {
         if (isset($_SESSION['user']) && isset($_SESSION['sid'])) {
-            if ( isset( $_COOKIE[getenv('SESSNAME')] ) && $_COOKIE[getenv('SESSNAME')] == $_SESSION['sid'] ) {
-                return true;
-            }
-            return false;
+            return isset( $_COOKIE[getenv('SESSNAME')] ) && $_COOKIE[getenv('SESSNAME')] == $_SESSION['sid'];
         }
         return false;
     }
     
+    /**
+     * Returns the currently logged in user's username
+     *
+     * @return string
+     */
     public static function getUsername()
     {
         $db = new DBHelper();
@@ -85,6 +100,11 @@ class AuthHelper
         return '-';
     }
     
+    /**
+     * Returns the currently logged in user's locale, e.g. 'de'
+     *
+     * @return string
+     */
     public static function getUserLocale()
     {
         if (self::isLoggedIn()) {
@@ -103,6 +123,16 @@ class AuthHelper
         return getenv('DEFAULT_LOCALE');
     }
     
+    /**
+     * Generates a random alphanumeric token, usually a confirmation token.
+     * The foreign check for existing tokens can be ignored if you want to
+     * generate a token for a different purpose.
+     *
+     * @param int $length
+     * @param bool $ignore_foreign_check
+     * @return string
+     * @throws Exception
+     */
     public static function generateToken($length = 25, $ignore_foreign_check = false)
     {
         $chars = '01234567890123456789abcdefghijklmnopqrstuvwxyz';
@@ -117,8 +147,11 @@ class AuthHelper
         //If confirmation token exists, generate another one
         if ($ignore_foreign_check !== true) {
             $db = new DBHelper();
-            $bool = $db->has('user', 'confirmation_token', [
-                'confirmation_token' => $res,
+            $bool = $db->has('user', [
+                'OR' => [
+                    'confirmation_token' => $res,
+                    'apikey' => $res,
+                ]
             ]);
             if ($bool) {
                 return self::generateToken($length);
@@ -127,6 +160,11 @@ class AuthHelper
         return $res;
     }
     
+    /**
+     * Logs out the currently loggd in user
+     *
+     * @return bool
+     */
     public static function logout()
     {
         @session_unset();
@@ -134,6 +172,14 @@ class AuthHelper
         return true;
     }
     
+    /**
+     * Compares two strings (hashed) in a way timed attacks don't work
+     *
+     * @param $string1
+     * @param $string2
+     * @param int $compare_length
+     * @return bool
+     */
     public static function str_cmp_sec($string1, $string2, $compare_length = 75)
     {
         $str1_parts = str_split(str_pad((string)$string1, $compare_length, '0', STR_PAD_RIGHT));
@@ -151,6 +197,12 @@ class AuthHelper
         return (bool)array_product($result_array);
     }
     
+    /**
+     * Is the user with the supplied user ID an admin?
+     *
+     * @param $user_id
+     * @return mixed
+     */
     public static function isAdmin($user_id)
     {
         $db = new DBHelper();
@@ -160,11 +212,19 @@ class AuthHelper
         return $bool;
     }
     
+    /**
+     * Generates a hidden input field with the session's CSRF token.
+     * Should be used in every form.
+     *
+     * @param bool $return
+     * @return string
+     */
     public static function generateCSRFInput($return = false)
     {
         $str = '<input type="hidden" name="_csrf_token" value="'.$_SESSION['_csrf_token'].'">'.PHP_EOL;
         if (!$return) {
             echo $str;
+            return '';
         }
         return $str;
     }
