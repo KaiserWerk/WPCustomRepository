@@ -48,7 +48,31 @@ class Helper
      */
     public static function getHost()
     {
-        return 'http' . (self::isSSL() ? 's' : '') . '://' . $_SERVER['HTTP_HOST'];
+        $possibleHostSources = array('HTTP_X_FORWARDED_HOST', 'HTTP_HOST', 'SERVER_NAME', 'SERVER_ADDR');
+        $sourceTransformations = array(
+            'HTTP_X_FORWARDED_HOST' => function($value) {
+                $elements = explode(',', $value);
+                return trim(end($elements));
+            }
+        );
+        $host = '';
+        foreach ($possibleHostSources as $source)
+        {
+            if (!empty($host)) break;
+            if (empty($_SERVER[$source])) continue;
+            $host = $_SERVER[$source];
+            if (array_key_exists($source, $sourceTransformations))
+            {
+                $host = $sourceTransformations[$source]($host);
+            }
+        }
+    
+        // Remove port number from host
+        $host = preg_replace('/:\d+$/', '', $host);
+    
+        $fullhost = 'http' . (self::isSSL() ? 's' : '') . '://' . trim($host);
+        LoggerHelper::debug($fullhost);
+        return $fullhost;
     }
 
     /**
@@ -77,14 +101,9 @@ class Helper
     public static function isUsernameInUse($username)
     {
         $db = new DBHelper();
-        $bool = $db->has('user', 'id', [
+        return $db->has('user', 'id', [
             'username' => $username,
         ]);
-        
-        if ($bool) {
-            return true;
-        }
-        return false;
     }
 
     /**
@@ -97,13 +116,9 @@ class Helper
     public static function isEmailInUse($email)
     {
         $db = new DBHelper();
-        $bool = $db->has('user', 'id', [
+        return $db->has('user', 'id', [
             'email' => $email,
         ]);
-        if ($bool) {
-            return true;
-        }
-        return false;
     }
 
     /**
@@ -131,7 +146,6 @@ class Helper
             'recipient' => $recipient,
             'sent_at' => date('Y-m-d H:i:s'),
         ]);
-        
         return $db->id();
     }
 
@@ -144,11 +158,9 @@ class Helper
     public static function getUserData($user_id)
     {
         $db = new DBHelper();
-        $row = $db->get('user', '*', [
+        return $db->get('user', '*', [
             'id' => (int)$user_id,
         ]);
-        
-        return $row;
     }
 
     /**
@@ -173,7 +185,6 @@ class Helper
         $color = imagecolorallocatealpha($img, 0, 0, 0, 127);
         imagefill($img, 0, 0, $color);
         return $img;
-        #imagepng($img, 'test.png');
     }
 
     /**
@@ -185,7 +196,7 @@ class Helper
     public static function redirect($url)
     {
         #die("Location: ".$url); // only for debugging
-        header("Location: ".$url);
+        header('Location: ' . $url);
         die;
     }
 
@@ -194,10 +205,11 @@ class Helper
      *
      * @return string
      */
-    public static function getOSAndBrowser() {
+    public static function getOSAndBrowser()
+    {
         
         $user_agent = $_SERVER['HTTP_USER_AGENT'];
-        $os_platform = "Unknown OS Platform";
+        $os_platform = 'Unknown OS Platform';
         
         $os_array = array(
             '/windows nt 10/i'      =>  'Windows 10',
@@ -231,7 +243,7 @@ class Helper
             }
         }
         
-        $browser  = "Unknown Browser";
+        $browser  = 'Unknown Browser';
         $browser_array = array(
             '/msie/i'       =>  'Internet Explorer',
             '/firefox/i'    =>  'Firefox',
@@ -251,7 +263,7 @@ class Helper
             }
         }
         
-        return $os_platform . '/'.$browser;
+        return $os_platform . '/' . $browser;
     }
 
     /**
@@ -260,15 +272,42 @@ class Helper
      *
      * @return bool
      */
-    public static function isSSL() {
+    public static function isSSL()
+    {
         if (isset($_SERVER['HTTPS']) ) {
-            if ('on' == strtolower($_SERVER['HTTPS']))
+            if (strtolower($_SERVER['HTTPS']) === 'on')
                 return true;
-            if ('1' == $_SERVER['HTTPS'])
+            if ($_SERVER['HTTPS'] == '1')
                 return true;
         } elseif (isset($_SERVER['SERVER_PORT']) && ('443' == $_SERVER['SERVER_PORT'])) {
             return true;
         }
         return false;
+    }
+    
+    /**
+     * Insert variables into an email template and
+     * returns the complete code.
+     *
+     * @param $body
+     * @param array $params
+     * @return string
+     */
+    public static function insertValues($body, $params = array())
+    {
+        $body = str_replace('{support_email}', getenv('MAILER_REPLYTO'), $body);
+        $body = str_replace('{support_user}', getenv('MAILER_REPLYTO_NAME'), $body);
+        $body = str_replace('{host}', 'http'.(Helper::isSSL() ? 's' : '').'://'.$_SERVER['HTTP_HOST'], $body);
+        $body = str_replace('{os_and_browser}', Helper::getOSAndBrowser(), $body);
+        $body = str_replace('{ip_address}', Helper::getIP(), $body);
+        
+        if (!isset($params['tracking_token'])) {
+            $body = preg_replace('#<!--et-->.*<!--/et-->#m', '', $body);
+        }
+        
+        foreach ($params as $key => $value) {
+            $body = str_replace('{'.$key.'}', $value, $body);
+        }
+        return $body;
     }
 }
