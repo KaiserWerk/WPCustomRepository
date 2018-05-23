@@ -19,7 +19,7 @@ $klein->respond('GET', '/api/plugins/check-latest-version/[:slug]', function ($r
     $response->new_version = $row['version'];
     $response->url = $row['url'];
     #$response->package = 'http://wpcustomrepository.local/' . downloadDir() . '/' . $slug . '/' . $slug . '_v' . $row['version'] . '.zip';
-    $response->package = 'http://wpcustomrepository.local/download/plugin/' . $slug;
+    $response->package = Helper::getHost() . '/download/plugin/' . $slug;
     
     echo serialize($response);
 });
@@ -98,7 +98,7 @@ $klein->respond('GET', '/api/plugins/get-plugin-information/[:slug]', function (
         #'screenshots' => 'screensh',
     );
     #$response->download_link = 'http://wpcustomrepository.local/' . downloadDir() . '/' . $slug . '/' . $slug . '_v' . $row['version'] . '.zip';
-    $response->download_link = 'http://wpcustomrepository.local/download/plugin/' . $slug;
+    $response->download_link = Helper::getHost() . '/download/plugin/' . $slug;
     
     #echo '<br><br><pre>';
     #var_dump($response);
