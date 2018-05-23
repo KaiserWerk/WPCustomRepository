@@ -3,23 +3,23 @@ $errors = array(
     'missing_input' => '<br>
             <div class="alert alert-info alert-dismissable">
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong><span class="fa fa-info-circle"></span></strong> '.Trans::_t('error.missing_input.login', true).'</div>',
+                <strong><span class="fa fa-info-circle"></span></strong> '.TranslationHelper::_t('error.missing_input.login', true).'</div>',
     'incorrect_credentials' => '<br>
             <div class="alert alert-danger alert-dismissable">
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong><span class="fa fa-warning"></span></strong> '.Trans::_t('error.incorrect_credentials', true).'</div>',
+                <strong><span class="fa fa-warning"></span></strong> '.TranslationHelper::_t('error.incorrect_credentials', true).'</div>',
     'account_locked' => '<br>
             <div class="alert alert-warning alert-dismissable">
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong><span class="fa fa-lock"></span></strong> '.Trans::_t('error.account_locked', true).'</div>',
+                <strong><span class="fa fa-lock"></span></strong> '.TranslationHelper::_t('error.account_locked', true).'</div>',
     'too_many_attempts' => '<br>
             <div class="alert alert-warning alert-dismissable">
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong><span class="fa fa-lock"></span></strong> '.Trans::_t('error.too_many_attempts', true).'</div>',
+                <strong><span class="fa fa-lock"></span></strong> '.TranslationHelper::_t('error.too_many_attempts', true).'</div>',
     'unknown_error' => '<br>
             <div class="alert alert-danger alert-dismissable">
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong><span class="fa fa-warning"></span></strong> '.Trans::_t('error.unknown_error', true).'</div>',
+                <strong><span class="fa fa-warning"></span></strong> '.TranslationHelper::_t('error.unknown_error', true).'</div>',
 );
 ?>
 
