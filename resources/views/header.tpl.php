@@ -36,8 +36,30 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav pull-right">
                 <li><a href="#">Home</a></li>
+                <?php if (AuthHelper::isLoggedIn() && AuthHelper::isAdmin($_SESSION['user'])) { ?>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdown03">
+                            <ul class="nav">
+                                <li><a class="dropdown-item" href="/admin/dashboard">Dashboard</a></li>
+                                <li class="nav-divider"></li>
+                                <li><a class="dropdown-item" href="/admin/user/list">User List</a></li>
+                                <li><a class="dropdown-item" href="/admin/user/add">Add User</a></li>
+                                <?php if (getenv('EMAIL_TRACKING_ENABLED') === true) { ?>
+                                    <li class="nav-divider"></li>
+                                    <li><a class="dropdown-item" href="/admin/tracking_mail/list">Tracking Mail List</a></li>
+                                    
+                                <?php } ?>
+                                
+                            </ul>
+                        </div>
+                    </li>
+                    
+                <?php } ?>
                 <li><a href="/plugin/list">Plugins</a></li>
                 <?php if (!AuthHelper::isLoggedIn()) { ?> <li><a href="/login">Login</a></li> <?php } ?>
+                
+                
                 <?php if (AuthHelper::isLoggedIn()) { ?> <li><a title="Logged in as <?php echo AuthHelper::getUsername(); ?>" href="/logout">Logout</a></li> <?php } ?>
             </ul>
         </div><!--/.navbar-collapse -->
