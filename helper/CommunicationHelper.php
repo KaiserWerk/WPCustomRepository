@@ -48,8 +48,8 @@ class CommunicationHelper
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            "Content-Type: application/json",
-            "Authorization: Bearer ".getenv('STRIDE_BEARER_TOKEN'),
+            'Content-Type: application/json',
+            'Authorization: Bearer '.getenv('STRIDE_BEARER_TOKEN'),
         ));
 
         $res = curl_exec($ch);
@@ -60,22 +60,22 @@ class CommunicationHelper
      * Sends a Message to a Slack Channel.
      *
      * @param string $message
-     * @return boolean
+     * @return mixed
      */
     public static function sendSlackMessage($message)
     {
        
         $ch = curl_init("https://slack.com/api/chat.postMessage");
         $data = http_build_query([
-            "token" => getenv('SLACK_APIKEY'),
-            "channel" => getenv('SLACK_CHANNEL'), // prefix with a '#'
-            "text" => $message,
-            "username" => getenv('SLACK_BOTNAME'), // freely name the sender
+            'token' => getenv('SLACK_APIKEY'),
+            'channel' => getenv('SLACK_CHANNEL'), // prefix with a '#'
+            'text' => $message,
+            'username' => getenv('SLACK_BOTNAME'), // freely name the sender
         ]);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // doesn't work otherwise
         $result = curl_exec($ch);
         curl_close($ch);
         
