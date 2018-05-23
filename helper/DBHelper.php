@@ -20,10 +20,6 @@ class DBHelper extends Medoo
 
     public function hasError()
     {
-        if (!empty($this->error()) && $this->error()[0] !== '00000') {
-            return true;
-        }
-
-        return false;
+        return !empty($this->error()) && $this->error()[0] !== '00000';
     }
 }
