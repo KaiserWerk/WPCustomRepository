@@ -156,7 +156,7 @@ $klein->respond(['GET', 'POST'], '/resetting/request', function ($request) {
             ]);
             
             /** e-mail eintragen */
-            if (getenv('EMAIL_TRACKING_ENABLED') === true) {
+            if (getenv('EMAIL_TRACKING_ENABLED') === 'true') {
                 $trackingToken = Helper::generateEmailTrackingToken($row['username'] . " <" . $row['email'] . ">",
                     $token);
                 $body = Helper::insertValues(viewsDir() . '/email/reset_request.tpl.html', [
@@ -211,7 +211,7 @@ $klein->respond(['GET', 'POST'], '/resetting/reset', function ($request) {
         }
     }
     // mail tracking
-    if (getenv('EMAIL_TRACKING_ENABLED') === true) {
+    if (getenv('EMAIL_TRACKING_ENABLED') === 'true') {
         $db->update('mail_sent', [
             'token_used_at' => date('Y-m-d H:i:s'),
         ], [

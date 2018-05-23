@@ -23,7 +23,11 @@ $klein->respond('GET', '/api/plugins/check-latest-version/[:slug]', function ($r
     $response->url = $row['url'];
     $response->package = Helper::getHost() . '/download/plugin/' . $slug;
     
-    echo serialize($response);
+    if (getenv('API_USE_JSON') === 'true') {
+        echo json_encode($response, JSON_PRETTY_PRINT);
+    } else {
+        echo serialize($response);
+    }
 });
 
 $klein->respond('GET', '/api/plugins/get-plugin-information/[:slug]', function ($request) {
@@ -109,5 +113,9 @@ $klein->respond('GET', '/api/plugins/get-plugin-information/[:slug]', function (
     
     $response->download_link = Helper::getHost() . '/download/plugin/' . $slug;
     
-    echo serialize($response);
+    if (getenv('API_USE_JSON') === 'true') {
+        echo json_encode($response, JSON_PRETTY_PRINT);
+    } else {
+        echo serialize($response);
+    }
 });

@@ -179,7 +179,7 @@ $klein->respond('POST', '/admin/user/add/save', function ($request) {
 
                                 );
                                 
-                                if (getenv('EMAIL_TRACKING_ENABLED') === true) {
+                                if (getenv('EMAIL_TRACKING_ENABLED') === 'true') {
                                     $params['tracking_token'] = Helper::generateEmailTrackingToken($_add['username'] . ' <' . $_add['email'] . '>', null);
                                 }
                                 

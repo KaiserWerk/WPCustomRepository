@@ -45,7 +45,7 @@
                                 <li class="nav-divider"></li>
                                 <li><a class="dropdown-item" href="/admin/user/list">User List</a></li>
                                 <li><a class="dropdown-item" href="/admin/user/add">Add User</a></li>
-                                <?php if (getenv('EMAIL_TRACKING_ENABLED') === true) { ?>
+                                <?php if (getenv('EMAIL_TRACKING_ENABLED') === 'true') { ?>
                                     <li class="nav-divider"></li>
                                     <li><a class="dropdown-item" href="/admin/tracking_mail/list">Tracking Mail List</a></li>
                                     

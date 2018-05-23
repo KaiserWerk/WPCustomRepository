@@ -37,7 +37,7 @@ $klein->respond('GET', '/admin/tracking_mail/list', function ($request) {
         Helper::errorPage(403);
     }
     
-    if (getenv('EMAIL_TRACKING_ENABLED') === false) {
+    if (getenv('EMAIL_TRACKING_ENABLED') === 'false') {
         echo '<p>Emai tracking is not enabled!</p>';
         die;
     }
