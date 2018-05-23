@@ -4,7 +4,7 @@ $klein->respond(['GET', 'POST'], '/login', function () {
     
     if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         if (AuthHelper::isLoggedIn()) {
-            die("already logged in");
+            die();
         }
         require_once viewsDir().'/header.tpl.php';
         require_once viewsDir().'/auth/login.tpl.php';
@@ -118,4 +118,165 @@ $klein->respond('GET', '/logout', function ($request) {
         AuthHelper::logout();
     }
     Helper::redirect('/');
+});
+
+/**
+ * Displays the reset request form
+ */
+$klein->respond(['GET', 'POST'], '/resetting/request', function ($request) {
+    $db = new DBHelper();
+    if (isset($_POST['btn_reset_request'])) {
+        $cred = $_POST['_reset_request'];
+        if (empty($cred['username'])) {
+            Helper::redirect('/resetting/request?e=missing_input');
+        }
+        if ($db->has('user', [
+            'OR' => [
+                'username' => $cred['username'],
+                'email' => $cred['username'],
+            ],
+        ])) {
+            
+            $row = $db->get('user', [
+                'id',
+                'username',
+                'email'
+            ]);
+            
+            $token = AuthHelper::generateToken(20);
+    
+            $date = new \DateTime();
+            $date->add(new DateInterval('PT6H'));
+            
+            $db->update('user',[
+                'confirmation_token' => $token,
+                'confirmation_token_validity' => $date->format('Y-m-d H:i:s'),
+            ], [
+                'id' => $row['id'],
+            ]);
+            
+            /** e-mail eintragen */
+            if (getenv('EMAIL_TRACKING_ENABLED') === true) {
+                $trackingToken = Helper::generateEmailTrackingToken($row['username'] . " <" . $row['email'] . ">",
+                    $token);
+                $body = Helper::insertValues(viewsDir() . '/email/reset_request.tpl.html', [
+                    'username' => $row['username'],
+                    'confirmation_token' => $token,
+                    'tracking_token' => $trackingToken,
+                ]);
+            } else {
+                $body = file_get_contents(viewsDir() . '/email/reset_request.tpl.html');
+                $body = Helper::insertValues($body, [
+                    'username' => $row['username'],
+                    'confirmation_token' => $token,
+                ]);
+            }
+            
+            // send mail
+            CommunicationHelper::sendMail(
+                $body,
+                TranslationHelper::_t('email.reset_request.subject', true),
+                $row['email'],
+                $row['username'],
+                getenv('MAILER_USER'),
+                getenv('MAILER_USER_NAME'),
+                getenv('MAILER_REPLYTO'),
+                getenv('MAILER_REPLYTO_NAME')
+            );
+            
+            Helper::redirect('/resetting/request?e=success');
+        } else {
+            // user not found. still send out success message to not
+            // disclose that the user does not exists
+            Helper::redirect('/resetting/request?e=success');
+        }
+    } else {
+        require_once viewsDir().'/header.tpl.php';
+        require_once viewsDir().'/auth/reset_request.tpl.php';
+        require_once viewsDir().'/footer.tpl.php';
+    }
+});
+
+/**
+ * Resets a user's password
+ */
+$klein->respond(['GET', 'POST'], '/resetting/reset', function ($request) {
+    $db = new DBHelper();
+    
+    $token = isset($_GET['confirmation_token']) ? trim($_GET['confirmation_token']) : null;
+    if ($token === null || !preg_match('/^[A-Za-z0-9-]+/', $token)) {
+        $token = trim($_GET['_confirmation_token']);
+        if (empty($token) || !preg_match('/^[A-Za-z0-9-]+/', $token)) {
+            Helper::redirect('/resetting/reset?e=invalid_token');
+        }
+    }
+    // mail tracking
+    if (getenv('EMAIL_TRACKING_ENABLED') === true) {
+        $db->update('mail_sent', [
+            'token_used_at' => date('Y-m-d H:i:s'),
+        ], [
+            'confirmation_token' => $token,
+        ]);
+    }
+    
+    // Formular wurde abgeschickt
+    if (isset($_POST['btn_reset_reset'])) {
+        // token vorbereiten
+        if ($_POST['_csrf_token'] !== $_SESSION['_csrf_token']) {
+            Helper::redirect('/resetting/reset?e=unknown_error');
+        }
+        if (!$db->has('user', [
+            'confirmation_token' => $token,
+        ])) {
+            Helper::redirect('/resetting/reset?e=invalid_token');
+        }
+        $row = $db->get('user', [
+            'id',
+            'password',
+        ], [
+            'confirmation_token' => $token,
+        ]);
+        
+        $cred = $_POST['_reset_reset'];
+        if (empty($cred['password1']) || empty($cred['password2'])) {
+            Helper::redirect('/resetting/reset?confirmation_token='.$token.'&e=missing_input');
+        }
+        if (!AuthHelper::str_cmp_sec($cred['password1'], $cred['password2'])) {
+            Helper::redirect('/resetting/reset?confirmation_token='.$token.'&e=passwords_not_equal');
+        }
+        
+        if (!preg_match('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.[\W]).{12,}$/', $cred['password1'])) {
+            Helper::redirect('/resetting/reset?confirmation_token='.$token.'&e=password_complexity');
+        }
+        
+        $hash = password_hash($cred['password1'], PASSWORD_BCRYPT, array('cost' => 12));
+        
+        $db->update('user', [
+            'confirmation_token' => null,
+            'password' => $hash,
+        ], [
+            'id' => $row['id'],
+        ]);
+        
+        LoggerHelper::debug($hash);
+        LoggerHelper::debug($row['id']);
+        
+        Helper::redirect('/resetting/reset?e=success');
+    } else {
+        $token = isset($_GET['confirmation_token']) ? trim($_GET['confirmation_token']) : '';
+        if (!empty($token)) {
+            if (!preg_match('/^[A-Za-z0-9-]+/', $token)) {
+                Helper::redirect('/resetting/reset?e=invalid_token');
+            }
+            if (!$db->has('user', [
+                'confirmation_token' => $token,
+            ])) {
+                Helper::redirect('/resetting/reset?e=invalid_token');
+            }
+        }
+        
+        require_once viewsDir() . '/header.tpl.php';
+        require_once viewsDir() . '/auth/reset_reset.tpl.php';
+        require_once viewsDir() . '/footer.tpl.php';
+    }
 });
