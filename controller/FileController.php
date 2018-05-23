@@ -2,9 +2,12 @@
 
 // returns the most recent plugin version
 $klein->respond('GET', '/download/plugin/[:slug]', function ($request) {
+    
+    // check license validity
+    LicenseHelper::checkLicenseValidity($request);
+    
     $slug = $request->slug;
     $db = new DBHelper();
-    
     $row = $db->get('plugin', [
         'id',
         'version',
