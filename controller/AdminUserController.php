@@ -224,7 +224,7 @@ $klein->respond('POST', '/admin/user/add/save', function ($request) {
 /**
  * Display the form for removing a user
  */
-$klein->respond('GET', '/admin/user/remove', function ($request) {
+$klein->respond(['GET', 'POST'], '/admin/user/remove', function ($request) {
     $db = new DBHelper();
     if (!AuthHelper::isLoggedIn()) {
         Helper::redirect('/login');
@@ -244,17 +244,17 @@ $klein->respond('GET', '/admin/user/remove', function ($request) {
         if (!AuthHelper::checkCSRFToken($_POST['_csrf_token'])) {
             Helper::redirect('/admin/user/list?e=unknown_error');
         }
-
+    
         $db->delete('user', [
             'id' => $id,
         ]);
-
+    
         Helper::redirect('/admin/user/list?e=remove_success');
+    } else {
+        require_once viewsDir() . '/header.tpl.php';
+        require_once viewsDir() . '/admin/user/remove.tpl.php';
+        require_once viewsDir() . '/footer.tpl.php';
     }
-
-    require_once viewsDir() . '/header.tpl.php';
-    require_once viewsDir() . '/admin/user/remove.tpl.php';
-    require_once viewsDir() . '/footer.tpl.php';
 });
 
 /**
