@@ -21,20 +21,20 @@ class LoggerHelper
             'crit',
         );
 
-        $dir = tempDir();
+        $dir = tempDir() . '/logs';
         if (!is_dir($dir)) {
             @mkdir($dir, 0775);
         }
 
         $file_single = $dir . '/debug.log';
 
-        $h = @fopen($file_single, 'a+');
+        $h = @fopen($file_single, 'ab+');
         if ($h !== false) {
-            if (!in_array($log_level, $log_levels)) {
+            if (!in_array($log_level, $log_levels, true)) {
                 $log_level = 'debug';
             }
             $log_line_raw = str_pad(strtoupper($log_level), 5, ' ', STR_PAD_LEFT);
-            $log_line = '['.date("Y-m-d H:i:s").'] [' . Helper::getIP() . '] [' . $log_line_raw . '] ' . $content . PHP_EOL;
+            $log_line = '['.date('Y-m-d H:i:s').'] [' . Helper::getIP() . '] [' . $log_line_raw . '] ' . $content . PHP_EOL;
             @fwrite($h, $log_line);
             @fclose($h);
         } else {
@@ -48,7 +48,14 @@ class LoggerHelper
 
         return true;
     }
-
+    
+    /**
+     * Logs a login attempt (be it successful or not)
+     *
+     * @param $user_entry_id
+     * @param $login_status
+     * @return bool
+     */
     public static function loginAttempt($user_entry_id, $login_status)
     {
         try {
