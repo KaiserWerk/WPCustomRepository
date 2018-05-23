@@ -187,14 +187,16 @@ $klein->respond('POST', '/admin/user/add/save', function ($request) {
                                 
                                 $body = Helper::insertValues(viewsDir() . '/email/new_user_notification.tpl.html', $params);
                                 LoggerHelper::debug($body, 'info');
-                                CommunicationHelper::sendMail(
-                                    $body,
-                                    TranslationHelper::_t('email.new_user_notification.subject', true),
-                                    $_add['email'],
-                                    $_add['first_name'] . ' ' . $_add['last_name'],
-                                    getenv('MAILER_USER'),
-                                    getenv('MAILER_USER_NAME')
-                                );
+                                if (!in_array(Helper::getIP(), ['127.0.0.1', '::1'])) {
+                                    CommunicationHelper::sendMail(
+                                        $body,
+                                        TranslationHelper::_t('email.new_user_notification.subject', true),
+                                        $_add['email'],
+                                        $_add['first_name'] . ' ' . $_add['last_name'],
+                                        getenv('MAILER_USER'),
+                                        getenv('MAILER_USER_NAME')
+                                    );
+                                }
                             }
                             
                             
