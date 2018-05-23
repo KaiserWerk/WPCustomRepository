@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <h1 class="mt-5">Plugin list <a class="btn btn-success btn-xs" href="/plugin/add">Add plugin</a></h1>
+            <h1 class="mt-5">Plugin list</h1>
             <br>
             <table class="table">
                 <thead>
