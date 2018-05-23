@@ -45,19 +45,23 @@ $klein->respond('GET', '/admin/user/status/locked', function ($request) {
 
     $id = isset($_GET['id']) ? (int)$_GET['id'] : null;
     if ($id !== null) {
-        $row = $db->get('user', [
-            'locked',
-        ], [
-            'id' => $id,
-        ]);
-        
-        $db->update('user',[
-            'locked' => abs($row['id'] - 1),
-        ], [
-            'id' => $id,
-        ]);
-
-        Helper::redirect('/admin/user/list');
+        if ($id !== (int)getenv('SITE_OPERATOR')) {
+            $row = $db->get('user', [
+                'locked',
+            ], [
+                'id' => $id,
+            ]);
+    
+            $db->update('user', [
+                'locked' => abs((int)$row['locked'] - 1),
+            ], [
+                'id' => $id,
+            ]);
+    
+            Helper::redirect('/admin/user/list');
+        } else {
+            Helper::redirect('/admin/user/list?e=protected_site_operator');
+        }
     }
 });
 
@@ -77,15 +81,15 @@ $klein->respond('GET', '/admin/user/status/admin', function ($request) {
 
     $id = isset($_GET['id']) ? (int)$_GET['id'] : null;
     if ($id !== null) {
-        if ($id !== getenv('SITE_OPERATOR')) {
+        if ($id !== (int)getenv('SITE_OPERATOR')) {
             $row = $db->get('user', [
                 'admin',
             ], [
                 'id' => $id,
             ]);
-    
+            #var_dump(abs((int)$row['admin'] - 1));die;
             $db->update('user',[
-                'locked' => abs($row['admin'] - 1),
+                'admin' => abs((int)$row['admin'] - 1),
             ], [
                 'id' => $id,
             ]);
@@ -94,8 +98,6 @@ $klein->respond('GET', '/admin/user/status/admin', function ($request) {
         } else {
             Helper::redirect('/admin/user/list?e=protected_site_operator');
         }
-    } else {
-        Helper::redirect('/admin/user/list?e=missing_input');
     }
 });
 
@@ -238,19 +240,22 @@ $klein->respond(['GET', 'POST'], '/admin/user/remove', function ($request) {
         Helper::redirect('/admin/user/list?e=unknown_error');
     }
 
-    $user = Helper::getUserData($id);
-
+    if ((int)$id === (int)getenv('SITE_OPERATOR')) {
+        Helper::redirect('/admin/user/list?e=protected_site_operator');
+    }
+    
     if (isset($_POST['btn_remove_user'])) {
         if (!AuthHelper::checkCSRFToken($_POST['_csrf_token'])) {
             Helper::redirect('/admin/user/list?e=unknown_error');
         }
-    
+        
         $db->delete('user', [
             'id' => $id,
         ]);
-    
+        
         Helper::redirect('/admin/user/list?e=remove_success');
     } else {
+        $user = Helper::getUserData($id);
         require_once viewsDir() . '/header.tpl.php';
         require_once viewsDir() . '/admin/user/remove.tpl.php';
         require_once viewsDir() . '/footer.tpl.php';
@@ -260,7 +265,7 @@ $klein->respond(['GET', 'POST'], '/admin/user/remove', function ($request) {
 /**
  * Display the form for editing a user
  */
-$klein->respond('GET', '/admin/user/edit', function ($request) {
+$klein->respond(['GET', 'POST'], '/admin/user/edit', function ($request) {
     $db = new DBHelper();
     if (!AuthHelper::isLoggedIn()) {
         Helper::redirect('/login');
@@ -273,39 +278,38 @@ $klein->respond('GET', '/admin/user/edit', function ($request) {
     if ($id === null) {
         Helper::redirect('/admin/user/list?e=unknown_error1');
     }
-
+    
     if (isset($_POST['btn_edit_user'])) {
         if (!AuthHelper::checkCSRFToken($_POST['_csrf_token'])) {
             Helper::redirect('/admin/user/list?e=unknown_error2');
         }
-
+        
         $_edit = $_POST['_edit'];
         
         $db->update('user', [
-            'username' => $_edit['username'],
+            #'username' => $_edit['username'],
             'first_name' => $_edit['first_name'],
             'last_name' => $_edit['last_name'],
-            'email' => $_edit['email'],
+            #'email' => $_edit['email'],
             'sex' => $_edit['sex'],
-            'admin' => $_edit['admin'],
-            'locked' => $_edit['locked'],
+            #'admin' => $_edit['admin'],
+            #'locked' => $_edit['locked'],
         ], [
             'id' => $id,
         ]);
         
-        if (!empty($_edit['password'])) {
+        /*if (!empty($_edit['password'])) {
             $db->update('user', [
                 'password' => password_hash($_edit['password'], PASSWORD_BCRYPT, ['cost' => 12]),
             ], [
                 'id' => $id,
             ]);
-        }
-        Helper::redirect('/admin/user/list?e=edit_successful');
+        }*/
+        Helper::redirect('/admin/user/list?e=edit_success');
+    } else {
+        $user = Helper::getUserData($id);
+        require_once viewsDir() . '/header.tpl.php';
+        require_once viewsDir() . '/admin/user/edit.tpl.php';
+        require_once viewsDir() . '/footer.tpl.php';
     }
-
-    $user = Helper::getUserData($id);
-
-    require_once viewsDir() . '/header.tpl.php';
-    require_once viewsDir() . '/admin/user/edit.tpl.php';
-    require_once viewsDir() . '/footer.tpl.php';
 });
