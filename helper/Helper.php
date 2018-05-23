@@ -170,7 +170,26 @@ class Helper
      */
     public static function getIP()
     {
-        return filter_var($_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
+        if ($_SERVER['HTTP_CLIENT_IP']) {
+            $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
+        } else if($_SERVER['HTTP_X_FORWARDED_FOR']) {
+            $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        } else if($_SERVER['HTTP_X_FORWARDED']) {
+            $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
+        } else if($_SERVER['HTTP_FORWARDED_FOR']) {
+            $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
+        } else if($_SERVER['HTTP_FORWARDED']) {
+            $ipaddress = $_SERVER['HTTP_FORWARDED'];
+        } else if($_SERVER['REMOTE_ADDR']) {
+            $ipaddress = $_SERVER['REMOTE_ADDR'];
+        } else {
+            $ipaddress = false;
+        }
+        
+        if ($ipaddress !== false) {
+            return filter_var($ipaddress, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
+        }
+        return false;
     }
 
     /**
