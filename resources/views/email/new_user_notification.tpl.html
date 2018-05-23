@@ -1,0 +1,75 @@
+<html>
+<head>
+    <style type="text/css">
+        @media (-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 144dpi), (min-resolution: 1.5dppx) {
+            #message-htmlpart1 div.rcmBody .logo { /* evil! */
+            }
+            #message-htmlpart1 div.rcmBody .logo-img {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div id="messagebody">
+    <div class="message-htmlpart" id="message-htmlpart1">
+
+        <div class="rcmBody"
+             style="background: #f3f3f3; color: #66656a; font-family: HelveticaNeue, Helvetica, Arial, Verdana, sans-serif; font-size: 13px; line-height: 18px; margin: 0; padding: 32px">
+            <table class="email-container" width="584"
+                   style="margin-top: 0; margin-right: auto; margin-bottom: 0; margin-left: auto; max-width: 584px">
+                <tr>
+                    <td>
+                        <table class="header" width="584"
+                               style="background-color: #06A763; width: 584px; min-width: 584px">
+                            <tr>
+                                <td class="logo"
+                                    style="height: 32px; padding-top: 6px; padding-bottom: 6px; padding-left: 8px">
+                                    <a href="https://kaiserrobin.eu" title="Robin Kaiser im Web" style="color: #06A763; text-decoration: none" target="_blank" rel="noreferrer">
+                                        <img alt="Robin Kaiser" class="logo-img" width="98" height="32" src="{host}/ref/rk-logo-text-trans-98x32.png"
+                                             style="outline: none; text-decoration: none; -ms-interpolation-mode: bicubic;
+                                             display: block; color: white; border-style: none">
+                                    </a>
+                                </td>
+                            </tr>
+                        </table>
+                        <table class="email-content" cellpadding="30" style="background: #FFF; border: 1px solid #e6e5e3; width: 584px; border-top: none; color: #65646a; -webkit-font-smoothing: antialiased">
+                            <tr>
+                                <td>
+                                    <p style="font-size: 18px; line-height: 24px; margin-top: 0; margin-bottom: 0;">
+                                        <span style="font-family: HelveticaNeue-Medium, helvetica, sans-serif">{greeting}</span>
+                                    </p>
+                                    <br>
+                                    <p style="font-size: 14px; line-height: 20px; margin-top: 0; margin-bottom: 36px;">
+                                        {p1}</p>
+                                    <p style="font-size: 14px; line-height: 20px; margin-top: 0; margin-bottom: 36px;">
+                                        {p2}</p>
+                                    <br>
+                                    <p style="font-size: 14px; line-height: 20px; margin-top: 0; margin-bottom: 36px;">
+                                        {p3} <a href="{host}/login">Login</a>.</p>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <table class="footer" width="584" cellpadding="32" style="color: #747778; font-size: 11px; line-height: 15px; text-align: center">
+                            <tr>
+                                <td>
+                                    <p style="margin: 0; padding: 0px">Diese E-Mail wurde Robin Kaiser,
+                                        Grafenberger Allee, 40235 Düsseldorf, Deutschland, info@kaiserrobin.eu gesendet.
+                                    </p>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+    </div>
+</div>
+<!--et-->
+<img width="1" height="1" src="{host}/tracking/mail?t={tracking_token}">
+<!--/et-->
+</body>
+</html>
