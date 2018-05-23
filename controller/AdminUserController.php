@@ -139,10 +139,10 @@ $klein->respond('POST', '/admin/user/add/save', function ($request) {
             if ($_add !== null) {
                 if (!empty($_add['username']) && !empty($_add['password']) && !empty($_add['email'])) {
                     // check if username exists
-                    if ($db->has('user', [
+                    if (!$db->debug()->has('user', [
                         'username' => $_add['username'],
                     ])) {
-                        if ($db->has('user', [
+                        if (!$db->has('user', [
                             'email' => $_add['email'],
                         ])) {
                             if (!in_array($_add['sex'], array('m', 'f'))) {
@@ -194,7 +194,9 @@ $klein->respond('POST', '/admin/user/add/save', function ($request) {
                                     getenv('MAILER_USER_NAME')
                                 );
                             }
-
+                            ###
+                            LoggerHelper::debug(print_r($db->log(), true));
+                            ###
                             Helper::redirect('/admin/user/list');
                         } else {
                             Helper::redirect('/admin/user/add?e=email_in_use');
