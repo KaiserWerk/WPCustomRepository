@@ -1,5 +1,7 @@
 .env
 *.log
 /.idea
+/.git
 /vendor
-/var/*
+/var/logs/*
+/var/plugin_files/*
