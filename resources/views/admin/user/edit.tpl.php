@@ -3,19 +3,19 @@ $errors = array(
     'missing_input' => '<br>
             <div class="alert alert-info alert-dismissable">
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong><span class="fa fa-info-circle"></span></strong> '.Trans::_t('error.missing_input.login', true).'</div>',
+                <strong><span class="fa fa-info-circle"></span></strong> '.TranslationHelper::_t('error.missing_input.login', true).'</div>',
     'username_in_use' => '<br>
             <div class="alert alert-warning alert-dismissable">
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong><span class="fa fa-user"></span></strong> '.Trans::_t('error.username_in_use', true).'</div>',
+                <strong><span class="fa fa-user"></span></strong> '.TranslationHelper::_t('error.username_in_use', true).'</div>',
     'email_in_use' => '<br>
             <div class="alert alert-warning alert-dismissable">
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong><span class="fa fa-envelope"></span></strong> '.Trans::_t('error.email_in_use', true).'</div>',
+                <strong><span class="fa fa-envelope"></span></strong> '.TranslationHelper::_t('error.email_in_use', true).'</div>',
     'unknown_error' => '<br>
             <div class="alert alert-danger alert-dismissable">
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong><span class="fa fa-warning"></span></strong> '.Trans::_t('error.unknown_error', true).'</div>',
+                <strong><span class="fa fa-warning"></span></strong> '.TranslationHelper::_t('error.unknown_error', true).'</div>',
 );
 
 ?>
@@ -38,7 +38,7 @@ $errors = array(
             <div class="row">
                 <div class="col-md-8 col-sm-12">
                     <form action="/admin/user/edit" method="post">
-                        <?php Auth::generateCSRFInput(); ?>
+                        <?php AuthHelper::generateCSRFInput(); ?>
                         <input type="hidden" name="id" value="<?php echo $id; ?> ">
                         <div class="form-group">
                             <label for="username">Username:</label>
@@ -79,7 +79,7 @@ $errors = array(
                 </div>
                 <div class="col-md-4 col-sm-12">
                     <br>
-                    Passwords should be at least 8 characters long and contain a mix of letters, numbers and special chars.
+                    Passwords should be at least 12 characters long and contain a mix of uppercase and lowercase letters, numbers and special chars.
                 </div>
             </div>
 

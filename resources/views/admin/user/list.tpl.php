@@ -19,7 +19,7 @@ $errors = array(
     'protected_site_operator' => '<br>
             <div class="alert alert-danger alert-dismissable">
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong><span class="fa fa-warning"></span></strong> You cannot edit the site operator!</div>',
+                <strong><span class="fa fa-warning"></span></strong> You cannot edit or remove the site operator!</div>',
     'unknown_error' => '<br>
             <div class="alert alert-danger alert-dismissable">
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>

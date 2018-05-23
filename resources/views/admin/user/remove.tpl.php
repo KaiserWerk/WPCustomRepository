@@ -3,19 +3,19 @@ $errors = array(
     'missing_input' => '<br>
             <div class="alert alert-info alert-dismissable">
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong><span class="fa fa-info-circle"></span></strong> '.Trans::_t('error.missing_input.login', true).'</div>',
+                <strong><span class="fa fa-info-circle"></span></strong> '.TranslationHelper::_t('error.missing_input.login', true).'</div>',
     'username_in_use' => '<br>
             <div class="alert alert-warning alert-dismissable">
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong><span class="fa fa-user"></span></strong> '.Trans::_t('error.username_in_use', true).'</div>',
+                <strong><span class="fa fa-user"></span></strong> '.TranslationHelper::_t('error.username_in_use', true).'</div>',
     'email_in_use' => '<br>
             <div class="alert alert-warning alert-dismissable">
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong><span class="fa fa-envelope"></span></strong> '.Trans::_t('error.email_in_use', true).'</div>',
+                <strong><span class="fa fa-envelope"></span></strong> '.TranslationHelper::_t('error.email_in_use', true).'</div>',
     'unknown_error' => '<br>
             <div class="alert alert-danger alert-dismissable">
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong><span class="fa fa-warning"></span></strong> '.Trans::_t('error.unknown_error', true).'</div>',
+                <strong><span class="fa fa-warning"></span></strong> '.TranslationHelper::_t('error.unknown_error', true).'</div>',
 );
 
 ?>
@@ -39,7 +39,7 @@ $errors = array(
 
                 <div class="col-md-12 col-sm-12 text-center">
                     <form action="/admin/user/remove?id=<?php echo $id; ?>" method="post">
-                        <?php Auth::generateCSRFInput(); ?>
+                        <?php AuthHelper::generateCSRFInput(); ?>
 
                         <p class="h5">Are you sure you want to permanently remove the account <?php echo $user['username']; ?>?</p>
 
