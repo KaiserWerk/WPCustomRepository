@@ -34,6 +34,9 @@ class LicenseHelper
         if ($license !== false) {
             $renewal = $db->get('license_renewal', '*', [
                 'license_entry_id' => $license['id'],
+                'ORDER' => [
+                    'valid_until' => 'DESC',
+                ]
             ]);
             $valid = new \DateTime($renewal['valid_until']);
             $now = new \DateTime();
@@ -43,5 +46,6 @@ class LicenseHelper
         } else {
             die('invalid license data.');
         }
+        return true;
     }
 }

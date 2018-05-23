@@ -42,7 +42,7 @@ class LoggerHelper
         }
 
         #if ((Config::getConfig())->write_external_log) {
-        #    // TODO
+        #    // @TODO
         #    // use $log_line or even better $log_line_raw
         #}
 

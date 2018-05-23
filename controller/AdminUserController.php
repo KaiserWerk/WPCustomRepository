@@ -149,7 +149,7 @@ $klein->respond('POST', '/admin/user/add/save', function ($request) {
                                 $_add['sex'] = null;
                             }
                             $apikey = AuthHelper::generateToken(15);
-                            $hash = password_hash($_add['password'], PASSWORD_BCRYPT, array('cost' => 12));
+                            $hash = password_hash($_add['password'], PASSWORD_BCRYPT, ['cost' => 12]);
                             
                             $db->insert('user', [
                                 'username' => $_add['username'],
