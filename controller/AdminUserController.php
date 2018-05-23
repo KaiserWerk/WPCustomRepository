@@ -164,6 +164,8 @@ $klein->respond('POST', '/admin/user/add/save', function ($request) {
                                 'created_at' => date('Y-m-d H:i:s'),
                             ]);
                             
+                            LoggerHelper::debug(print_r($db->log(), true));
+                            
                             if ($_add['send_notification'] == 1) {
                                 $params = array(
                                     'greeting' => Helper::insertValues(TranslationHelper::_t('email.new_user_notification.header', true), array(
@@ -194,9 +196,8 @@ $klein->respond('POST', '/admin/user/add/save', function ($request) {
                                     getenv('MAILER_USER_NAME')
                                 );
                             }
-                            ###
-                            LoggerHelper::debug(print_r($db->log(), true));
-                            ###
+                            
+                            
                             Helper::redirect('/admin/user/list');
                         } else {
                             Helper::redirect('/admin/user/add?e=email_in_use');
