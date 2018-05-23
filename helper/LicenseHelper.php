@@ -3,10 +3,16 @@
 class LicenseHelper
 {
     /**
+     * Checks the request headers for valid license data
+     *
      * @param $request
+     * @return bool
      */
     public static function checkLicenseValidity($request)
     {
+        if (getenv('LICENSE_SYSTEM_ENABLED') === false) {
+            return true;
+        }
         $slug = $request->slug;
         $headers = $request->headers();
         $licenseUser = $headers['X-License-User'] ?? null;
