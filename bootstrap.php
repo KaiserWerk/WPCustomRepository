@@ -4,9 +4,13 @@ require __DIR__ . '/vendor/autoload.php';
 
 $klein = new \Klein\Klein();
 
+try {
 // .env Configuration
-$dotenv = new Dotenv\Dotenv(__DIR__);
-$dotenv->load();
+    $dotenv = new Dotenv\Dotenv(__DIR__);
+    $dotenv->load();
+} catch (Exception $exception) {
+    trigger_error('Could not load .env file (not found or erroneous).');
+}
 
 function projectDir($echo = false) {
     if (!$echo) {
@@ -34,7 +38,7 @@ function viewsDir($echo = false) {
 }
 function downloadDir($echo = false) {
     if ( ! $echo ) {
-        return 'plugin_files';
+        return __DIR__.'/plugin_files';
     }
-    echo 'plugin_files';
+    echo __DIR__.'/plugin_files';
 }
