@@ -8,14 +8,14 @@ I developed a plugin exclusive to one client to be installed on nine different s
 
 * Plugin updater (haha)
 * Theme update (maybe in the future)
-* Licensing system (not yet)
+* Licensing system (yes)
 
 # Installation
 ### Part I: On your server
 
 * Step 1: Upload the WPCR (WPCustomRepository) files on your webserver, either by zip file or a ```git pull https://github.com/KaiserWerk/WPCustomRepository.git```.
 * Step 2: Do the infamous ```composer install``` to get started.
-* Step 3: Edit the values in the ```.env``` file according to your needs.
+* Step 3: Edit the values in the ```.env``` file according to your needs. Most of them are optional.
 * Step 4: Import the sql dump file from the ```etc``` directory. It contains a standard admin user with the credentials ``admin/test``.
 
 * Optional Step: If you have composer installed locally but not on your server, you can execute the whole installation process locally and upload everything via FTP.
@@ -25,11 +25,12 @@ I developed a plugin exclusive to one client to be installed on nine different s
 * Step 1: Add the code from the ```etc/plugin_code.txt``` to the end of the main file of your plugin. If your plugin directory is called ```test-plugin```, then your main plugin file is ```test-plugin.php```.
 * Step 2: Change the class name to something unique, ideally something like ```test_plugin_update``` or similar.
 * Step 3: Change the class name in the add_filter() functions accordingly.
-* Step 4: Change the ```private static $endpoint``` to the address of your WPCR Installation.
+* Step 4: Change the ```private static $endpoint``` to the address of your WPCR Installation (without trailing slash).
+* Step 5: In case you are using the rudimentary license system, 
 
 ### Part III: In Wordpress
 
-* Step 1: Add the code from ```etc/wp-config.txt```to the end of your wordpress' wp-config.php file and add the hostname of your WPCR installation to the array, e.g. ```wpcr.yourdomain.com```. Without this snippet, your Wordpress installation would only accept automatic updates from the official wordpress.org repository - which is not what you want.
+* Step 1: Add the code from ```etc/wp-config.php.txt```to the end of your wordpress' wp-config.php file and add the hostname of your WPCR installation to the array, e.g. ```wpcr.yourdomain.com```. Without this snippet, your Wordpress installation would only accept automatic updates from the official wordpress.org repository.
 
 # Contributing
 
