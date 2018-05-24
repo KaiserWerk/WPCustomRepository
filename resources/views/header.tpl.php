@@ -32,6 +32,7 @@
                 <li class="nav-item active">
                     <a class="nav-link" href="/">Home</a>
                 </li>
+                <?php if (AuthHelper::isLoggedIn()) { ?>
                 <li class="nav-item dropdown">
                     <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Plugin
@@ -50,7 +51,8 @@
                         <a class="dropdown-item" href="/license/add">Add License <i class="fa fa-plug pull-right" style="line-height: 24px;"></i></a>
                     </div>
                 </li>
-                <li class="nav-item dropdown">
+                <?php } ?>
+                <!--<li class="nav-item dropdown">
                     <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Language
                     </a>
@@ -58,7 +60,7 @@
                         <a class="dropdown-item" href="/language?locale=de"><img src="/assets/images/country_flags/de.png" height="14">&nbsp; German</a>
                         <a class="dropdown-item" href="/language?locale=en"><img src="/assets/images/country_flags/en.png" height="14">&nbsp; English</a>
                     </div>
-                </li>
+                </li>-->
                 <?php if (AuthHelper::isLoggedIn() && AuthHelper::isAdmin($_SESSION['user'])) { ?>
                 <li class="nav-item dropdown">
                     <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
