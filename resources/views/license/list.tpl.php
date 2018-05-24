@@ -24,7 +24,7 @@ $errors = array(
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="mt-5">User List</h1>
+            <h1 class="mt-5">License List</h1>
             <?php
             if (isset($_GET['e'])) {
                 $e = $_GET['e'];
@@ -51,9 +51,9 @@ $errors = array(
                 foreach ($licenses as $license) {
                     echo '<tr>';
                     echo '<td>'.$license['license_user'].'</td>';
-                    echo '<td>'.$license['license_key'].'</td>';
+                    echo '<td><textarea class="form-control-plaintext" onfocus="this.select();" rows="3" cols="50">'.$license['license_key'].'</textarea></td>';
                     echo '<td>'.$license['license_host'].'</td>';
-                    echo '<td>'.$license['valid_until'].'</td>';
+                    echo '<td>'.(new \DateTime($license['valid_until']))->format('Y-m-d').'</td>';
                     echo '<td>'.$license['renewals'].'</td>';
                     
                     echo '<td>';
