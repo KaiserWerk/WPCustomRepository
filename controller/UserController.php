@@ -15,7 +15,7 @@ $klein->respond(['GET', 'POST'], '/user/settings', function ($request) {
 
     // change data
     if (isset($_POST['btn_save_my_data'])) {
-        if (AuthHelper::checkCSRFToken($_POST['_csrf_token']) === false) {
+        if (AuthHelper::checkCSRFToken() === false) {
             Helper::redirect('/user/settings?e=unknown_error');
         }
 
@@ -86,7 +86,7 @@ $klein->respond(['GET', 'POST'], '/user/settings', function ($request) {
      * deliberately lock my account
      */
     if (isset($_POST['btn_lock_account'])) {
-        if (AuthHelper::checkCSRFToken($_POST['_csrf_token']) === false) {
+        if (AuthHelper::checkCSRFToken() === false) {
             Helper::redirect('/user/settings?e=unknown_error');
         }
 
@@ -114,7 +114,7 @@ $klein->respond(['GET', 'POST'], '/user/settings', function ($request) {
      * set new password
      */
     if (isset($_POST['btn_save_new_password'])) {
-        if (AuthHelper::checkCSRFToken($_POST['_csrf_token']) === false) {
+        if (AuthHelper::checkCSRFToken() === false) {
             Helper::redirect('/user/settings?e=unknown_error');
         }
 
@@ -150,7 +150,7 @@ $klein->respond(['GET', 'POST'], '/user/settings', function ($request) {
      * regenerate API key
      */
     if (isset($_POST['btn_regenerate_apikey'])) {
-        if (AuthHelper::checkCSRFToken($_POST['_csrf_token']) === false) {
+        if (AuthHelper::checkCSRFToken() === false) {
             Helper::redirect('/user/settings?e=unknown_error');
         }
 
