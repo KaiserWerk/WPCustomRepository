@@ -68,8 +68,16 @@ class AuthHelper
         return false;
     }
     
+    public static function checkHoneypotInput($field)
+    {
+        if (empty($field)) {
+            return true; // true = ok
+        }
+        return false;
+    }
+    
     /**
-     * Returns true if the current user is considered to be logged in
+     * Returns true if the current user is logged in
      *
      * @return bool
      */
@@ -222,6 +230,23 @@ class AuthHelper
     public static function generateCSRFInput($return = false)
     {
         $str = '<input type="hidden" name="_csrf_token" value="'.$_SESSION['_csrf_token'].'">'.PHP_EOL;
+        if (!$return) {
+            echo $str;
+            return '';
+        }
+        return $str;
+    }
+    
+    /**
+     * Generates a hidden input field which should not be filled in.
+     * Should be used in every form.
+     *
+     * @param bool $return
+     * @return string
+     */
+    public static function generateHoneypotInput($return = false)
+    {
+        $str = '<input type="text" name="hp_name" class="form-control" style="visibility: hidden;">'.PHP_EOL;
         if (!$return) {
             echo $str;
             return '';
