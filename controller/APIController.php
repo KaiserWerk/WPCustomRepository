@@ -1,8 +1,10 @@
 <?php
 
+// @TODO remove cookie from api calls
+
 $klein->respond('GET', '/api/plugins/check-latest-version/[:slug]', function ($request) {
     // @TODO log API request
-    // check license validity
+
     LicenseHelper::checkLicenseValidity($request);
     
     $slug = $request->slug;
@@ -24,6 +26,7 @@ $klein->respond('GET', '/api/plugins/check-latest-version/[:slug]', function ($r
     $response->package = Helper::getHost() . '/download/plugin/' . $slug;
     
     if (getenv('API_USE_JSON') === 'true') {
+        header('Content-Type: application/json');
         echo json_encode($response, JSON_PRETTY_PRINT);
     } else {
         echo serialize($response);
@@ -32,7 +35,7 @@ $klein->respond('GET', '/api/plugins/check-latest-version/[:slug]', function ($r
 
 $klein->respond('GET', '/api/plugins/get-plugin-information/[:slug]', function ($request) {
     // @TODO log API request
-    // check license validity
+
     LicenseHelper::checkLicenseValidity($request);
     
     $slug = $request->slug;
@@ -114,6 +117,7 @@ $klein->respond('GET', '/api/plugins/get-plugin-information/[:slug]', function (
     $response->download_link = Helper::getHost() . '/download/plugin/' . $slug;
     
     if (getenv('API_USE_JSON') === 'true') {
+        header('Content-Type: application/json');
         echo json_encode($response, JSON_PRETTY_PRINT);
     } else {
         echo serialize($response);

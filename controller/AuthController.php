@@ -10,7 +10,7 @@ $klein->respond(['GET', 'POST'], '/login', function () {
         require_once viewsDir().'/auth/login.tpl.php';
         require_once viewsDir().'/footer.tpl.php';
     }
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') { // @TODO use the submit button name instead
         $db = new DBHelper();
         $cred = $_POST['_login'];
         if (isset($_COOKIE[getenv('COOKIE_LOGIN_ATTEMPT')])) {
