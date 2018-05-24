@@ -65,11 +65,10 @@ $klein->respond(['GET', 'POST'], '/license/add', function ($request) {
             'license_host' => $_add['license_host'],
             'plugin_slug' => $_add['plugin_slug'],
             'valid_until' => $_add['valid_until'],
-            'auto_renewal' => $_add['auto_renewal'],
             'created_at' => date('Y-m-d H:i:s'),
         ]);
     
-        Helper::redirect('/license/add?e=add_success');
+        Helper::redirect('/license/list?e=add_success');
     }
 });
 
