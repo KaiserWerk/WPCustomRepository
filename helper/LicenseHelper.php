@@ -13,7 +13,7 @@ class LicenseHelper
         if (getenv('LICENSE_SYSTEM_ENABLED') === 'false') {
             return true;
         }
-        $slug = $request->slug;
+        
         $headers = $request->headers();
         $licenseUser = $headers['X-License-User'] ?? null;
         $licenseKey = $headers['X-License-Key'] ?? null;
@@ -24,24 +24,23 @@ class LicenseHelper
         }
     
         $db = new DBHelper();
-        $license = $db->get('license', 'id', [
-            'license_fullname' => $licenseUser,
+        $license = $db->get('license', '*', [
             'license_key' => $licenseKey,
-            'license_host' => $licenseHost,
-            'plugin_slug' => $slug,
         ]);
-    
         if ($license !== false) {
-            $renewal = $db->get('license_renewal', '*', [
-                'license_entry_id' => $license['id'],
-                'ORDER' => [
-                    'valid_until' => 'DESC',
-                ]
-            ]);
-            $valid = new \DateTime($renewal['valid_until']);
+            // @TODO proper JSON error messages
+            if ($license['license_user'] !== $licenseUser) {
+                die('Invalid license user.');
+            }
+            
+            if (!empty($license['license_host']) && $license['license_host'] !== $licenseHost) {
+                die('invalid host.');
+            }
+            
+            $valid = new \DateTime($license['valid_until']);
             $now = new \DateTime();
             if ($valid <= $now) {
-                die('license expired');
+                die('license expired.');
             }
         } else {
             die('invalid license data.');
