@@ -55,28 +55,6 @@ class AuthHelper
     }
     
     /**
-     * Checks whether the CSRF token from a form is valid or not
-     *
-     * @param string $_csrf_token
-     * @return bool
-     */
-    public static function checkCSRFToken($_csrf_token)
-    {
-        if ($_csrf_token !== null) {
-            return $_csrf_token === $_SESSION['_csrf_token'];
-        }
-        return false;
-    }
-    
-    public static function checkHoneypotInput($field)
-    {
-        if (empty($field)) {
-            return true; // true = ok
-        }
-        return false;
-    }
-    
-    /**
      * Returns true if the current user is logged in
      *
      * @return bool
@@ -161,7 +139,12 @@ class AuthHelper
                     'apikey' => $res,
                 ]
             ]);
-            if ($bool) {
+            $bool2 = $db->has('license', [
+                'OR' => [
+                    'license_key' => $res,
+                ],
+            ]);
+            if ($bool || $bool2) {
                 return self::generateToken($length);
             }
         }
@@ -238,6 +221,19 @@ class AuthHelper
     }
     
     /**
+     * Checks whether the CSRF token from a form is (existing and) valid or not
+     *
+     * @return bool
+     */
+    public static function checkCSRFToken()
+    {
+        if ($_POST['_csrf_token'] !== null) {
+            return $_POST['_csrf_token'] === $_SESSION['_csrf_token'];
+        }
+        return false;
+    }
+    
+    /**
      * Generates a hidden input field which should not be filled in.
      * Should be used in every form.
      *
@@ -246,11 +242,24 @@ class AuthHelper
      */
     public static function generateHoneypotInput($return = false)
     {
-        $str = '<input type="text" name="hp_name" class="form-control" style="visibility: hidden;">'.PHP_EOL;
+        $str = '<input type="text" name="_user_email" class="form-control" style="visibility: hidden;">'.PHP_EOL;
         if (!$return) {
             echo $str;
             return '';
         }
         return $str;
+    }
+    
+    /**
+     * Checks the form's honepot for input
+     *
+     * @return bool
+     */
+    public static function checkHoneypot()
+    {
+        if (empty($_POST['_user_email'])) {
+            return true; // true = ok
+        }
+        return false;
     }
 }
