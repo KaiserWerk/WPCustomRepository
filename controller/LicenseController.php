@@ -1,6 +1,10 @@
 <?php
 
 $klein->respond('GET', '/license/list', function ($request) {
+    if (!AuthHelper::isLoggedIn()) {
+        Helper::redirect('/login');
+    }
+    
     $db = new DBHelper();
     
     $licenses = $db->select('license', '*', [
@@ -15,6 +19,9 @@ $klein->respond('GET', '/license/list', function ($request) {
 });
 
 $klein->respond(['GET', 'POST'], '/license/add', function ($request) {
+    if (!AuthHelper::isLoggedIn()) {
+        Helper::redirect('/login');
+    }
     if (!isset($_POST['license_button'])) {
         $key = AuthHelper::generateToken(200);
     
@@ -58,6 +65,7 @@ $klein->respond(['GET', 'POST'], '/license/add', function ($request) {
             'license_host' => $_add['license_host'],
             'plugin_slug' => $_add['plugin_slug'],
             'valid_until' => $_add['valid_until'],
+            'auto_renewal' => $_add['auto_renewal'],
             'created_at' => date('Y-m-d H:i:s'),
         ]);
     
@@ -65,9 +73,42 @@ $klein->respond(['GET', 'POST'], '/license/add', function ($request) {
     }
 });
 
-$klein->respond(['GET', 'POST'], '/license/renew', function ($request) {
+$klein->respond(['GET', 'POST'], '/license/[:id]/renew', function ($request) {
+    if (!AuthHelper::isLoggedIn()) {
+        Helper::redirect('/login');
+    }
     $db = new DBHelper();
     $id = $request->id;
     
+    $license = $db->get('license', [
+        'id',
+        'valid_until',
+        'renewals',
+    ], [
+        'id' => $id,
+    ]);
+    
+    if (new \DateTime($license['valid_until']) <= new \DateTime('+6 month')) {
+        // renew until end of next year
+        $db->update('license', [
+            'valid_until' => date('Y') + 1 . '-12-31 23:59:59',
+            'renewals' => $license['renewals'] + 1,
+        ], [
+            'id' => $id,
+        ]);
+    
+        Helper::redirect('/license/list?e=renewal_success');
+    } else {
+        Helper::redirect('/license/list?e=no_change');
+    }
+});
 
+$klein->respond('GET', '/license/[:id]/auto-renewal/toggle', function ($request) {
+    if (!AuthHelper::isLoggedIn()) {
+        Helper::redirect('/login');
+    }
+    $db = new DBHelper();
+    $id = $request->id;
+    
+    
 });
