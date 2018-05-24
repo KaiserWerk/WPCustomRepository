@@ -2,7 +2,10 @@
     <div class="row">
         <div class="col-md-12">
             <hr>
-            <small>The copyright footer</small>
+            <small>
+                Visit me @
+                <a href="https://github.com/KaiserWerk" target="_blank">Github</a>!
+            </small>
         </div>
     </div>
 </div>
