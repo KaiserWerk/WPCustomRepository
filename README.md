@@ -8,12 +8,12 @@ I developed a plugin exclusive to one client to be installed on nine different s
 
 * Plugin updater (haha)
 * Theme update (maybe in the future)
-* Licensing system (yes)
+* Licensing system (yes, quite rudimentary)
 
 # Installation
 ### Part I: On your server
 
-* Step 1: Upload the WPCR (WPCustomRepository) files on your webserver, either by zip file or a ```git pull https://github.com/KaiserWerk/WPCustomRepository.git```.
+* Step 1: Upload the WPCR (WPCustomRepository) files on your webserver, either by zip file or a ```git clone https://github.com/KaiserWerk/WPCustomRepository.git```.
 * Step 2: Do the infamous ```composer install``` to get started.
 * Step 3: Edit the values in the ```.env``` file according to your needs. Most of them are optional.
 * Step 4: Import the sql dump file from the ```etc``` directory. It contains a standard admin user with the credentials ``admin/test``.
@@ -22,11 +22,12 @@ I developed a plugin exclusive to one client to be installed on nine different s
 
 ### Part II: In your custom plugin
 
-* Step 1: Add the code from the ```etc/plugin_code.txt``` to the end of the main file of your plugin. If your plugin directory is called ```test-plugin```, then your main plugin file is ```test-plugin.php```.
+* Step 1: Add the code from the ```etc/plugin_code.txt``` to the end of the main file of your plugin. If your plugin directory is called ```test-plugin```, your main plugin file is ```test-plugin.php```.
 * Step 2: Change the class name to something unique, ideally something like ```test_plugin_update``` or similar.
 * Step 3: Change the class name in the add_filter() functions accordingly.
-* Step 4: Change the ```private static $endpoint``` to the address of your WPCR Installation (without trailing slash).
-* Step 5: In case you are using the rudimentary license system, 
+* Step 4: Change the ```private static $slug``` variable to the handle of your plugin, e.g. ```test-plugin```. Optimally use a defined constant.
+* Step 5: In the plugin settings, set the ```Update Endpoint``` setting to the hostname you installed the WPCR at.
+* Step 6: In case you are using the rudimentary license system, also enter the License User and Key you created at the WPCR.
 
 ### Part III: In Wordpress
 
