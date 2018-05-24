@@ -3,19 +3,19 @@ $errors = array(
     'missing_input' => '<br>
             <div class="alert alert-info alert-dismissable">
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong><span class="fa fa-info-circle"></span></strong> '.TranslationHelper::_t('error.missing_input.login', true).'</div>',
+                <strong><span class="fa fa-info-circle"></span></strong> Missing input!</div>',
     'username_in_use' => '<br>
             <div class="alert alert-warning alert-dismissable">
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong><span class="fa fa-user"></span></strong> '.TranslationHelper::_t('error.username_in_use', true).'</div>',
+                <strong><span class="fa fa-user"></span></strong> Username already in use!</div>',
     'email_in_use' => '<br>
             <div class="alert alert-warning alert-dismissable">
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong><span class="fa fa-envelope"></span></strong> '.TranslationHelper::_t('error.email_in_use', true).'</div>',
+                <strong><span class="fa fa-envelope"></span></strong> Email already in use!</div>',
     'unknown_error' => '<br>
             <div class="alert alert-danger alert-dismissable">
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong><span class="fa fa-warning"></span></strong> '.TranslationHelper::_t('error.unknown_error', true).'</div>',
+                <strong><span class="fa fa-warning"></span></strong> An unknown error occured!</div>',
 );
 
 ?>

@@ -43,6 +43,7 @@ $errors = array(
                     <th>License Host</th>
                     <th>Valid until</th>
                     <th>Renewals</th>
+                    <th>Auto Renewal</th>
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -55,11 +56,12 @@ $errors = array(
                     echo '<td>'.$license['license_host'].'</td>';
                     echo '<td>'.(new \DateTime($license['valid_until']))->format('Y-m-d').'</td>';
                     echo '<td>'.$license['renewals'].'</td>';
+                    echo '<td>'.$license['auto_renewal'].'</td>';
                     echo '<td>';
                     $soon = new \DateTime($license['valid_until']);
                     $now = new \DateTime('+12 month');
                     if ($soon < $now) {
-                        echo '<a href="/license/renew?id='.$license['id'].'">Renew</a> ';
+                        echo '<a href="/license/'.$license['id'].'/renew">Renew</a> ';
                     }
                     echo '</td>';
                     echo '</tr>';
