@@ -245,7 +245,7 @@ $klein->respond(['GET', 'POST'], '/admin/user/remove', function ($request) {
     }
     
     if (isset($_POST['btn_remove_user'])) {
-        if (!AuthHelper::checkCSRFToken($_POST['_csrf_token'])) {
+        if (!AuthHelper::checkCSRFToken()) {
             Helper::redirect('/admin/user/list?e=unknown_error');
         }
         
@@ -280,7 +280,7 @@ $klein->respond(['GET', 'POST'], '/admin/user/edit', function ($request) {
     }
     
     if (isset($_POST['btn_edit_user'])) {
-        if (!AuthHelper::checkCSRFToken($_POST['_csrf_token'])) {
+        if (!AuthHelper::checkCSRFToken()) {
             Helper::redirect('/admin/user/list?e=unknown_error2');
         }
         

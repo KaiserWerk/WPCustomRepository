@@ -28,7 +28,7 @@ $klein->respond(['GET', 'POST'], '/login', function () {
             Helper::redirect('/login?e=missing_input');
         }
     
-        if (!isset($_POST['_csrf_token']) || !AuthHelper::checkCSRFToken($_POST['_csrf_token'])) {
+        if (!AuthHelper::checkCSRFToken()) {
             /** write log */
             LoggerHelper::loginAttempt(null, 'Missing or invalid CSRF token.');
             LoggerHelper::debug( 'Login: Invalid CSRF Token from username ' . $cred['username']);
