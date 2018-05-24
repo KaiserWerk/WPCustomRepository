@@ -35,7 +35,7 @@ I developed a plugin exclusive to one client to be installed on nine different s
 
 # Contributing
 
-Either branch it and create a pull request or open an issue. Also, feel free to fork and create your own, better version!
+Either create a branch then a pull request or open an issue. Also, feel free to fork and create your own, better version!
 
 You can contact me via mail: m@r-k.mx
 
