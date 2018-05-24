@@ -22,7 +22,7 @@
                         Section Description:
                         <textarea name="_plugin_add[section_description]" class="form-control" rows="6" required></textarea><br>
                         File:
-                        <input type="file" name="_plugin_add_plugin_file" class="form-control" required><br>
+                        <input type="file" name="_plugin_add_plugin_file" class="form-control-file" required><br>
                         <input type="submit" value="Add Plugin" class="btn btn-primary">
                     </form>
                 </div>
