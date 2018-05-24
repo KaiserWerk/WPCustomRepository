@@ -55,7 +55,6 @@ $errors = array(
                     echo '<td>'.$license['license_host'].'</td>';
                     echo '<td>'.(new \DateTime($license['valid_until']))->format('Y-m-d').'</td>';
                     echo '<td>'.$license['renewals'].'</td>';
-                    
                     echo '<td>';
                     $soon = new \DateTime($license['valid_until']);
                     $now = new \DateTime('+12 month');

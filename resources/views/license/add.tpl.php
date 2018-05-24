@@ -49,7 +49,7 @@ $errors = array(
                 </div>
                 <div class="form-group">
                     <label for="license_key">License Key</label>
-                    <textarea name="_add[license_key]" id="license_key" class="form-control" rows="4" required><?php echo $key; ?></textarea>
+                    <textarea name="_add[license_key]" id="license_key" class="form-control" maxlength="200" rows="4" required><?php echo $key; ?></textarea>
                 </div>
                 <div class="form-group">
                     <label for="license_host">License Host</label>
