@@ -2,13 +2,21 @@
 
 class TranslationHelper
 {
+    /**
+     * Returns the translation for a key
+     *
+     * @param $string
+     * @param bool $return
+     *
+     * @return string
+     */
     public static function _t($string, $return = false)
     {
         $locale = AuthHelper::getUserLocale();
 
-        $translationFile = projectDir().'/resources/translations/'.$locale.'.ini';
+        $translationFile = projectDir() . '/resources/translations/'.$locale.'.ini';
         if (!file_exists($translationFile)) {
-            $translationFile = projectDir().'/resources/translations/en.ini';
+            $translationFile = projectDir() . '/resources/translations/en.ini';
         }
         
         $trans = parse_ini_file($translationFile, false);
