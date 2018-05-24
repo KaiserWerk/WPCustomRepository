@@ -1,7 +1,7 @@
 <?php
 
 $klein->respond('GET', '/api/plugins/check-latest-version/[:slug]', function ($request) {
-    
+    // @TODO log API request
     // check license validity
     LicenseHelper::checkLicenseValidity($request);
     
@@ -31,7 +31,7 @@ $klein->respond('GET', '/api/plugins/check-latest-version/[:slug]', function ($r
 });
 
 $klein->respond('GET', '/api/plugins/get-plugin-information/[:slug]', function ($request) {
-    
+    // @TODO log API request
     // check license validity
     LicenseHelper::checkLicenseValidity($request);
     
