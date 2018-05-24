@@ -1,0 +1,73 @@
+<?php
+
+// ..
+// ..
+// ..
+// ..
+// ..
+// ..
+// ..
+// ..
+
+// * rename the class according to your class name
+// * change the add_filter functions
+// * rename PLUGIN_NAME_HANDLE
+
+add_filter('plugins_api', array('plugin_handle_update', 'plugins_api'), 10, 3);
+add_filter('pre_set_site_transient_update_plugins', array('plugin_handle_update', 'update_plugins'));
+
+class plugin_handle_update {
+
+    private static $slug = PLUGIN_NAME_HANDLE;
+
+    public static function plugins_api($false, $action, $args)
+    {
+        if (!isset($args->slug) || $args->slug !== self::$slug) {
+            return $false;
+        }
+
+        return self::api_request('get-plugin-information');
+    }
+
+    public static function update_plugins($transient)
+    {
+        if (empty($transient->checked)) {
+            return $transient;
+        }
+
+        $plugin_path = plugin_basename(__FILE__);
+
+        $response = self::api_request('check-latest-version');
+
+        if (version_compare($response->new_version, $transient->checked[$plugin_path], '>')) {
+            $transient->response[$plugin_path] = $response;
+        }
+
+        return $transient;
+    }
+
+    public static function api_request($action)
+    {
+        $options = get_option(self::$slug);
+        $url = $options['update_endpoint'] . '/api/plugins/' . $action . '/' . self::$slug;
+
+        $request = wp_remote_get($url, array());
+
+        if (is_wp_error( $request )) {
+            return false;
+        }
+
+        $code = wp_remote_retrieve_response_code( $request );
+        if ($code !== 200) {
+            return false;
+        }
+
+        $response = json_decode(wp_remote_retrieve_body($request));
+
+        if (is_object($response)) {
+            return $response;
+        }
+
+        return false;
+    }
+}
