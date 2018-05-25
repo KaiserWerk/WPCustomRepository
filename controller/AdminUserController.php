@@ -33,7 +33,7 @@ $klein->respond('GET', '/admin/user/list', function ($request) {
 /**
  * Change the 'locked' status of a user
  */
-$klein->respond('GET', '/admin/user/status/locked', function ($request) {
+$klein->respond('GET', '/admin/user/[:id]/status/locked', function ($request) {
     $db = new DBHelper();
     if (!AuthHelper::isLoggedIn()) {
         Helper::redirect('/login');
@@ -43,7 +43,7 @@ $klein->respond('GET', '/admin/user/status/locked', function ($request) {
         Helper::errorPage(403);
     }
 
-    $id = isset($_GET['id']) ? (int)$_GET['id'] : null;
+    $id = $request->id;
     if ($id !== null) {
         if ($id !== (int)getenv('SITE_OPERATOR')) {
             $row = $db->get('user', [
@@ -69,7 +69,7 @@ $klein->respond('GET', '/admin/user/status/locked', function ($request) {
  * Change the admin status of a user
  * (not of oneself)
  */
-$klein->respond('GET', '/admin/user/status/admin', function ($request) {
+$klein->respond('GET', '/admin/user/[:id]/status/admin', function ($request) {
     $db = new DBHelper();
     if (!AuthHelper::isLoggedIn()) {
         Helper::redirect('/login');
@@ -79,7 +79,7 @@ $klein->respond('GET', '/admin/user/status/admin', function ($request) {
         Helper::errorPage(403);
     }
 
-    $id = isset($_GET['id']) ? (int)$_GET['id'] : null;
+    $id = $request->id;
     if ($id !== null) {
         if ($id !== (int)getenv('SITE_OPERATOR')) {
             $row = $db->get('user', [
@@ -141,7 +141,7 @@ $klein->respond('POST', '/admin/user/add/save', function ($request) {
             if ($_add !== null) {
                 if (!empty($_add['username']) && !empty($_add['password']) && !empty($_add['email'])) {
                     // check if username exists
-                    if (!$db->debug()->has('user', [
+                    if (!$db->has('user', [
                         'username' => $_add['username'],
                     ])) {
                         if (!$db->has('user', [
@@ -161,46 +161,40 @@ $klein->respond('POST', '/admin/user/add/save', function ($request) {
                                 'email' => $_add['email'],
                                 'apikey' => $apikey,
                                 'sex' => $_add['sex'],
-                                'admin' => (int)$_add['admin'],
-                                'locked' => (int)$_add['locked'],
+                                'admin' => $_add['admin'] ?? 0,
+                                'locked' => $_add['locked'] ?? 0,
                                 'created_at' => date('Y-m-d H:i:s'),
                             ]);
                             
-                            LoggerHelper::debug(print_r($db->log(), true));
-                            
                             if ($_add['send_notification'] == 1) {
                                 $params = array(
-                                    'greeting' => Helper::insertValues(TranslationHelper::_t('email.new_user_notification.header', true), array(
-                                        'sex' => ($_add['sex'] === 'm') ? TranslationHelper::_t('sex.male', true) : TranslationHelper::_t('sex.female', true),
-                                        'last_name' => $_add['last_name'],
+                                    'greeting' => Helper::insertValues('Hey {first_name},', array(
+                                        'first_name' => $_add['first_name'],
                                     )),
-                                    'p1' => TranslationHelper::_t('email.new_user_notification.p1', true),
-                                    'p2' => Helper::insertValues(TranslationHelper::_t('email.new_user_notification.p2', true), array(
+                                    'p1' => 'a user account has just been created for you. From now on please login using the following credentials:',
+                                    'p2' => Helper::insertValues('<ul><li>Username: {username}</li><li>Password: {password}</li></ul>', array(
                                         'username' => $_add['username'],
                                         'password' => $_add['password'],
                                     )),
-                                    'p3' => TranslationHelper::_t('email.new_user_notification.p3', true),
+                                    'p3' => 'There is the ',
 
                                 );
                                 
                                 if (getenv('EMAIL_TRACKING_ENABLED') === 'true') {
                                     $params['tracking_token'] = Helper::generateEmailTrackingToken($_add['username'] . ' <' . $_add['email'] . '>', null);
                                 }
-                                
+    
                                 $body = Helper::insertValues(viewsDir() . '/email/new_user_notification.tpl.html', $params);
-                                LoggerHelper::debug($body, 'info');
-                                if (!in_array(Helper::getIP(), ['127.0.0.1', '::1'])) {
-                                    CommunicationHelper::sendMail(
-                                        $body,
-                                        TranslationHelper::_t('email.new_user_notification.subject', true),
-                                        $_add['email'],
-                                        $_add['first_name'] . ' ' . $_add['last_name'],
-                                        getenv('MAILER_USER'),
-                                        getenv('MAILER_USER_NAME')
-                                    );
-                                }
+                                CommunicationHelper::sendMail(
+                                    $body,
+                                    'WPCustomRepository - Your new user account',
+                                    $_add['email'],
+                                    $_add['first_name'] . ' ' . $_add['last_name'],
+                                    getenv('MAILER_USER'),
+                                    getenv('MAILER_USER_NAME')
+                                );
+                                
                             }
-                            
                             
                             Helper::redirect('/admin/user/list');
                         } else {
@@ -226,7 +220,7 @@ $klein->respond('POST', '/admin/user/add/save', function ($request) {
 /**
  * Display the form for removing a user
  */
-$klein->respond(['GET', 'POST'], '/admin/user/remove', function ($request) {
+$klein->respond(['GET', 'POST'], '/admin/user/[:id]/remove', function ($request) {
     $db = new DBHelper();
     if (!AuthHelper::isLoggedIn()) {
         Helper::redirect('/login');
@@ -235,7 +229,7 @@ $klein->respond(['GET', 'POST'], '/admin/user/remove', function ($request) {
         http_response_code(403);
         Helper::errorPage(403);
     }
-    $id = $_REQUEST['id'] ?? null;
+    $id = $request->id;
     if ($id === null) {
         Helper::redirect('/admin/user/list?e=unknown_error');
     }
@@ -265,7 +259,7 @@ $klein->respond(['GET', 'POST'], '/admin/user/remove', function ($request) {
 /**
  * Display the form for editing a user
  */
-$klein->respond(['GET', 'POST'], '/admin/user/edit', function ($request) {
+$klein->respond(['GET', 'POST'], '/admin/user/[:id]/edit', function ($request) {
     $db = new DBHelper();
     if (!AuthHelper::isLoggedIn()) {
         Helper::redirect('/login');
@@ -274,7 +268,7 @@ $klein->respond(['GET', 'POST'], '/admin/user/edit', function ($request) {
         http_response_code(403);
         Helper::errorPage(403);
     }
-    $id = $_REQUEST['id'] ?? null;
+    $id = $request->id;
     if ($id === null) {
         Helper::redirect('/admin/user/list?e=unknown_error1');
     }
@@ -286,25 +280,31 @@ $klein->respond(['GET', 'POST'], '/admin/user/edit', function ($request) {
         
         $_edit = $_POST['_edit'];
         
-        $db->update('user', [
-            #'username' => $_edit['username'],
-            'first_name' => $_edit['first_name'],
-            'last_name' => $_edit['last_name'],
-            #'email' => $_edit['email'],
-            'sex' => $_edit['sex'],
-            #'admin' => $_edit['admin'],
-            #'locked' => $_edit['locked'],
-        ], [
+        if ($id === (int)getenv('SITE_OPERATOR')) {
+            $fields = [
+                'first_name' => $_edit['first_name'],
+                'last_name' => $_edit['last_name'],
+                'sex' => $_edit['sex'],
+            ];
+        } else {
+            $fields = [
+                'username' => $_edit['username'],
+                'first_name' => $_edit['first_name'],
+                'last_name' => $_edit['last_name'],
+                'email' => $_edit['email'],
+                'sex' => $_edit['sex'],
+                'admin' => $_edit['admin'],
+                'locked' => $_edit['locked'],
+            ];
+    
+            if (!empty($_edit['password'])) {
+                $fields['password'] = password_hash($_edit['password'], PASSWORD_BCRYPT, ['cost' => 12]);
+            }
+        }
+        $db->update('user', $fields, [
             'id' => $id,
         ]);
         
-        /*if (!empty($_edit['password'])) {
-            $db->update('user', [
-                'password' => password_hash($_edit['password'], PASSWORD_BCRYPT, ['cost' => 12]),
-            ], [
-                'id' => $id,
-            ]);
-        }*/
         Helper::redirect('/admin/user/list?e=edit_success');
     } else {
         $user = Helper::getUserData($id);
