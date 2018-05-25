@@ -56,8 +56,18 @@ $errors = array(
                     <input type="text" name="_add[license_host]" id="license_host" class="form-control">
                 </div>
                 <div class="form-group">
-                    <label for="plugin_slug">Plugin Slug</label>
-                    <input type="text" name="_add[plugin_slug]" id="license_host" class="form-control" required>
+                    <label for="plugin_slug">Plugin</label>
+                    <select name="_add[plugin_slug]" id="plugin_slug" size="1" class="form-control">
+                        <?php
+                        foreach ($pluginSlugSelections as $pluginSlugSelection) {
+                            echo '<option value="';
+                            echo $pluginSlugSelection['slug'];
+                            echo '">';
+                            echo $pluginSlugSelection['plugin_name'];
+                            echo '</option>' ;
+                        }
+                        ?>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="valid_until">Valid Until</label>
