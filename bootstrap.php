@@ -38,13 +38,13 @@ function viewsDir($echo = false) {
 }
 function downloadDir($echo = false) {
     if ( ! $echo ) {
-        return __DIR__.'/plugin_files';
+        return tempDir() . '/plugin_files';
     }
-    echo __DIR__.'/plugin_files';
+    echo tempDir() . '/plugin_files';
 }
 function archiveDir($echo = false) {
     if ( ! $echo ) {
-        return __DIR__.'/plugin_archive';
+        return tempDir() . '/plugin_archive';
     }
-    echo __DIR__.'/plugin_archive';
+    echo tempDir() . '/plugin_archive';
 }
