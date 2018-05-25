@@ -33,24 +33,28 @@
                     <a class="nav-link" href="/">Home</a>
                 </li>
                 <?php if (AuthHelper::isLoggedIn()) { ?>
-                <li class="nav-item dropdown">
-                    <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Plugin
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/plugin/list">Plugin List <i class="fa fa-list pull-right" style="line-height: 24px;"></i></a>
-                        <a class="dropdown-item" href="/plugin/add">Add Plugin <i class="fa fa-plug pull-right" style="line-height: 24px;"></i></a>
-                    </div>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        License
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/license/list">License List <i class="fa fa-list pull-right" style="line-height: 24px;"></i></a>
-                        <a class="dropdown-item" href="/license/add">Add License <i class="fa fa-plug pull-right" style="line-height: 24px;"></i></a>
-                    </div>
-                </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Plugin
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/plugin/list">Plugin List</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/plugin/add">Add Plugin</a>
+                        </div>
+                    </li>
+                    <?php if ((bool)getenv('LICENSE_SYSTEM_ENABLED') === true) { ?>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                License
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="/license/list">License List</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/license/add">Add License</a>
+                            </div>
+                        </li>
+                    <?php } ?>
                 <?php } ?>
                 <!--<li class="nav-item dropdown">
                     <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -64,32 +68,16 @@
                 <?php if (AuthHelper::isLoggedIn() && AuthHelper::isAdmin($_SESSION['user'])) { ?>
                 <li class="nav-item dropdown">
                     <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Admin                        </a>
+                        Admin
+                    </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="width: 250px;">
-                        <a class="dropdown-item" href="/admin/dashboard">
-                            Dashboard<i class="fa fa-dashboard pull-right" style="line-height: 24px;"></i>
-                        </a>
+                        <a class="dropdown-item" href="/admin/dashboard">Dashboard</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="/admin/user/list">
-                            User Overview<i class="fa fa-list pull-right" style="line-height: 24px;"></i>
-                        </a>
-                        <a class="dropdown-item" href="/admin/user/add">
-                            Add User<i class="fa fa-plus-circle pull-right" style="line-height: 24px;"></i>
-                        </a>
-                        <?php if ((bool)getenv('LICENSE_SYSTEM_ENABLED') === true) { ?>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="/admin/license/list">
-                            License Overview<i class="fa fa-list pull-right" style="line-height: 24px;"></i>
-                        </a>
-                        <a class="dropdown-item" href="/admin/license/add">
-                            Add License<i class="fa fa-plus-circle pull-right" style="line-height: 24px;"></i>
-                        </a>
-                        <?php } ?>
+                        <a class="dropdown-item" href="/admin/user/list">User Overview</a>
+                        <a class="dropdown-item" href="/admin/user/add">Add User</a>
                         <?php if ((bool)getenv('EMAIL_TRACKING_ENABLED') === true) { ?>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="/admin/tracking_mail/list">
-                            Tracking E-Mails<i class="fa fa-envelope pull-right" style="line-height: 24px;"></i>
-                        </a>
+                        <a class="dropdown-item" href="/admin/tracking_mail/list">Tracking E-Mails</a>
                         <?php } ?>
                     </div>
                 </li>
@@ -98,12 +86,12 @@
                     <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-cog"></i>
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="width: 250px;">
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="width: 200px;">
                         <?php if (AuthHelper::isLoggedIn()) { ?>
-                            <a class="dropdown-item" href="/user/settings"><i class="fa fa-cogs pull-right"></i> Settings</a>
+                            <a class="dropdown-item" href="/user/settings">Settings</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="/logout" data-tooltip="" data-placement="bottom" title="" data-original-title="Logged in as: <?php echo AuthHelper::getUsername(); ?>">
-                                <i class="fa fa-sign-out pull-right"></i> Logout
+                                Logout
                             </a>
                         <?php } else { ?>
                             <a class="dropdown-item" href="/login"><i class="fa fa-sign-in"></i> Login</a>
