@@ -9,6 +9,7 @@
                     <th>Plugin Name</th>
                     <th>Plugin Slug</th>
                     <th>Version</th>
+                    <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -18,6 +19,7 @@
                     echo '<td>' . $row['plugin_name'] . '</td>';
                     echo '<td>' . $row['slug'] . '</td>';
                     echo '<td>' . $row['version'] . '</td>';
+                    echo '<td><a href="/plugin/' . $row['id'] . '/edit">Edit</a> <a href="/plugin/' . $row['id'] . '/archive">Archive</a></td>';
                     echo '</tr>';
                 }
                 ?>
