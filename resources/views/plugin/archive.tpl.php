@@ -8,3 +8,4 @@
             <a href="/plugin/<?php echo $plugin['id']; ?>/archive?do" class="btn btn-warning">Yes, archive it</a>
         </div>
     </div>
+</div>
