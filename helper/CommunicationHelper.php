@@ -106,16 +106,14 @@ class CommunicationHelper
         $replyto_address = null,
         $replyto_name = null,
         $attachments = null
-    )
-    {
-        LoggerHelper::debug(print_r(func_get_args(), true), 'info');
-        
-        if (in_array(Helper::getIP(), ['127.0.0.1', '::1'], true)) {
-            return true;
+    ) {
+        die(Helper::getIP());
+        if (in_array(Helper::getIP(), ['127.0.0.1', '::1'])) {
+            return false;
         }
-        
+        LoggerHelper::debug('sending email');
         $mail = new PHPMailer(true);                              // Passing `true` enables exceptions
-
+    
         //Server settings
         $mail->SMTPDebug = 0;                                 // Enable verbose debug output
         $mail->isSMTP();                                      // Set mailer to use SMTP
@@ -125,7 +123,7 @@ class CommunicationHelper
         $mail->Password = getenv('MAILER_PASSWORD');                           // SMTP password
         $mail->SMTPSecure = getenv('MAILER_ENCRYPTION');                            // Enable TLS encryption, `ssl` also accepted
         $mail->Port = getenv('MAILER_PORT');                                    // TCP port to connect to
-
+    
         //Recipients
         try {
             $mail->setFrom($sender_address, $sender_name);
@@ -133,7 +131,7 @@ class CommunicationHelper
             if ($replyto_address !== null && $replyto_name !== null) {
                 $mail->addReplyTo($replyto_address, $replyto_name);
             }
-
+        
             //Attachments
             if (is_array($attachments)) {
                 foreach ($attachments as $attachment) {
@@ -142,15 +140,15 @@ class CommunicationHelper
                     }
                 }
             }
-
+        
             //Content
             $mail->isHTML(true);                                  // Set email format to HTML
             $mail->Subject = utf8_decode($subject);
             $mail->Body = utf8_decode($body);
             #$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
-
+        
             $mail->send();
-            
+        
             LoggerHelper::debug($mail->ErrorInfo);
         } catch (Exception $e) {
             LoggerHelper::debug($e->getMessage(), 'error');
