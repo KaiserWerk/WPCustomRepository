@@ -18,6 +18,9 @@ $klein->respond(['GET', 'POST'], '/user/settings', function ($request) {
         if (AuthHelper::checkCSRFToken() === false) {
             Helper::redirect('/user/settings?e=unknown_error');
         }
+        if (AuthHelper::checkHoneypot() === false) {
+            Helper::redirect('/user/settings?e=unknown_error');
+        }
 
         $_edit = $_POST['_edit'] ?? null;
 
