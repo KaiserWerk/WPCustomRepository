@@ -59,23 +59,23 @@ $errors = array(
                     echo '<tr>';
                     echo '<td>'.$user['username'].'</td>';
                     echo '<td>'.$user['email'].'</td>';
-                    $label_locked = '<a href="/admin/user/status/locked?id='.$user['id'].'"><span class="badge badge-success">No</span></a>';
+                    $label_locked = '<a href="/admin/user/'.$user['id'].'/status/locked"><span class="badge badge-success">No</span></a>';
                     if ($user['locked'] == 1) {
-                        $label_locked = '<a href="/admin/user/status/locked?id='.$user['id'].'"><span class="badge badge-warning">Yes</span></a>';
+                        $label_locked = '<a href="/admin/user/'.$user['id'].'/status/locked"><span class="badge badge-warning">Yes</span></a>';
                     }
                     echo '<td>'.$label_locked.'</td>';
-                    $label_admin = '<a href="/admin/user/status/admin?id='.$user['id'].'"><span class="badge badge-light">No</span></a>';
+                    $label_admin = '<a href="/admin/user/'.$user['id'].'/status/admin"><span class="badge badge-light">No</span></a>';
                     if ($user['admin'] == 1) {
-                        $label_admin = '<a href="/admin/user/status/admin?id='.$user['id'].'"><span class="badge badge-primary">Yes</span></a>';
+                        $label_admin = '<a href="/admin/user/'.$user['id'].'/status/admin"><span class="badge badge-primary">Yes</span></a>';
                     }
-                    if ($user['id'] == $config->site_operator_id) {
+                    if ($user['id'] == (int)getenv('SITE_OPERATOR')) {
                         $label_admin = '<span class="badge badge-dark">Yes</span>';
                     }
                     echo '<td>'.$label_admin.'</td>';
                     echo '<td>';
-                    if ((int)$user['id'] !== $config->site_operator_id) {
-                        echo '<a href="/admin/user/edit?id='.$user['id'].'">Edit</a> ';
-                        echo '<a href="/admin/user/remove?id='.$user['id'].'">Remove</a>';
+                    if ((int)$user['id'] !== (int)getenv('SITE_OPERATOR')) {
+                        echo '<a href="/admin/user/'.$user['id'].'/edit">Edit</a> ';
+                        echo '<a href="/admin/user/'.$user['id'].'/remove">Remove</a>';
                     }
                     echo '</td>';
                     echo '</tr>';
