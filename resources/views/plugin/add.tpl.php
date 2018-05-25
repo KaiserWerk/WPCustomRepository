@@ -45,7 +45,7 @@
                             <label for="plugin_file">Plugin File</label>
                             <input type="file" name="_plugin_add_plugin_file" id="plugin_file" class="form-control-file" required>
                         </div>
-                        <button type="submit" class="btn btn-primary">Add Plugin</button>
+                        <button type="submit" name="btn_plugin_add" class="btn btn-primary">Add Plugin</button>
                     </div>
                 </form>
             </div>
