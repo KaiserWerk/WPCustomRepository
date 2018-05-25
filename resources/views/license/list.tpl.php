@@ -8,6 +8,10 @@ $errors = array(
             <div class="alert alert-success alert-dismissable">
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                 <strong><span class="fa fa-check"></span></strong> Added successfully!</div>',
+    'no_change' => '<br>
+            <div class="alert alert-info alert-dismissable">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong><span class="fa fa-info-circle"></span></strong> No change!</div>',
     'missing_input' => '<br>
             <div class="alert alert-info alert-dismissable">
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -35,12 +39,13 @@ $errors = array(
             }
             ?>
             <br>
-            <table class="table table-condense table-bordered">
+            <table class="table table-condense table-bordered table-hover">
                 <thead>
                 <tr>
                     <th>License User</th>
                     <th>License Key</th>
                     <th>License Host</th>
+                    <th>Plugin Slug</th>
                     <th>Valid until</th>
                     <th>Renewals</th>
                     <th>Auto Renewal</th>
@@ -54,6 +59,7 @@ $errors = array(
                     echo '<td>'.$license['license_user'].'</td>';
                     echo '<td><textarea class="form-control-plaintext" onfocus="this.select();" rows="3" cols="50">'.$license['license_key'].'</textarea></td>';
                     echo '<td>'.$license['license_host'].'</td>';
+                    echo '<td>'.$license['plugin_slug'].'</td>';
                     echo '<td>'.(new \DateTime($license['valid_until']))->format('Y-m-d').'</td>';
                     echo '<td>'.$license['renewals'].'</td>';
                     echo '<td>'.$license['auto_renewal'].'</td>';
