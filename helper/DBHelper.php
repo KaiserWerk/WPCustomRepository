@@ -15,7 +15,6 @@ class DBHelper extends Medoo
             'prefix' => getenv('DB_PREFIX'),
             'port' => getenv('DB_PORT'),
             'charset' => getenv('DB_CHARSET'),
-            'logging' => true,
         ]);
     }
 
