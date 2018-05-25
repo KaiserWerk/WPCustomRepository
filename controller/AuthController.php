@@ -191,9 +191,9 @@ $klein->respond(['GET', 'POST'], '/resetting/request', function ($request) {
             Helper::redirect('/resetting/request?e=success');
         }
     } else {
-        require_once viewsDir().'/header.tpl.php';
-        require_once viewsDir().'/auth/reset_request.tpl.php';
-        require_once viewsDir().'/footer.tpl.php';
+        require_once viewsDir() . '/header.tpl.php';
+        require_once viewsDir() . '/auth/reset_request.tpl.php';
+        require_once viewsDir() . '/footer.tpl.php';
     }
 });
 
@@ -249,7 +249,7 @@ $klein->respond(['GET', 'POST'], '/resetting/reset', function ($request) {
             Helper::redirect('/resetting/reset?confirmation_token='.$token.'&e=password_complexity');
         }
         
-        $hash = password_hash($cred['password1'], PASSWORD_BCRYPT, array('cost' => 12));
+        $hash = password_hash($cred['password1'], PASSWORD_BCRYPT, ['cost' => 12]);
         
         $db->update('user', [
             'confirmation_token' => null,
