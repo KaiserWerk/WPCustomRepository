@@ -74,7 +74,7 @@ $errors = array(
                     echo '<td>'.$label_admin.'</td>';
                     echo '<td>';
                     if ((int)$user['id'] !== (int)getenv('SITE_OPERATOR')) {
-                        echo '<a href="/admin/user/'.$user['id'].'/edit">Edit</a> ';
+                        echo '<a href="/admin/user/'.$user['id'].'/edit">Edit</a> / ';
                         echo '<a href="/admin/user/'.$user['id'].'/remove">Remove</a>';
                     }
                     echo '</td>';
