@@ -94,6 +94,7 @@ class CommunicationHelper
      * @param null $replyto_address
      * @param null $replyto_name
      * @param null $attachments
+     * @return bool
      */
     public static function sendMail(
         $body,
@@ -109,12 +110,16 @@ class CommunicationHelper
     {
         LoggerHelper::debug(print_r(func_get_args(), true), 'info');
         
+        if (in_array(Helper::getIP(), ['127.0.0.1', '::1'], true)) {
+            return true;
+        }
+        
         $mail = new PHPMailer(true);                              // Passing `true` enables exceptions
 
         //Server settings
         $mail->SMTPDebug = 0;                                 // Enable verbose debug output
         $mail->isSMTP();                                      // Set mailer to use SMTP
-        $mail->Host = getenv('MAILER_HOST');  // Specify main and backup SMTP servers
+        $mail->Host = getenv('MAILER_HOST');         // Specify main and backup SMTP servers
         $mail->SMTPAuth = true;                               // Enable SMTP authentication
         $mail->Username = getenv('MAILER_USER');                 // SMTP username
         $mail->Password = getenv('MAILER_PASSWORD');                           // SMTP password
@@ -125,12 +130,9 @@ class CommunicationHelper
         try {
             $mail->setFrom($sender_address, $sender_name);
             $mail->addAddress($recipient_address, $recipient_name);     // Add a recipient
-            #$mail->addAddress('ellen@example.com');               // Name is optional
             if ($replyto_address !== null && $replyto_name !== null) {
                 $mail->addReplyTo($replyto_address, $replyto_name);
             }
-            #$mail->addCC('cc@example.com');
-            #$mail->addBCC('bcc@example.com');
 
             //Attachments
             if (is_array($attachments)) {
@@ -140,8 +142,6 @@ class CommunicationHelper
                     }
                 }
             }
-            #$mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments
-            #    // Optional name
 
             //Content
             $mail->isHTML(true);                                  // Set email format to HTML
@@ -154,6 +154,8 @@ class CommunicationHelper
             LoggerHelper::debug($mail->ErrorInfo);
         } catch (Exception $e) {
             LoggerHelper::debug($e->getMessage(), 'error');
+            return false;
         }
+        return true;
     }
 }
