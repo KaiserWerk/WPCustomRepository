@@ -101,7 +101,7 @@ class Helper
     public static function isUsernameInUse($username)
     {
         $db = new DBHelper();
-        return $db->has('user', 'id', [
+        return $db->has('user', [
             'username' => $username,
         ]);
     }
@@ -116,7 +116,7 @@ class Helper
     public static function isEmailInUse($email)
     {
         $db = new DBHelper();
-        return $db->has('user', 'id', [
+        return $db->has('user', [
             'email' => $email,
         ]);
     }
@@ -328,5 +328,26 @@ class Helper
             $body = str_replace('{'.$key.'}', $value, $body);
         }
         return $body;
+    }
+    
+    public static function getCurrentWPVersion($return = false)
+    {
+        $context = stream_context_create([
+            'http' => [
+                'method' => 'GET',
+                'timeout' => 30,
+            ]
+        ]);
+        
+        $url = 'https://api.wordpress.org/core/version-check/1.7/';
+    
+        $contents = file_get_contents($url, false, $context);
+        #$contents = utf8_encode($contents);
+        $obj = json_decode($contents);
+        $version = $obj->offers[0]->version;
+        if ($return) {
+            return $version;
+        }
+        echo $version;
     }
 }
