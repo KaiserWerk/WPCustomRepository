@@ -22,7 +22,9 @@ $klein->respond(['GET', 'POST'], '/license/add', function ($request) {
     if (!AuthHelper::isLoggedIn()) {
         Helper::redirect('/login');
     }
+    $db = new DBHelper();
     if (!isset($_POST['license_button'])) {
+        $pluginSlugSelections = array_unique($db->select('plugin', ['plugin_name', 'slug']));
         $key = AuthHelper::generateToken(200);
     
         require_once viewsDir() . '/header.tpl.php';
@@ -30,7 +32,7 @@ $klein->respond(['GET', 'POST'], '/license/add', function ($request) {
         require_once viewsDir() . '/footer.tpl.php';
     } else {
         $_add = $_POST['_add'];
-        $db = new DBHelper();
+        
         
         if (!AuthHelper::checkCSRFToken()) {
             Helper::redirect('/license/add?e=unknown_error');
