@@ -175,7 +175,7 @@ $klein->respond(['GET', 'POST'], '/resetting/request', function ($request) {
             // send mail
             CommunicationHelper::sendMail(
                 $body,
-                TranslationHelper::_t('email.reset_request.subject', true),
+                'WPCustomRepository - Reset password',
                 $row['email'],
                 $row['username'],
                 getenv('MAILER_USER'),

@@ -79,7 +79,7 @@ $errors = array(
                 </div>
                 <div class="col-md-4 col-sm-12">
                     <br>
-                    Passwords must be at least 12 characters long and contain a mix of letters, numbers and special chars.
+                    Passwords should be at least 12 characters long and contain a mix of letters, numbers and special chars.
                 </div>
             </div>
 
