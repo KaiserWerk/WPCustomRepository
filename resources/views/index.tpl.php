@@ -3,6 +3,6 @@
         <div class="col-md-12">
             <h1 class="mt-5">WPCustomRepository</h1>
             <br>
-            Text here
+            WPCR offers the amazing possibiliy of automatic updates for your custom plugins (and maybe soon themes as well).
         </div>
     </div>
