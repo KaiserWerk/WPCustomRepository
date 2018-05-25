@@ -1,8 +1,9 @@
 .env
-*.log
 /.idea
 /.git
 /vendor
 /var/logs/*
 /var/plugin_files/*
+/var/plugin_archive/*
 public/.DS_Store
+.DS_Store
