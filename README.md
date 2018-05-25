@@ -27,11 +27,11 @@ I developed a plugin exclusive to one client to be installed on nine different s
 * Step 3: Change the class name in the add_filter() functions accordingly.
 * Step 4: Change the ```private static $slug``` variable to the handle of your plugin, e.g. ```test-plugin```. Optimally use a defined constant.
 * Step 5: In the plugin settings, set the ```Update Endpoint``` setting to the hostname you installed the WPCR at.
-* Step 6: In case you are using the rudimentary license system, also enter the License User and Key you created at the WPCR.
+* Step 6: In case you are using the rudimentary license system, also enter the License User and Key you created at the WPCR Control Panel.
 
 ### Part III: In Wordpress
 
-* Step 1: Add the code from ```etc/wp-config.php.txt```to the end of your wordpress' wp-config.php file and add the hostname of your WPCR installation to the array, e.g. ```wpcr.yourdomain.com```. Without this snippet, your Wordpress installation would only accept automatic updates from the official wordpress.org repository.
+* Step 1: Add the code from ```etc/wp-config.php.txt```to the end of your wordpress' ```wp-config.php`` file and add the hostname of your WPCR installation to the array, e.g. ```wpcr.yourdomain.com```. Without this snippet, your Wordpress installation would only accept automatic updates from the official wordpress.org repository.
 
 # Contributing
 
@@ -41,6 +41,6 @@ You can contact me via mail: m@r-k.mx
 
 # Further Reading & Thoughts
 
-In order for newly uploaded plugin versions to be recogized, the version string in the main file's comment **must** be higher than the currently installed version's. Naturally, it would make no sense to execute an automatic update to the same version that is already installed.
+In order for newly uploaded plugin versions to be recognized, the version string in the main file's comment **must** be higher than the currently installed version's. Naturally, it would make no sense to execute an automatic update to the same version that is already installed.
 
 An automatic __installation__ would be reeeally great, but to my knowledge is not currently possible. You have to manually install your custom plugin first. If you set up everything correctly, the automatic updates will take over.
