@@ -7,6 +7,7 @@ $klein->respond('GET', '/plugin/list', function ($request) {
     $db = new DBHelper();
     
     $rows = $db->select('plugin', '*', [
+        'archived' => 0,
         'ORDER' => [
             'slug' => 'ASC',
             'version' => 'DESC',
@@ -22,19 +23,16 @@ $klein->respond(['GET', 'POST'], '/plugin/add', function ($request) {
     if (!AuthHelper::isLoggedIn()) {
         Helper::redirect('/login');
     }
-    if (!AuthHelper::checkCSRFToken()) {
-        Helper::redirect('/plugin/add?e=unknown_error');
-    }
-    if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    
+    if (!isset($_POST['btn_plugin_add'])) {
         require_once viewsDir() . '/header.tpl.php';
         require_once viewsDir() . '/plugin/add.tpl.php';
         require_once viewsDir() . '/footer.tpl.php';
-    }
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    } else {
+        if (!AuthHelper::checkCSRFToken()) {
+            Helper::redirect('/plugin/add?e=unknown_error');
+        }
         $_plugin_add = $_POST['_plugin_add'];
-        
-        #echo "<pre>";var_dump($_plugin_add);die;
-        
         if (
             !empty($_plugin_add['plugin_name']) &&
             !empty($_plugin_add['slug']) &&
@@ -45,7 +43,7 @@ $klein->respond(['GET', 'POST'], '/plugin/add', function ($request) {
             $dir = downloadDir() . '/' . $_plugin_add['slug'] . '/';
     
             if (!is_dir($dir)) {
-                @mkdir($dir, 0775);
+                @mkdir($dir, 0775, true);
             }
             
             move_uploaded_file($_FILES['_plugin_add_plugin_file']['tmp_name'], $dir . $file_name);
@@ -63,7 +61,7 @@ $klein->respond(['GET', 'POST'], '/plugin/add', function ($request) {
                 'added' => date('Y-m-d H:i:s'),
             ]);
         } else {
-            die("Missing fields");
+            die('Missing fields');
         }
         Helper::redirect('/plugin/list');
     }
@@ -131,17 +129,21 @@ $klein->respond('GET', '/plugin/[:id]/archive', function ($request) {
     if ($do !== null) {
         $file_name = $plugin['slug'] . '_v' . $plugin['version'] . '.zip';
         $dir = downloadDir() . '/' . $plugin['slug'] . '/';
-        $newdir = archiveDir() . '/' . $plugin['slug'] . '/';
-        if (!is_dir($newdir)) {
-            @mkdir($newdir, 0775, true);
+        if (file_exists($dir . $file_name)) {
+            $newdir = archiveDir() . '/' . $plugin['slug'] . '/';
+            if (!is_dir($newdir)) {
+                @mkdir($newdir, 0775, true);
+            }
+            @rename($dir . $file_name, $newdir . $file_name);
         }
-        @rename($dir . $file_name, $newdir . $file_name);
         
         $db->update('plugin', [
             'archived' => 1,
         ], [
             'id' => $id,
         ]);
+        
+        Helper::redirect('/plugin/list');
     } else {
         require_once viewsDir() . '/header.tpl.php';
         require_once viewsDir() . '/plugin/archive.tpl.php';
