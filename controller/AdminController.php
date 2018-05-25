@@ -100,8 +100,8 @@ $klein->respond('GET', '/admin/tools/test_mail_message', function ($request) {
         Helper::errorPage(403);
     }
     CommunicationHelper::sendMail(
-        'Dies ist eine Test-Mail.',
-        'Verdict API Test-Mail',
+        'This is a Test-Mail.',
+        'WPCustomRepository Test-Mail',
         getenv('MAILER_USER'),
         getenv('MAILER_USER_NAME'),
         getenv('MAILER_USER'),
