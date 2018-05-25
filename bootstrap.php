@@ -42,3 +42,9 @@ function downloadDir($echo = false) {
     }
     echo __DIR__.'/plugin_files';
 }
+function archiveDir($echo = false) {
+    if ( ! $echo ) {
+        return __DIR__.'/plugin_archive';
+    }
+    echo __DIR__.'/plugin_archive';
+}
