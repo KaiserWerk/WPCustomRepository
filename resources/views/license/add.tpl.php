@@ -59,12 +59,13 @@ $errors = array(
                     <label for="plugin_slug">Plugin</label>
                     <select name="_add[plugin_slug]" id="plugin_slug" size="1" class="form-control">
                         <?php
+                       
                         foreach ($pluginSlugSelections as $pluginSlugSelection) {
                             echo '<option value="';
                             echo $pluginSlugSelection['slug'];
                             echo '">';
                             echo $pluginSlugSelection['plugin_name'];
-                            echo '</option>' ;
+                            echo '</option>';
                         }
                         ?>
                     </select>
