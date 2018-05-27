@@ -41,8 +41,8 @@ $errors = array(
                 <div class="col-md-6">
                     <form method="post">
                         <?php AuthHelper::generateCSRFInput(); ?>
-                        Username / Email: <input type="text" name="_login[username]" class="form-control" value="admin"><br>
-                        Password: <input type="password" name="_login[password]" class="form-control" value="test"><br>
+                        Username / Email: <input type="text" name="_login[username]" class="form-control"><br>
+                        Password: <input type="password" name="_login[password]" class="form-control"><br>
                         <input type="submit" value="Login" class="btn btn-primary">
                     </form>
                 </div>
