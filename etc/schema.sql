@@ -2,16 +2,22 @@
 -- version 4.7.7
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Erstellungszeit: 24. Mai 2018 um 16:50
--- Server-Version: 5.6.38
--- PHP-Version: 7.2.1
+-- Host: 127.0.0.1
+-- Erstellungszeit: 28. Mai 2018 um 01:05
+-- Server-Version: 10.1.29-MariaDB
+-- PHP-Version: 7.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
 --
--- Datenbank: `db_wpcr`
+-- Datenbank: `wpcr`
 --
 
 -- --------------------------------------------------------
@@ -38,15 +44,15 @@ CREATE TABLE `api_request` (
 
 CREATE TABLE `license` (
   `id` int(11) NOT NULL,
-  `license_user` varchar(255) NOT NULL,
+  `license_user` varchar(150) NOT NULL,
   `license_key` varchar(200) NOT NULL,
-  `license_host` varchar(100) NOT NULL,
+  `license_host` varchar(150) NOT NULL,
   `plugin_slug` varchar(100) NOT NULL,
   `valid_until` datetime NOT NULL,
   `renewals` int(11) NOT NULL DEFAULT '0',
   `auto_renewal` tinyint(1) NOT NULL DEFAULT '0',
   `created_at` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Daten für Tabelle `license`
@@ -102,14 +108,13 @@ CREATE TABLE `plugin` (
   `last_updated` datetime NOT NULL,
   `added` datetime NOT NULL,
   `homepage` varchar(255) NOT NULL,
-  `section_description` text NOT NULL
+  `section_description` text NOT NULL,
+  `archived` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Daten für Tabelle `plugin`
 --
-
-
 
 -- --------------------------------------------------------
 
@@ -146,7 +151,7 @@ CREATE TABLE `user` (
   `confirmation_token_validity` datetime DEFAULT NULL,
   `last_login` datetime DEFAULT NULL,
   `sex` varchar(1) NOT NULL DEFAULT 'f',
-  `locale` varchar(5) NOT NULL DEFAULT 'en',
+  `locale` varchar(5) NOT NULL,
   `admin` tinyint(1) NOT NULL DEFAULT '0',
   `locked` tinyint(1) NOT NULL DEFAULT '0',
   `created_at` datetime NOT NULL
@@ -157,7 +162,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `first_name`, `last_name`, `password`, `email`, `apikey`, `confirmation_token`, `confirmation_token_validity`, `last_login`, `sex`, `locale`, `admin`, `locked`, `created_at`) VALUES
-(1, 'admin', 'Ad', 'Min', '$2y$12$WsU6SHxD.Umc7ca7ZD.ggu5g1A52lsEdZnFBbLfxtvbjNxDTkI5ye', 't@r-k.mx', '', NULL, NULL, '2018-05-24 14:57:40', 'm', 'en', 1, 0, '2018-01-31 15:30:35');
+(1, 'admin', 'Robin', 'Kaiser', '$2y$12$WsU6SHxD.Umc7ca7ZD.ggu5g1A52lsEdZnFBbLfxtvbjNxDTkI5ye', 't@r-k.mx', '9lnh2782hinil84b40tl', NULL, NULL, '2018-05-28 00:46:33', 'm', 'de', 1, 0, '2018-01-31 15:30:35');
 
 --
 -- Indizes der exportierten Tabellen
@@ -250,8 +255,6 @@ ALTER TABLE `plugin`
 ALTER TABLE `plugin_section`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT für Tabelle `user`
---
-ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
