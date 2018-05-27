@@ -31,7 +31,7 @@ I developed a plugin exclusive to one client to be installed on nine different s
 
 ### Part III: In Wordpress
 
-* Step 1: Add the code from ```etc/wp-config.php.txt```to the end of your wordpress' ```wp-config.php`` file and add the hostname of your WPCR installation to the array, e.g. ```wpcr.yourdomain.com```. Without this snippet, your Wordpress installation would only accept automatic updates from the official wordpress.org repository.
+* Step 1: Add the code from ```etc/wp-config.php.txt```to the end of your wordpress' ```wp-config.php``` file and add the hostname of your WPCR installation to the array, e.g. ```wpcr.yourdomain.com```. Without this snippet, your Wordpress installation would only accept automatic updates from the official wordpress.org repository.
 
 # Contributing
 
