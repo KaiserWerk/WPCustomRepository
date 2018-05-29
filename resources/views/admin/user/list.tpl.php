@@ -60,15 +60,15 @@ $errors = array(
                     echo '<td>'.$user['username'].'</td>';
                     echo '<td>'.$user['email'].'</td>';
                     $label_locked = '<a href="/admin/user/'.$user['id'].'/status/locked"><span class="badge badge-success">No</span></a>';
-                    if ($user['locked'] == 1) {
+                    if ($user['locked'] === 1) {
                         $label_locked = '<a href="/admin/user/'.$user['id'].'/status/locked"><span class="badge badge-warning">Yes</span></a>';
                     }
                     echo '<td>'.$label_locked.'</td>';
                     $label_admin = '<a href="/admin/user/'.$user['id'].'/status/admin"><span class="badge badge-light">No</span></a>';
-                    if ($user['admin'] == 1) {
+                    if ($user['admin'] === 1) {
                         $label_admin = '<a href="/admin/user/'.$user['id'].'/status/admin"><span class="badge badge-primary">Yes</span></a>';
                     }
-                    if ($user['id'] == (int)getenv('SITE_OPERATOR')) {
+                    if ($user['id'] === (int)getenv('SITE_OPERATOR')) {
                         $label_admin = '<span class="badge badge-dark">Yes</span>';
                     }
                     echo '<td>'.$label_admin.'</td>';
