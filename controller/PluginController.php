@@ -19,6 +19,28 @@ $klein->respond('GET', '/plugin/list', function ($request) {
     require_once viewsDir() . '/footer.tpl.php';
 });
 
+$klein->respond('GET', '/plugin/[:id]/show', function ($request) {
+    if (!AuthHelper::isLoggedIn()) {
+        Helper::redirect('/login');
+    }
+    
+    $id = $request->id ?? null;
+    
+    if ($id !== null) {
+        $db = new DBHelper();
+    
+        $plugin = $db->get('plugin', '*', [
+            'id' => $id,
+        ]);
+    
+        require_once viewsDir() . '/header.tpl.php';
+        require_once viewsDir() . '/plugin/show.tpl.php';
+        require_once viewsDir() . '/footer.tpl.php';
+    } else {
+        Helper::redirect('/plugin/list?e=none_selected');
+    }
+});
+
 $klein->respond(['GET', 'POST'], '/plugin/add', function ($request) {
     if (!AuthHelper::isLoggedIn()) {
         Helper::redirect('/login');

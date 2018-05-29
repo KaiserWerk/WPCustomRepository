@@ -19,7 +19,11 @@
                     echo '<td>' . $row['plugin_name'] . '</td>';
                     echo '<td>' . $row['slug'] . '</td>';
                     echo '<td>' . $row['version'] . '</td>';
-                    echo '<td><a href="/plugin/' . $row['id'] . '/edit">Edit</a> / <a href="/plugin/' . $row['id'] . '/archive">Archive</a></td>';
+                    echo '<td>';
+                        echo '<a href="/plugin/' . $row['id'] . '/show">Show</a> / ';
+                        echo '<a href="/plugin/' . $row['id'] . '/edit">Edit</a> / ';
+                        echo '<a href="/plugin/' . $row['id'] . '/archive">Archive</a>';
+                    echo '</td>';
                     echo '</tr>';
                 }
                 ?>
