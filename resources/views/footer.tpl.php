@@ -6,6 +6,10 @@
                 Visit me @
                 <a href="https://github.com/KaiserWerk" target="_blank">Github</a>!
             </small>
+            <br>
+            <small>
+                Script execution time: <?php echo $StopwatchHelper->stop()->getIntervalSeconds(); ?>s
+            </small>
         </div>
     </div>
 </div>
@@ -18,5 +22,6 @@
         $('[data-tooltip]').tooltip();
     });
 </script>
+<!-- Script execution time: <?php echo $StopwatchHelper->stop()->getIntervalSeconds(); ?> -->
 </body>
 </html>
