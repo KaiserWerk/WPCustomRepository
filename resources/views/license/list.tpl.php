@@ -8,10 +8,18 @@ $errors = array(
             <div class="alert alert-success alert-dismissable">
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                 <strong><span class="fa fa-check"></span></strong> Added successfully!</div>',
+    'renewal_success' => '<br>
+            <div class="alert alert-success alert-dismissable">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong><span class="fa fa-check"></span></strong> Renewed successfully!</div>',
+    'removal_success' => '<br>
+            <div class="alert alert-success alert-dismissable">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong><span class="fa fa-check"></span></strong> Removed successfully!</div>',
     'no_change' => '<br>
             <div class="alert alert-info alert-dismissable">
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong><span class="fa fa-info-circle"></span></strong> No change!</div>',
+                <strong><span class="fa fa-info-circle"></span></strong> No changes were made!</div>',
     'missing_input' => '<br>
             <div class="alert alert-info alert-dismissable">
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -46,9 +54,8 @@ $errors = array(
                     <th>License Key</th>
                     <th>License Host</th>
                     <th>Plugin Slug</th>
-                    <th>Valid until</th>
-                    <th>Renewals</th>
-                    <th>Auto Renewal</th>
+                    <th style="min-width: 130px;">Valid until</th>
+
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -57,18 +64,18 @@ $errors = array(
                 foreach ($licenses as $license) {
                     echo '<tr>';
                     echo '<td>'.$license['license_user'].'</td>';
-                    echo '<td><textarea class="form-control-plaintext" onfocus="this.select();" rows="3" cols="50">'.$license['license_key'].'</textarea></td>';
+                    echo '<td><textarea class="form-control-plaintext" onfocus="this.select();" rows="1" cols="50">'.$license['license_key'].'</textarea></td>';
                     echo '<td>'.$license['license_host'].'</td>';
                     echo '<td>'.$license['plugin_slug'].'</td>';
                     echo '<td>'.(new \DateTime($license['valid_until']))->format('Y-m-d').'</td>';
-                    echo '<td>'.$license['renewals'].'</td>';
-                    echo '<td>'.$license['auto_renewal'].'</td>';
-                    echo '<td>';
                     $soon = new \DateTime($license['valid_until']);
                     $now = new \DateTime('+12 month');
+                    echo '<td>';
+                    echo '<a href="/license/'.$license['id'].'/edit">Edit</a>';
                     if ($soon < $now) {
-                        echo '<a href="/license/'.$license['id'].'/renew">Renew</a> ';
+                        echo ' / <a href="/license/'.$license['id'].'/renew">Renew</a> ';
                     }
+                    echo ' / <a href="/license/'.$license['id'].'/remove" onclick="return confirm(\'Continue?\');">Remove</a>';
                     echo '</td>';
                     echo '</tr>';
                 }

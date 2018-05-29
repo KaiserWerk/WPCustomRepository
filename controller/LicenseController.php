@@ -79,28 +79,32 @@ $klein->respond(['GET', 'POST'], '/license/[:id]/renew', function ($request) {
         Helper::redirect('/login');
     }
     $db = new DBHelper();
-    $id = $request->id;
+    $id = $request->id ?? null;
     
-    $license = $db->get('license', [
-        'id',
-        'valid_until',
-        'renewals',
-    ], [
-        'id' => $id,
-    ]);
-    
-    if (new \DateTime($license['valid_until']) <= new \DateTime('+6 month')) {
-        // renew until end of next year
-        $db->update('license', [
-            'valid_until' => date('Y') + 1 . '-12-31 23:59:59',
-            'renewals' => $license['renewals'] + 1,
+    if ($id !== null) {
+        $license = $db->get('license', [
+            'id',
+            'valid_until',
+            'renewals',
         ], [
             'id' => $id,
         ]);
     
-        Helper::redirect('/license/list?e=renewal_success');
+        if (new \DateTime($license['valid_until']) <= new \DateTime('+12 month')) {
+            // renew until end of next year
+            $db->update('license', [
+                'valid_until' => date('Y') + 1 . '-12-31 23:59:59',
+                'renewals' => $license['renewals'] + 1,
+            ], [
+                'id' => $id,
+            ]);
+        
+            Helper::redirect('/license/list?e=renewal_success');
+        } else {
+            Helper::redirect('/license/list?e=no_change');
+        }
     } else {
-        Helper::redirect('/license/list?e=no_change');
+        Helper::redirect('/license7list?e=invalid_entry');
     }
 });
 
@@ -108,8 +112,96 @@ $klein->respond('GET', '/license/[:id]/auto-renewal/toggle', function ($request)
     if (!AuthHelper::isLoggedIn()) {
         Helper::redirect('/login');
     }
+    
+    $id = $request->id ?? null;
+    if ($id !== null) {
+        $db = new DBHelper();
+        
+    } else {
+        Helper::redirect('/license7list?e=invalid_entry');
+    }
+});
+
+$klein->respond(['GET', 'POST'], '/license/[:id]/edit', function ($request) {
+    if (!AuthHelper::isLoggedIn()) {
+        Helper::redirect('/login');
+    }
+    
+    $id = $request->id ?? null;
     $db = new DBHelper();
-    $id = $request->id;
+    if ($id !== null) {
+        if (!isset($_POST['btn_license_edit'])) {
+            $pluginSlugSelections = @array_unique($db->select('plugin', ['plugin_name', 'slug']));
+            
+            $license = $db->get('license', '*', [
+                'id' => $id,
+            ]);
+            
+            require_once viewsDir() . '/header.tpl.php';
+            require_once viewsDir() . '/license/edit.tpl.php';
+            require_once viewsDir() . '/footer.tpl.php';
+        } else {
+            $_edit = $_POST['_edit'];
+        
+            if (!AuthHelper::checkCSRFToken()) {
+                Helper::redirect('/license/'.$id.'/edit?e=unknown_error');
+            }
+            if (!AuthHelper::checkHoneypot()) {
+                Helper::redirect('/license/'.$id.'/edit?e=unknown_error');
+            }
+        
+            if (empty($_edit['license_user']) || empty($_edit['license_key']) || empty($_edit['valid_until'])) {
+                Helper::redirect('/license/'.$id.'/edit?e=missing_input');
+            }
+        
+            if ($db->has('license', [
+                'license_key' => $_edit['license_key'],
+                'id[!]' => $id,
+            ])) {
+                Helper::redirect('/license/'.$id.'/edit?e=key_in_use');
+            }
+        
+            if ($db->has('license', [
+                'AND' => [
+                    'license_user' => $_edit['license_user'],
+                    'license_host' => $_edit['license_host'],
+                    'plugin_slug' => $_edit['plugin_slug'],
+                    'id[!]' => $id,
+                ]
+            ])) {
+                Helper::redirect('/license/'.$id.'/edit?e=license_exists');
+            }
+        
+            $db->update('license', [
+                'license_user' => $_edit['license_user'],
+                'license_key' => $_edit['license_key'],
+                'license_host' => $_edit['license_host'],
+                'plugin_slug' => $_edit['plugin_slug'],
+                'valid_until' => $_edit['valid_until'],
+            ], [
+                'id' => $id,
+            ]);
+        
+            Helper::redirect('/license/list?e=edit_success');
+        }
+    } else {
+        Helper::redirect('/license7list?e=invalid_entry');
+    }
+});
+
+$klein->respond('GET', '/license/[:id]/remove', function ($request) {
+    if (!AuthHelper::isLoggedIn()) {
+        Helper::redirect('/login');
+    }
     
-    
+    $id = $request->id ?? null;
+    if ($id !== null) {
+        $db = new DBHelper();
+        $db->delete('license', [
+            'id' => $id,
+        ]);
+        Helper::redirect('/license/list?e=removal_success');
+    } else {
+        Helper::redirect('/license7list?e=invalid_entry');
+    }
 });
