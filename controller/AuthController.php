@@ -141,6 +141,11 @@ $klein->respond(['GET', 'POST'], '/resetting/request', function ($request) {
                 'id',
                 'username',
                 'email'
+            ], [
+                'OR' => [
+                    'username' => $cred['username'],
+                    'email' => $cred['username'],
+                ],
             ]);
             
             $token = AuthHelper::generateToken(20);
@@ -148,7 +153,7 @@ $klein->respond(['GET', 'POST'], '/resetting/request', function ($request) {
             $date = new \DateTime();
             $date->add(new DateInterval('PT6H'));
             
-            $db->update('user',[
+            $db->update('user', [
                 'confirmation_token' => $token,
                 'confirmation_token_validity' => $date->format('Y-m-d H:i:s'),
             ], [
@@ -178,7 +183,7 @@ $klein->respond(['GET', 'POST'], '/resetting/request', function ($request) {
                 getenv('MAILER_REPLYTO'),
                 getenv('MAILER_REPLYTO_NAME')
             );
-            
+
             Helper::redirect('/resetting/request?e=success');
         } else {
             // user not found. still send out success message to not
