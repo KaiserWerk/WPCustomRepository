@@ -14,6 +14,7 @@ $klein->respond('GET', '/api/plugins/check-latest-version/[:slug]', function ($r
         'url',
     ], [
         'slug' => $slug,
+        'archived' => 0,
         'ORDER' => [
             'version' => 'DESC'
         ]
@@ -59,6 +60,7 @@ $klein->respond('GET', '/api/plugins/get-plugin-information/[:slug]', function (
         'section_description',
     ], [
         'slug' => $slug,
+        'archived' => 0,
         'ORDER' => [
             'version' => 'DESC'
         ]
@@ -85,14 +87,14 @@ $klein->respond('GET', '/api/plugins/get-plugin-information/[:slug]', function (
     $response->requires_php = '7.0';
     $response->slug = $slug;
     $response->author = 'Robin Kaiser';
-    $response->author_profile = 'http://google.de';
+    $response->author_profile = 'https://kaiserrobin.eu';
     $response->requires = $row['requires'];
     $response->tested = $row['tested'];
     $response->rating = $rating;
     $response->num_ratings = $ratings_sum;
     $response->downloaded = $row['downloaded'];
     #$response->donate_link = 'http://donatelink.com';
-    $response->active_installations = $row['downloaded'];
+    #$response->active_installations = $row['downloaded'];
     $response->last_updated = $row['last_updated'];
     $response->added = $row['added'];
     $response->homepage = $row['homepage'];
@@ -116,7 +118,7 @@ $klein->respond('GET', '/api/plugins/get-plugin-information/[:slug]', function (
     
     $response->download_link = Helper::getHost() . '/download/plugin/' . $slug;
     
-    if (getenv('API_USE_JSON') === 'true') {
+    if ((bool)getenv('API_USE_JSON') === true) {
         header('Content-Type: application/json');
         echo json_encode($response, JSON_PRETTY_PRINT);
     } else {
