@@ -107,7 +107,6 @@ class CommunicationHelper
         $replyto_name = null,
         $attachments = null
     ) {
-        die(Helper::getIP());
         if (in_array(Helper::getIP(), ['127.0.0.1', '::1'])) {
             return false;
         }

@@ -156,21 +156,16 @@ $klein->respond(['GET', 'POST'], '/resetting/request', function ($request) {
             ]);
             
             /** e-mail eintragen */
-            if (getenv('EMAIL_TRACKING_ENABLED') === 'true') {
-                $trackingToken = Helper::generateEmailTrackingToken($row['username'] . " <" . $row['email'] . ">",
-                    $token);
-                $body = Helper::insertValues(viewsDir() . '/email/reset_request.tpl.html', [
-                    'username' => $row['username'],
-                    'confirmation_token' => $token,
-                    'tracking_token' => $trackingToken,
-                ]);
-            } else {
-                $body = file_get_contents(viewsDir() . '/email/reset_request.tpl.html');
-                $body = Helper::insertValues($body, [
-                    'username' => $row['username'],
-                    'confirmation_token' => $token,
-                ]);
+            $emailValues = [
+                'username' => $row['username'],
+                'confirmation_token' => $token,
+            ];
+            if ((bool)getenv('EMAIL_TRACKING_ENABLED') === true) {
+                $emailValues['tracking_token'] =
+                    Helper::generateEmailTrackingToken($row['username'] . " <" . $row['email'] . ">", $token);
             }
+            $body = file_get_contents(viewsDir() . '/email/reset_request.tpl.html');
+            $body = Helper::insertValues($body, $emailValues);
             
             // send mail
             CommunicationHelper::sendMail(
