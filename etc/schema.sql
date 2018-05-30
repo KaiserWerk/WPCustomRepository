@@ -50,7 +50,6 @@ CREATE TABLE `license` (
   `plugin_slug` varchar(100) NOT NULL,
   `valid_until` datetime NOT NULL,
   `renewals` int(11) NOT NULL DEFAULT '0',
-  `auto_renewal` tinyint(1) NOT NULL DEFAULT '0',
   `created_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
