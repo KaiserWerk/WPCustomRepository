@@ -30,7 +30,13 @@
                     <td>Section Description</td>
                     <td><?php echo $plugin['section_description']; ?></td>
                 </tr>
+                <tr>
+                    <td rowspan="2">
+                        <a href="/plugin/<?php echo $plugin['id']; ?>/edit" class="btn btn-primary">Edit this plugin</a>
+                    </td>
+                </tr>
                 </tbody>
             </table>
+            
         </div>
     </div>
