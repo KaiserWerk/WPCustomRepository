@@ -13,12 +13,13 @@ I developed a plugin exclusive to one client to be installed on nine different s
 # Installation
 ### Part I: On your server
 
+* Step 0: Create a (sub)domain and a vHost.
 * Step 1: Upload the WPCR (WPCustomRepository) files on your webserver, either by zip file or a `git clone https://github.com/KaiserWerk/WPCustomRepository.git`.
 * Step 2: Do the infamous `composer install` to get started.
 * Step 3: Edit the values in the `.env` file according to your needs. Most of them are optional.
 * Step 4: Import the sql dump file from the `etc` directory. It contains a standard admin user with the credentials `admin/test`.
 
-* Optional Step: If you have composer installed locally but not on your server, you can execute the whole installation process locally and upload everything to your server.
+* Optional Step 5: If you have composer installed locally but not on your server or if it's just a basic webspace, you can do the whole installation locally and upload everything to your webspace/server.
 
 ### Part II: In your custom plugin
 
@@ -35,12 +36,16 @@ I developed a plugin exclusive to one client to be installed on nine different s
 
 # Contributing
 
-Either create a branch then a pull request or open an issue. Also, feel free to fork and create your own, better version!
+Create a branch, make changes, create a pull request. Also, feel free to fork and create your own, better version!
 
-You can contact me via mail: m@r-k.mx
+# Support
+
+* Open an issue
+* Send me an electronic letter: m@r-k.mx
+* 
 
 # Further Reading & Thoughts
 
-In order for newly uploaded plugin versions to be recognized, the version string in the main file's comment **must** be higher than the currently installed version's. Naturally, it would make no sense to execute an automatic update to the same version that is already installed.
+In order for newly uploaded plugin versions to be recognized, the version string in the main file's header comment **must** be higher than the currently installed version's. Naturally, it would make no sense to execute an automatic update to the same version that is already installed.
 
 An automatic __installation__ would be reeeally great, but to my knowledge is not currently possible. You have to manually install your custom plugin first. If you set up everything correctly, the automatic updates will take over.
