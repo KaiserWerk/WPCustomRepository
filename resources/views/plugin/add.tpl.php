@@ -29,7 +29,7 @@
                         </div>
                         <div class="form-group">
                             <label for="homepage">Homepage</label>
-                            <input type="text" name="_plugin_add[homepage]" id="homepage" class="form-control" placeholder="http://">
+                            <input type="text" name="_plugin_add[homepage]" id="homepage" class="form-control" placeholder="http://" value="<?php echo Helper::getHost(); ?>/info/plugin/">
                         </div>
                     </div>
                     <div class="col-md-6 col-sm-12">
