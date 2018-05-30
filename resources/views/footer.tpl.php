@@ -8,7 +8,7 @@
             </small>
             <br>
             <small>
-                Script execution time: <?php echo $StopwatchHelper->stop()->getIntervalSeconds(); ?>s
+                Script executed in <?php echo round($StopwatchHelper->stop()->getIntervalSeconds(), 6); ?>s
             </small>
         </div>
     </div>
