@@ -89,7 +89,6 @@ $klein->respond(['GET', 'POST'], '/plugin/add', function ($request) {
     }
 });
 
-// wirklich änderbar? oder für änderung neue version?
 $klein->respond(['GET', 'POST'], '/plugin/[:id]/edit', function ($request) {
     if (!AuthHelper::isLoggedIn()) {
         Helper::redirect('/login');

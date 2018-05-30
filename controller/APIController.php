@@ -26,7 +26,7 @@ $klein->respond('GET', '/api/plugins/check-latest-version/[:slug]', function ($r
     $response->url = $row['url'];
     $response->package = Helper::getHost() . '/download/plugin/' . $slug;
     
-    if (getenv('API_USE_JSON') === 'true') {
+    if ((bool)getenv('API_USE_JSON') === true) {
         header('Content-Type: application/json');
         echo json_encode($response, JSON_PRETTY_PRINT);
     } else {
@@ -98,6 +98,8 @@ $klein->respond('GET', '/api/plugins/get-plugin-information/[:slug]', function (
     $response->last_updated = $row['last_updated'];
     $response->added = $row['added'];
     $response->homepage = $row['homepage'];
+    $response->support_threads = 4588;
+    $response->support_threads_resolved = 4586;
     $response->ratings = [
         '5' => $row['rating5'],
         '4' => $row['rating3'],
@@ -124,4 +126,8 @@ $klein->respond('GET', '/api/plugins/get-plugin-information/[:slug]', function (
     } else {
         echo serialize($response);
     }
+});
+
+$klein->respond('GET', '/info/plugin/[:slug]', function ($request) {
+
 });

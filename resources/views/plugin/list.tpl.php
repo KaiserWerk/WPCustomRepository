@@ -20,9 +20,9 @@
                     echo '<td>' . $row['slug'] . '</td>';
                     echo '<td>' . $row['version'] . '</td>';
                     echo '<td>';
-                        echo '<a href="/plugin/' . $row['id'] . '/show">Show</a> / ';
-                        echo '<a href="/plugin/' . $row['id'] . '/edit">Edit</a> / ';
-                        echo '<a href="/plugin/' . $row['id'] . '/archive">Archive</a>';
+                    echo '<a href="/plugin/' . $row['id'] . '/show">Show</a> / ';
+                    echo '<a href="/plugin/' . $row['id'] . '/edit">Edit</a> / ';
+                    echo '<a href="/plugin/' . $row['id'] . '/archive">Archive</a>';
                     echo '</td>';
                     echo '</tr>';
                 }

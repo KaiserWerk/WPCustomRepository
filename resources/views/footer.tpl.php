@@ -3,8 +3,9 @@
         <div class="col-md-12">
             <hr>
             <small>
-                Visit me @
-                <a href="https://github.com/KaiserWerk" target="_blank">Github</a>!
+                Visit me: &nbsp;
+                <a href="https://github.com/KaiserWerk" target="_blank">@Github</a> &nbsp;
+                <a href="https://kaiserrobin.eu" target="_blank">@WWW</a>
             </small>
             <br>
             <small>
