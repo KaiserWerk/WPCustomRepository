@@ -107,15 +107,11 @@ class CommunicationHelper
         $replyto_name = null,
         $attachments = null
     ) {
-        die(Helper::getIP());
-        if (in_array(Helper::getIP(), ['127.0.0.1', '::1'])) {
-            return false;
-        }
         LoggerHelper::debug('sending email');
         $mail = new PHPMailer(true);                              // Passing `true` enables exceptions
     
         //Server settings
-        $mail->SMTPDebug = 0;                                 // Enable verbose debug output
+        $mail->SMTPDebug = 3;                                 // Enable verbose debug output
         $mail->isSMTP();                                      // Set mailer to use SMTP
         $mail->Host = getenv('MAILER_HOST');         // Specify main and backup SMTP servers
         $mail->SMTPAuth = true;                               // Enable SMTP authentication
@@ -123,6 +119,13 @@ class CommunicationHelper
         $mail->Password = getenv('MAILER_PASSWORD');                           // SMTP password
         $mail->SMTPSecure = getenv('MAILER_ENCRYPTION');                            // Enable TLS encryption, `ssl` also accepted
         $mail->Port = getenv('MAILER_PORT');                                    // TCP port to connect to
+        $mail->SMTPOptions = array(
+            'ssl' => array(
+                'verify_peer' => false,
+                #'verify_peer_name' => false,
+                #'allow_self_signed' => true,
+            )
+        );
     
         //Recipients
         try {
