@@ -10,6 +10,7 @@ class LicenseHelper
      */
     public static function checkLicenseValidity($request)
     {
+        var_dump((bool)getenv('LICENSE_SYSTEM_ENABLED'));die;
         if ((bool)getenv('LICENSE_SYSTEM_ENABLED') === false) {
             return true;
         }
