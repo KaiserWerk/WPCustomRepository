@@ -9,7 +9,7 @@
             </small>
             <br>
             <small>
-                Script executed in <?php echo round($StopwatchHelper->stop()->getIntervalSeconds(), 6); ?>s
+                Script executed in <?php echo (string)round($StopwatchHelper->stop()->getIntervalSeconds(), 6); ?>s
             </small>
         </div>
     </div>
