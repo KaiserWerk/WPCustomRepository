@@ -17,8 +17,7 @@
 
                 foreach ($base_plugins as $base_plugin) {
                     echo '<tr>';
-                    echo '<td colspan="4">' . $base_plugin['plugin_name'] . '</td>';
-                    echo '<td><i>' . $base_plugin['slug'] . '</i></td>';
+                    echo '<td colspan="5">' . $base_plugin['plugin_name'] . ' &nbsp; <small><i>' . $base_plugin['slug'] . '</i></small></td>';
                     echo '<td>Updated: ' . (new \DateTime($base_plugin['last_updated']))->format('d.m.Y') . '</td>';
                     echo '<td>';
                     echo '<a href="/plugin/base/' . $base_plugin['id'] . '/edit">Edit</a>';
@@ -32,32 +31,20 @@
                             echo '<td><small>Requires WP: ' . $entry['requires'] . '</small></td>';
                             echo '<td><small>Tested: ' . $entry['tested'] . '</small></td>';
                             echo '<td><small>Requires PHP: ' . $entry['requires_php'] . '</small></td>';
-                            echo '<td><small>Archived: ' . ($entry['archived'] == 0 ? 'No' : 'Yes') . '</small></td>';
+                            echo '<td><small>Archived: <a href="/plugin/version/'.$entry['id'].'/toggle-archived">' . ($entry['archived'] == 0 ? 'No' : 'Yes') . '</a></small></td>';
                             echo '<td><small>Added: ' . (new \DateTime($base_plugin['last_updated']))->format('d.m.Y') . '</small></td>';
                             echo '<td><small>';
                             echo '<a href="/plugin/version/' . $entry['id'] . '/show">Show</a>';
                             echo ' / <a href="/plugin/version/' . $entry['id'] . '/edit">Edit</a>';
+                            echo ' / <a href="/plugin/version/' . $entry['id'] . '/remove" onclick="return confirm(\'Continue?\');">Remove</a>';
                             echo '</small></td>';
                             echo '</tr>';
                         }
                     } else {
-                        echo '<tr><td colspan="7" class="text-center text-muted"><small>No versions found for plugin <b>'.$base_plugin['plugin_name'].'</b>!</small></td> </tr>';
+                        echo '<tr><td colspan="6" class="text-center text-muted"><small>No versions found for plugin <b>'.$base_plugin['plugin_name'].'</b>!</small></td> </tr>';
                     }
                     
                 }
-                
-                /*foreach ( $rows as $row ) {
-                    echo '<tr>';
-                    echo '<td>' . $row['plugin_name'] . '</td>';
-                    echo '<td>' . $row['slug'] . '</td>';
-                    echo '<td>' . $row['version'] . '</td>';
-                    echo '<td>';
-                    echo '<a href="/plugin/' . $row['id'] . '/show">Show</a> / ';
-                    echo '<a href="/plugin/' . $row['id'] . '/edit">Edit</a> / ';
-                    echo '<a href="/plugin/' . $row['id'] . '/archive">Archive</a>';
-                    echo '</td>';
-                    echo '</tr>';
-                }*/
                 ?>
                 </tbody>
             </table>

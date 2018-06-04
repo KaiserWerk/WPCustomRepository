@@ -2,7 +2,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <h1 class="mt-5">Add Plugin</h1>
+            <h1 class="mt-5">Add Base Plugin</h1>
             <br>
             <div class="row">
                 <form method="post" class="row" enctype="multipart/form-data" style="width: 100%;">

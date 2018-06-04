@@ -120,7 +120,22 @@ $klein->respond(['GET', 'POST'], '/plugin/base/add', function ($request) {
 });
 
 $klein->respond(['GET', 'POST'], '/plugin/version/add', function ($request) {
-
+    if (!AuthHelper::isLoggedIn()) {
+        Helper::redirect('/login');
+    }
+    $db = new DBHelper();
+    if (isset($_POST['btn_plugin_add'])) {
+    
+    } else {
+        $base_plugins = $db->select('plugin', [
+            'id',
+            'plugin_name',
+        ]);
+        
+        require_once viewsDir() . '/header.tpl.php';
+        require_once viewsDir() . '/plugin/add_version.tpl.php';
+        require_once viewsDir() . '/footer.tpl.php';
+    }
 });
 
 $klein->respond(['GET', 'POST'], '/plugin/base/[:id]/edit', function ($request) {
@@ -211,7 +226,10 @@ $klein->respond('GET', '/plugin/version/[:id]/archive', function ($request) {
     }
 });
 
-/*
-$klein->respond('GET', '/plugin/[:id]/remove', function ($request) {
+$klein->respond('GET', '/plugin/version/[:id]/toggle-archived', function ($request) {
 
-});*/
+});
+
+$klein->respond('GET', '/plugin/version/[:id]/remove', function ($request) {
+
+});
