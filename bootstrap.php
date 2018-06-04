@@ -18,7 +18,7 @@ function projectDir($echo = false) {
     }
     echo __DIR__;
 }
-function fileDir($echo = false) {
+function publicDir($echo = false) {
     if (!$echo) {
         return __DIR__.'/public';
     }
