@@ -44,7 +44,8 @@ $StopwatchHelper->start();
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="/plugin/list">Plugin List</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/plugin/add">Add Plugin</a>
+                            <a class="dropdown-item" href="/plugin/base/add">Add Plugin</a>
+                            <a class="dropdown-item" href="/plugin/version/add">Add Plugin Version</a>
                         </div>
                     </li>
                     <?php if ((bool)getenv('LICENSE_SYSTEM_ENABLED') === true) { ?>
