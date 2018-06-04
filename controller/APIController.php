@@ -94,7 +94,7 @@ $klein->respond('GET', '/api/plugins/get-plugin-information/[:slug]', function (
     $response->num_ratings = $ratings_sum;
     $response->downloaded = $row['downloaded'];
     #$response->donate_link = 'http://donatelink.com';
-    #$response->active_installations = $row['downloaded'];
+    $response->active_installations = $row['downloaded'];
     $response->last_updated = $row['last_updated'];
     $response->added = $row['added'];
     $response->homepage = $row['homepage'];
