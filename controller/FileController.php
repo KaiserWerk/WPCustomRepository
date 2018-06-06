@@ -4,7 +4,7 @@
 $klein->respond('GET', '/download/plugin/[:slug]/[:version]', function ($request) {
     
     if (!AuthHelper::isLoggedIn()) {
-        LicenseHelper::checkLicenseValidity($request);
+        LicenseHelper::checkLicenseValidity($request->headers);
     }
     
     $slug = $request->slug ?? null;
