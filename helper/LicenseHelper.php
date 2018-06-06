@@ -5,16 +5,15 @@ class LicenseHelper
     /**
      * Checks the request headers for valid license data
      *
-     * @param $request
+     * @param $headers
      * @return bool
      */
-    public static function checkLicenseValidity($request)
+    public static function checkLicenseValidity($headers)
     {
         if ((bool)getenv('LICENSE_SYSTEM_ENABLED') === false) {
             return true;
         }
         
-        $headers = $request->headers();
         $licenseUser = $headers['X-License-User'] ?? null;
         $licenseKey = $headers['X-License-Key'] ?? null;
         $licenseHost = $headers['Host'] ?? gethostbyname(Helper::getIP());
