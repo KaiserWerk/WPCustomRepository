@@ -1,17 +1,17 @@
-# WPCustomRepository (= WPCR)
+## WPCustomRepository (= WPCR)
 
 Everyone who used Wordpress at least once or twice knows about the wordpress.org plugin/theme repository. It allows your Wordpress site to automatically pull updates for your plugins and themes (if you installed them from there).
 
 I developed a plugin exclusive to one client to be installed on nine different sites. Very soon I was tired of manually updating the plugin on such a number of sites. Hence I started developing a custom Wordpress repository. It's intentionally held quite simple. All you can do is log in/out and upload new plugin versions. Currently I'm developing more features.
 
-# Features
+## Features
 
 * Plugin updater (haha)
 * Theme update (maybe in the future)
 * Licensing system (yes, quite rudimentary)
 
-# Installation
-### Part I: On your server
+## Installation
+##### Part I: On your server
 
 * Step 0: Create a (sub)domain and a vHost.
 * Step 1: Upload the WPCR (WPCustomRepository) files on your webserver, either by zip file or a `git clone https://github.com/KaiserWerk/WPCustomRepository.git`.
@@ -21,31 +21,30 @@ I developed a plugin exclusive to one client to be installed on nine different s
 
 * Optional Step 5: If you have composer installed locally but not on your server or if it's just a basic webspace, you can do the whole installation locally and upload everything to your webspace/server.
 
-### Part II: In your custom plugin
+##### Part II: In your custom plugin
 
-* Step 1: Add the code from the `etc/plugin_code.txt` to the end of the main file of your plugin. If your plugin directory is called `test-plugin`, your main plugin file is `test-plugin.php`.
-* Step 2: Change the class name to something unique, ideally something like `test_plugin_update` or similar.
-* Step 3: Change the class name in the add_filter() functions accordingly.
-* Step 4: Change the `private static $slug` variable to the handle of your plugin, e.g. `test-plugin`. Optimally use a defined constant.
-* Step 5: In the plugin settings, set the `Update Endpoint` setting to the hostname you installed the WPCR at.
-* Step 6: In case you are using the rudimentary license system, also enter the License User and Key you created at the WPCR Control Panel.
+* Step 1: Add the code from the `etc/plugin-updater.php` to your plugin directory.
+* Step 2: Change the class name to something unique, ideally add the name of your plugin as prefix or suffix , e.g. `plugin_updater_pluginname` or similar.
+* Step 3: require/include the plugin-updater.php file and create a new instance of it, e.g. `new plugin_updater_pluginname();`
+* Use the optional parameters to override specific values: endpoint, license_user, license_key, slug, disable_sslverify
 
-### Part III: In Wordpress
+##### Part III: In Wordpress
 
-* Step 1: Add the code from `etc/wp-config.php.txt`to the end of your wordpress' `wp-config.php` file and add the hostname of your WPCR installation to the array, e.g. `wpcr.local`. To my knowledge, this is only necessary for local installations.
+* Step 1: Add the code from `etc/wp-config.php.txt`to the end of your wordpress' `wp-config.php` file and add the hostname of your WPCR installation to the array, e.g. `wpcr.local`. This might be necessary for Wordpress to allow connections to your host.
 
-# Contributing
+## Contributing
+First, make a feature request/open an issue. If I don't have the time to take care of it, feel free to create a pull request. Also, feel free to fork and create your own, better version!
 
-Create a branch, make changes, create a pull request. Also, feel free to fork and create your own, better version!
-
-# Support
+## Support
 
 * Open an issue
 * Send me an electronic letter: m@r-k.mx
-* 
 
-# Further Reading & Thoughts
+## Further Reading & Thoughts
 
 In order for newly uploaded plugin versions to be recognized, the version string in the main file's header comment **must** be higher than the currently installed version's. Naturally, it would make no sense to execute an automatic update to the same version that is already installed.
 
-An automatic __installation__ would be reeeally great, but to my knowledge is not currently possible. You have to manually install your custom plugin first. If you set up everything correctly, the automatic updates will take over.
+An automatic __installation__ would be reeeally great, but to my knowledge this is not currently possible. You have to manually install your custom plugin first. If you set up everything correctly, the automatic updates will take over.
+
+## TODO
+* Replace dump with new version
