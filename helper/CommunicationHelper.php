@@ -16,6 +16,24 @@ class CommunicationHelper
     }
     
     /**
+     * Sends a message to a Discord channel
+     *
+     * @param $message
+     */
+    public static function sendDiscordMessage($message)
+    {
+        $fields = json_encode(['content' => $message]);
+        $ch = curl_init(getenv('DISCORD_WEBHOOK'));
+        curl_setopt( $ch, CURLOPT_POST, 1);
+        curl_setopt( $ch, CURLOPT_POSTFIELDS, $fields);
+        curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt( $ch, CURLOPT_HEADER, 0);
+        curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1);
+        $response = curl_exec($ch);
+        curl_close($ch);
+    }
+    
+    /**
      * Sends a message to a Stride conversation (room)
      *
      * @param string $message
@@ -75,7 +93,7 @@ class CommunicationHelper
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // doesn't work otherwise
+        #curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // doesn't work otherwise
         $result = curl_exec($ch);
         curl_close($ch);
         
