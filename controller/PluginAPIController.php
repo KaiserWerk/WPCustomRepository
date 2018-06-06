@@ -5,7 +5,7 @@
 $klein->respond('GET', '/api/plugins/check-latest-version/[:slug]', function ($request) {
     // @TODO log API request
 
-    LicenseHelper::checkLicenseValidity($request);
+    LicenseHelper::checkLicenseValidity($request->headers);
     
     $slug = $request->slug;
     $db = new DBHelper();
@@ -31,18 +31,14 @@ $klein->respond('GET', '/api/plugins/check-latest-version/[:slug]', function ($r
     #$response->url = $base_plugin['url'];
     $response->package = Helper::getHost() . '/download/plugin/' . $slug . '/latest';
     
-    if ((bool)getenv('API_USE_JSON') === true) {
-        header('Content-Type: application/json');
-        echo json_encode($response, JSON_PRETTY_PRINT);
-    } else {
-        echo serialize($response);
-    }
+    header('Content-Type: application/json');
+    echo json_encode($response, JSON_PRETTY_PRINT);
 });
 
 $klein->respond('GET', '/api/plugins/get-plugin-information/[:slug]', function ($request) {
     // @TODO log API request
 
-    LicenseHelper::checkLicenseValidity($request);
+    LicenseHelper::checkLicenseValidity($request->headers);
     
     $slug = $request->slug;
     
@@ -131,12 +127,8 @@ $klein->respond('GET', '/api/plugins/get-plugin-information/[:slug]', function (
     
     $response->download_link = Helper::getHost() . '/download/plugin/' . $slug . '/'.$latest_version['version'];
     
-    if ((bool)getenv('API_USE_JSON') === true) {
-        header('Content-Type: application/json');
-        echo json_encode($response, JSON_PRETTY_PRINT);
-    } else {
-        echo serialize($response);
-    }
+    header('Content-Type: application/json');
+    echo json_encode($response, JSON_PRETTY_PRINT);
 });
 
 $klein->respond('GET', '/plugin/[:slug]/info', function ($request) {
