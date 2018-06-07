@@ -15,6 +15,7 @@ $klein->respond('GET', '/plugin/list', function ($request) {
                 'ORDER' => [
                     'version' => 'DESC',
                 ],
+                'LIMIT' => 3,
         ]);
     }
     
