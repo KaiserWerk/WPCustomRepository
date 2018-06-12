@@ -9,11 +9,13 @@ I developed a plugin exclusive to one client to be installed on nine different s
 * Automatic plugin updates (haha)
 * Automatic theme updates (work in progress)
 * Licensing system (yes, quite rudimentary; improvement in progress)
-* Tracking of active installations (see [Further Reading & Thoughts](#further-reading-&-thoughts))
+* Tracking of active installations (see [Further Reading & Thoughts](#further-reading--thoughts))
 
 ### Requirements
 * PHP 7 (maybe it runs on PHP 5)
 * A MySQL/MariaDB database (Maybe I'll include SQLite support in the future)
+* Some MB of webspace (remember the uploaded plugin/theme files also take up some space)
+* Apache (or Nginx) with rewrite module (standard anyway nowadays)
 
 ### Installation
 ##### Part I: On your server
@@ -28,10 +30,11 @@ I developed a plugin exclusive to one client to be installed on nine different s
 
 ##### Part II: In your custom plugin
 
-* Step 1: Add the code from the `etc/plugin-updater.php` to your plugin directory.
-* Step 2: Change the class name to something unique, ideally add the name of your plugin as prefix or suffix , e.g. `plugin_updater_pluginname` or similar.
-* Step 3: require/include the plugin-updater.php file and create a new instance of it, e.g. `new plugin_updater_pluginname();`
-* Use the optional parameters to override specific values: `new plugin_updater_pluginname(string $endpoint, string $license_user, string $license_key, string $slug, bool $disable_sslverify = false)`
+* Step 1: Add the file `etc/plugin-updater.php` to your plugin directory.
+* Step 2: Change the class name in the file to something unique, ideally add the name of your plugin as prefix or suffix , e.g. `plugin_updater_pluginname` or similar. (If you forget to do this it will still work but you cannot use another custom plugin with the updater code.)
+* Step 3: include the plugin-updater.php file and create a new instance of it, e.g. `new plugin_updater_pluginname();`
+
+* Optional Step 4: Use the  parameters to override specific values: `new plugin_updater_pluginname(string $endpoint, string $license_user, string $license_key, string $slug, bool $disable_sslverify)`
 
 ##### Part III: In Wordpress
 
@@ -57,3 +60,4 @@ If you want to track active installations, use `<your_updater_class_name>::track
 * Replace DB schema dump with new version (there are just so many changes)
 * Add SQLite support
 * rework plugin management (it's currently broken)
+* **Pull new plugin versions direct from Git!**
