@@ -61,11 +61,11 @@ $klein->respond('GET', '/api/themes/theme-information/[:slug]', function($reques
     $data->download_link = Helper::getHost() . '/download/theme/' . $slug . '/latest';
     $data->author = $base_theme['author'];
     $data->requires = $latest_version['requires'];
-    $data->tested = $latest_version['requires'];
+    $data->tested = $latest_version['tested'];
     $data->screenshot_url = 'https://www.whatsbroadcast.com/wp-content/uploads/2017/09/API.png'; // TODO
-    $data->sections = array(
+    $data->sections = [
         'description' => $base_theme['section_description'],
-    );
+    ];
     echo json_encode($data);
     
 });
