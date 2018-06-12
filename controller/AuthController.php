@@ -4,7 +4,8 @@ $klein->respond(['GET', 'POST'], '/login', function () {
     
     if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         if (AuthHelper::isLoggedIn()) {
-            die();
+            Helper::setMessage('You are already logged in.');
+            Helper::redirect('/');
         }
         require_once viewsDir().'/header.tpl.php';
         require_once viewsDir().'/auth/login.tpl.php';
@@ -25,7 +26,8 @@ $klein->respond(['GET', 'POST'], '/login', function () {
     
         if (empty($cred['username']) || empty($cred['password'])) {
             LoggerHelper::loginAttempt(null, 'Missing username or password.');
-            Helper::redirect('/login?e=missing_input');
+            Helper::setMessage('Please enter both your username/email and password.');
+            Helper::redirect('/login');
         }
     
         if (!AuthHelper::checkCSRFToken()) {
@@ -35,7 +37,8 @@ $klein->respond(['GET', 'POST'], '/login', function () {
             /** send notification */
             $message = 'Login attempt with invalid CSRF token from IP '.Helper::getIP().'.';
             CommunicationHelper::sendNotification($message);
-            Helper::redirect('/login?e=unknown_error');
+            Helper::setMessage('Unknown error!', 'danger');
+            Helper::redirect('/login');
         }
         $rows = $db->select('user', [
             'id',
@@ -49,13 +52,17 @@ $klein->respond(['GET', 'POST'], '/login', function () {
         
         if (count($rows) !== 1) {
             LoggerHelper::loginAttempt(null, 'Username does not exist.');
-            Helper::redirect('/login?e=incorrect_credentials');
+            LoggerHelper::debug('failed login', 'error');
+            Helper::setMessage('You entered incorrect credentials!', 'danger');
+            Helper::redirect('/login');
         }
     
         $row = $rows[0];
         if ($row['locked'] == 1) {
             LoggerHelper::loginAttempt($row['id'], 'Account is locked.');
-            Helper::redirect('/login?e=account_locked');
+            LoggerHelper::debug('account locked', 'warn');
+            Helper::setMessage('Your account is locked!', 'warning');
+            Helper::redirect('/login');
         }
     
         if (password_verify($cred['password'], $row['password'])) {
@@ -90,6 +97,8 @@ $klein->respond(['GET', 'POST'], '/login', function () {
             $_SESSION['sid'] = session_id();
         
             LoggerHelper::loginAttempt($row['id'], 'Successful login.');
+            
+            Helper::setMessage('You are now logged in!', 'success');
             Helper::redirect('/');
         } else {
             if (isset($_COOKIE[getenv('COOKIE_LOGIN_ATTEMPT')]) && $_COOKIE[getenv('COOKIE_LOGIN_ATTEMPT')] >= 5) {
@@ -103,12 +112,15 @@ $klein->respond(['GET', 'POST'], '/login', function () {
                 $message = 'The user account '.$row['username'].' ('.$row['id'].') was locked due to too many login attempts.';
                 CommunicationHelper::sendNotification($message);
                 // reset cookie
-                setcookie(getenv('COOKIE_LOGIN_ATTEMPT'), '', time() - 10);
+                setcookie(getenv('COOKIE_LOGIN_ATTEMPT'), '', time() - 10);#
+                Helper::setMessage('Your account was locked due to too many failed login attempts!', 'warning');
                 Helper::redirect('/login?e=too_many_attempts');
             }
             $message = 'Failed login attempt from IP '.Helper::getIP().' with username '.$cred['username'];
             CommunicationHelper::sendNotification($message);
-            Helper::redirect('/login?e=incorrect_credentials');
+            
+            Helper::setMessage('You entered incorrect credentials!', 'danger');
+            Helper::redirect('/login');
         }
     }
 });
@@ -117,6 +129,8 @@ $klein->respond('GET', '/logout', function ($request) {
     if (AuthHelper::isLoggedIn()) {
         AuthHelper::logout();
     }
+    
+    Helper::setMessage('You are now logged out.');
     Helper::redirect('/');
 });
 
@@ -128,6 +142,7 @@ $klein->respond(['GET', 'POST'], '/resetting/request', function ($request) {
     if (isset($_POST['btn_reset_request'])) {
         $cred = $_POST['_reset_request'];
         if (empty($cred['username'])) {
+            Helper::setMessage('Please enter your username!', 'warning');
             Helper::redirect('/resetting/request?e=missing_input');
         }
         if ($db->has('user', [
@@ -136,7 +151,6 @@ $klein->respond(['GET', 'POST'], '/resetting/request', function ($request) {
                 'email' => $cred['username'],
             ],
         ])) {
-            
             $row = $db->get('user', [
                 'id',
                 'username',
@@ -167,7 +181,7 @@ $klein->respond(['GET', 'POST'], '/resetting/request', function ($request) {
             ];
             if ((bool)getenv('EMAIL_TRACKING_ENABLED') === true) {
                 $emailValues['tracking_token'] =
-                    Helper::generateEmailTrackingToken($row['username'] . " <" . $row['email'] . ">", $token);
+                    Helper::generateEmailTrackingToken($row['username'] . ' <' . $row['email'] . '>', $token);
             }
             $body = file_get_contents(viewsDir() . '/email/reset_request.tpl.html');
             $body = Helper::insertValues($body, $emailValues);
@@ -184,11 +198,13 @@ $klein->respond(['GET', 'POST'], '/resetting/request', function ($request) {
                 getenv('MAILER_REPLYTO_NAME')
             );
 
-            Helper::redirect('/resetting/request?e=success');
+            Helper::setMessage('You requested a new password! Check your inbox.', 'success');
+            Helper::redirect('/resetting/request');
         } else {
             // user not found. still send out success message to not
             // disclose that the user does not exists
-            Helper::redirect('/resetting/request?e=success');
+            Helper::setMessage('You requested a new password! Check your inbox.', 'success');
+            Helper::redirect('/resetting/request');
         }
     } else {
         require_once viewsDir() . '/header.tpl.php';
@@ -207,7 +223,8 @@ $klein->respond(['GET', 'POST'], '/resetting/reset', function ($request) {
     if ($token === null || !preg_match('/^[A-Za-z0-9-]+/', $token)) {
         $token = trim($_GET['_confirmation_token']);
         if (empty($token) || !preg_match('/^[A-Za-z0-9-]+/', $token)) {
-            Helper::redirect('/resetting/reset?e=invalid_token');
+            Helper::setMessage('You supplied an invalid reset Token!', 'danger');
+            Helper::redirect('/resetting/reset');
         }
     }
     // mail tracking
@@ -223,12 +240,14 @@ $klein->respond(['GET', 'POST'], '/resetting/reset', function ($request) {
     if (isset($_POST['btn_reset_reset'])) {
         // token vorbereiten
         if ($_POST['_csrf_token'] !== $_SESSION['_csrf_token']) {
-            Helper::redirect('/resetting/reset?e=unknown_error');
+            Helper::setMessage('Unknown error!', 'danger');
+            Helper::redirect('/resetting/reset');
         }
         if (!$db->has('user', [
             'confirmation_token' => $token,
         ])) {
-            Helper::redirect('/resetting/reset?e=invalid_token');
+            Helper::setMessage('Unknown error!', 'danger');
+            Helper::redirect('/resetting/reset');
         }
         $row = $db->get('user', [
             'id',
@@ -239,14 +258,17 @@ $klein->respond(['GET', 'POST'], '/resetting/reset', function ($request) {
         
         $cred = $_POST['_reset_reset'];
         if (empty($cred['password1']) || empty($cred['password2'])) {
-            Helper::redirect('/resetting/reset?confirmation_token='.$token.'&e=missing_input');
+            Helper::setMessage('Please fill in all fields!', 'warning');
+            Helper::redirect('/resetting/reset?confirmation_token='.$token);
         }
         if (!AuthHelper::str_cmp_sec($cred['password1'], $cred['password2'])) {
-            Helper::redirect('/resetting/reset?confirmation_token='.$token.'&e=passwords_not_equal');
+            Helper::setMessage('The passwords you entered do not match!', 'danger');
+            Helper::redirect('/resetting/reset?confirmation_token='.$token);
         }
         
         if (!preg_match('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.[\W]).{12,}$/', $cred['password1'])) {
-            Helper::redirect('/resetting/reset?confirmation_token='.$token.'&e=password_complexity');
+            Helper::setMessage('A new password must be at least 12 characters long and contain lowercase, uppercase and numbers!', 'danger');
+            Helper::redirect('/resetting/reset?confirmation_token='.$token);
         }
         
         $hash = password_hash($cred['password1'], PASSWORD_BCRYPT, ['cost' => 12]);
@@ -261,17 +283,20 @@ $klein->respond(['GET', 'POST'], '/resetting/reset', function ($request) {
         LoggerHelper::debug($hash);
         LoggerHelper::debug($row['id']);
         
-        Helper::redirect('/resetting/reset?e=success');
+        Helper::setMessage('You successfully reset your password!', 'success');
+        Helper::redirect('/resetting/reset');
     } else {
         $token = isset($_GET['confirmation_token']) ? trim($_GET['confirmation_token']) : '';
         if (!empty($token)) {
             if (!preg_match('/^[A-Za-z0-9-]+/', $token)) {
-                Helper::redirect('/resetting/reset?e=invalid_token');
+                Helper::setMessage('You entered an invalid reset token!', 'danger');
+                Helper::redirect('/resetting/reset');
             }
             if (!$db->has('user', [
                 'confirmation_token' => $token,
             ])) {
-                Helper::redirect('/resetting/reset?e=invalid_token');
+                Helper::setMessage('You entered an invalid reset token!', 'danger');
+                Helper::redirect('/resetting/reset');
             }
         }
         

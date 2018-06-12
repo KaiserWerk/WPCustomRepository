@@ -1,20 +1,3 @@
-<?php
-$errors = array(
-    'success' => '<br>
-            <div class="alert alert-success alert-dismissable">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong><span class="fa fa-check"></span></strong> A mail with intructions was successfully sent.</div>',
-    'missing_input' => '<br>
-            <div class="alert alert-info alert-dismissable">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong><span class="fa fa-info-circle"></span></strong> Please fill in your username or email address.</div>',
-    'unknown_error' => '<br>
-            <div class="alert alert-danger alert-dismissable">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong><span class="fa fa-warning"></span></strong> An unknown error occured.</div>',
-);
-?>
-
 <!-- Page Content -->
 <div class="container">
     <div class="row">
@@ -28,15 +11,7 @@ $errors = array(
         </div>
         <div class="col-md-6 col-sm-12">
             <h1 class="mt-5">Request a new password</h1>
-            <?php
-            if (isset($_GET['e'])) {
-                $e = $_GET['e'];
-                if (!array_key_exists($e, $errors)) {
-                    $e = 'unknown_error';
-                }
-                echo $errors[ $e ];
-            }
-            ?>
+            <?php Helper::getMessage(); ?>
             <form method="post">
                 <?php
                 AuthHelper::generateCSRFInput();

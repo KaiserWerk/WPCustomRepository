@@ -1,67 +1,9 @@
-<?php
-$errors = array(
-    'success_data_saved' => '<br>
-            <div class="alert alert-success alert-dismissable">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong><span class="fa fa-check"></span></strong> Your settings were successfully saved!</div>',
-    'success_new_password' => '<br>
-            <div class="alert alert-success alert-dismissable">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong><span class="fa fa-check"></span></strong> You new password was successfully set!</div>',
-    'success_regenerated_apikey' => '<br>
-            <div class="alert alert-success alert-dismissable">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong><span class="fa fa-check"></span></strong> Your API key was successfully regenerated!</div>',
-    'no_modification' => '<br>
-            <div class="alert alert-info alert-dismissable">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong><span class="fa fa-info-circle"></span></strong> No changes were made.</div>',
-    'missing_input' => '<br>
-            <div class="alert alert-info alert-dismissable">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong><span class="fa fa-info-circle"></span></strong> Please fill in the required fields.</div>',
-    'missing_password' => '<br>
-            <div class="alert alert-info alert-dismissable">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong><span class="fa fa-info-circle"></span></strong> Please enter your password to confirm the action.</div>',
-    'username_in_use' => '<br>
-            <div class="alert alert-warning alert-dismissable">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong><span class="fa fa-user"></span></strong> This username is already in use!</div>',
-    'email_in_use' => '<br>
-            <div class="alert alert-warning alert-dismissable">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong><span class="fa fa-envelope"></span></strong> This email address is already in use!</div>',
-    'passwords_not_equal' => '<br>
-            <div class="alert alert-warning alert-dismissable">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong><span class="fa fa-envelope"></span></strong> Passwords do not match!</div>',
-    'incorrect_password' => '<br>
-            <div class="alert alert-danger alert-dismissable">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong><span class="fa fa-warning"></span></strong> You entered an incorrect password!</div>',
-    'unknown_error' => '<br>
-            <div class="alert alert-danger alert-dismissable">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong><span class="fa fa-warning"></span></strong> An unknown error occured!</div>',
-);
-
-?>
-
 <!-- Page Content -->
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
             <h1 class="mt-5">Your settings</h1>
-            <?php
-            if (isset($_GET['e'])) {
-                $e = $_GET['e'];
-                if (!array_key_exists($e, $errors)) {
-                    $e = 'unknown_error';
-                }
-                echo $errors[ $e ];
-            }
-            ?>
+            <?php Helper::getMessage(); ?>
             <br>
             <div class="row">
                 <div class="col-md-6 col-sm-12">

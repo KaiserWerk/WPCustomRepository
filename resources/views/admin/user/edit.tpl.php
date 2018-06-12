@@ -1,39 +1,9 @@
-<?php
-$errors = array(
-    'missing_input' => '<br>
-            <div class="alert alert-info alert-dismissable">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong><span class="fa fa-info-circle"></span></strong> '.TranslationHelper::_t('error.missing_input.login', true).'</div>',
-    'username_in_use' => '<br>
-            <div class="alert alert-warning alert-dismissable">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong><span class="fa fa-user"></span></strong> '.TranslationHelper::_t('error.username_in_use', true).'</div>',
-    'email_in_use' => '<br>
-            <div class="alert alert-warning alert-dismissable">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong><span class="fa fa-envelope"></span></strong> '.TranslationHelper::_t('error.email_in_use', true).'</div>',
-    'unknown_error' => '<br>
-            <div class="alert alert-danger alert-dismissable">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong><span class="fa fa-warning"></span></strong> '.TranslationHelper::_t('error.unknown_error', true).'</div>',
-);
-
-?>
-
 <!-- Page Content -->
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
             <h1 class="mt-5">Add User</h1>
-            <?php
-            if (isset($_GET['e'])) {
-                $e = $_GET['e'];
-                if (!array_key_exists($e, $errors)) {
-                    $e = 'unknown_error';
-                }
-                echo $errors[ $e ];
-            }
-            ?>
+            <?php Helper::getMessage(); ?>
             <br>
             <div class="row">
                 <div class="col-md-8 col-sm-12">

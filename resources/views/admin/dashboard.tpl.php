@@ -1,10 +1,9 @@
-
-
 <!-- Page Content -->
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
             <h1 class="mt-5">Admin Dashboard</h1>
+            <?php Helper::getMessage(); ?>
             <br>
             <div class="row">
                 <div class="col-md-6 col-sm-12">

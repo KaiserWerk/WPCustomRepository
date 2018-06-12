@@ -2,6 +2,7 @@
 
 $klein->respond('GET', '/license/list', function ($request) {
     if (!AuthHelper::isLoggedIn()) {
+        Helper::setMessage('Please login first!', 'warning');
         Helper::redirect('/login');
     }
     
@@ -20,6 +21,7 @@ $klein->respond('GET', '/license/list', function ($request) {
 
 $klein->respond(['GET', 'POST'], '/license/add', function ($request) {
     if (!AuthHelper::isLoggedIn()) {
+        Helper::setMessage('Please login first!', 'warning');
         Helper::redirect('/login');
     }
     $db = new DBHelper();
@@ -35,20 +37,24 @@ $klein->respond(['GET', 'POST'], '/license/add', function ($request) {
         $_add = $_POST['_add'];
         
         if (!AuthHelper::checkCSRFToken()) {
-            Helper::redirect('/license/add?e=unknown_error');
+            Helper::setMessage('Unknown error!', 'danger');
+            Helper::redirect('/license/add');
         }
         if (!AuthHelper::checkHoneypot()) {
-            Helper::redirect('/license/add?e=unknown_error');
+            Helper::setMessage('Unknown error!', 'danger');
+            Helper::redirect('/license/add');
         }
         
         if (empty($_add['license_user']) || empty($_add['license_key']) || empty($_add['valid_until'])) {
-            Helper::redirect('/license/add?e=missing_input');
+            Helper::setMessage('Please fill in all required fields!', 'warning');
+            Helper::redirect('/license/add');
         }
         
         if ($db->has('license', [
             'license_key' => $_add['license_key'],
         ])) {
-            Helper::redirect('/license/add?e=key_in_use');
+            Helper::setMessage('This license key is already in use!', 'danger');
+            Helper::redirect('/license/add');
         }
         
         if ($db->has('license', [
@@ -58,7 +64,8 @@ $klein->respond(['GET', 'POST'], '/license/add', function ($request) {
                 'plugin_slug' => $_add['plugin_slug'],
             ]
         ])) {
-            Helper::redirect('/license/add?e=license_exists');
+            Helper::setMessage('This license already exists! Please renew as needed!', 'danger');
+            Helper::redirect('/license/add');
         }
         
         $db->insert('license', [
@@ -70,12 +77,14 @@ $klein->respond(['GET', 'POST'], '/license/add', function ($request) {
             'created_at' => date('Y-m-d H:i:s'),
         ]);
     
-        Helper::redirect('/license/list?e=add_success');
+        Helper::setMessage('License added!', 'success');
+        Helper::redirect('/license/list');
     }
 });
 
 $klein->respond(['GET', 'POST'], '/license/[:id]/renew', function ($request) {
     if (!AuthHelper::isLoggedIn()) {
+        Helper::setMessage('Please login first!', 'warning');
         Helper::redirect('/login');
     }
     $db = new DBHelper();
@@ -99,31 +108,37 @@ $klein->respond(['GET', 'POST'], '/license/[:id]/renew', function ($request) {
                 'id' => $id,
             ]);
         
-            Helper::redirect('/license/list?e=renewal_success');
+            Helper::setMessage('License renewed!', 'success');
+            Helper::redirect('/license/list');
         } else {
-            Helper::redirect('/license/list?e=no_change');
+            Helper::setMessage('No changes were made.');
+            Helper::redirect('/license/list');
         }
     } else {
-        Helper::redirect('/license7list?e=invalid_entry');
+        Helper::setMessage('You are trying to access an invalid entry!', 'danger');
+        Helper::redirect('/license/list');
     }
 });
 
 $klein->respond('GET', '/license/[:id]/auto-renewal/toggle', function ($request) {
     if (!AuthHelper::isLoggedIn()) {
+        Helper::setMessage('Please login first!', 'warning');
         Helper::redirect('/login');
     }
     
     $id = $request->id ?? null;
     if ($id !== null) {
         $db = new DBHelper();
-        
+        // @TODO auto renewal toggle
     } else {
-        Helper::redirect('/license7list?e=invalid_entry');
+        Helper::setMessage('You are trying to access an invalid entry!', 'danger');
+        Helper::redirect('/license/list');
     }
 });
 
 $klein->respond(['GET', 'POST'], '/license/[:id]/edit', function ($request) {
     if (!AuthHelper::isLoggedIn()) {
+        Helper::setMessage('Please login first!', 'warning');
         Helper::redirect('/login');
     }
     
@@ -144,21 +159,25 @@ $klein->respond(['GET', 'POST'], '/license/[:id]/edit', function ($request) {
             $_edit = $_POST['_edit'];
         
             if (!AuthHelper::checkCSRFToken()) {
-                Helper::redirect('/license/'.$id.'/edit?e=unknown_error');
+                Helper::setMessage('Unknown error!', 'danger');
+                Helper::redirect('/license/'.$id.'/edit');
             }
             if (!AuthHelper::checkHoneypot()) {
-                Helper::redirect('/license/'.$id.'/edit?e=unknown_error');
+                Helper::setMessage('Unknown error!', 'danger');
+                Helper::redirect('/license/'.$id.'/edit');
             }
         
             if (empty($_edit['license_user']) || empty($_edit['license_key']) || empty($_edit['valid_until'])) {
-                Helper::redirect('/license/'.$id.'/edit?e=missing_input');
+                Helper::setMessage('Please fill in all required fields!', 'warning');
+                Helper::redirect('/license/'.$id.'/edit');
             }
         
             if ($db->has('license', [
                 'license_key' => $_edit['license_key'],
                 'id[!]' => $id,
             ])) {
-                Helper::redirect('/license/'.$id.'/edit?e=key_in_use');
+                Helper::setMessage('This license key is already in use!', 'danger');
+                Helper::redirect('/license/'.$id.'/edit');
             }
         
             if ($db->has('license', [
@@ -169,7 +188,8 @@ $klein->respond(['GET', 'POST'], '/license/[:id]/edit', function ($request) {
                     'id[!]' => $id,
                 ]
             ])) {
-                Helper::redirect('/license/'.$id.'/edit?e=license_exists');
+                Helper::setMessage('This license already exists! Please renew as needed!', 'danger');
+                Helper::redirect('/license/'.$id.'/edit');
             }
         
             $db->update('license', [
@@ -181,16 +201,19 @@ $klein->respond(['GET', 'POST'], '/license/[:id]/edit', function ($request) {
             ], [
                 'id' => $id,
             ]);
-        
-            Helper::redirect('/license/list?e=edit_success');
+    
+            Helper::setMessage('Changes saved!', 'success');
+            Helper::redirect('/license/list');
         }
     } else {
-        Helper::redirect('/license7list?e=invalid_entry');
+        Helper::setMessage('You are trying to access an invalid entry!', 'danger');
+        Helper::redirect('/license/list');
     }
 });
 
 $klein->respond('GET', '/license/[:id]/remove', function ($request) {
     if (!AuthHelper::isLoggedIn()) {
+        Helper::setMessage('Please login first!', 'warning');
         Helper::redirect('/login');
     }
     
@@ -200,8 +223,11 @@ $klein->respond('GET', '/license/[:id]/remove', function ($request) {
         $db->delete('license', [
             'id' => $id,
         ]);
-        Helper::redirect('/license/list?e=removal_success');
+        
+        Helper::setMessage('License removed!', 'success');
+        Helper::redirect('/license/list');
     } else {
-        Helper::redirect('/license7list?e=invalid_entry');
+        Helper::setMessage('You are trying to access an invalid entry!', 'danger');
+        Helper::redirect('/license/list');
     }
 });

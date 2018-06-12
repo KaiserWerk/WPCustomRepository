@@ -1,46 +1,9 @@
-<?php
-$errors = array(
-    'success' => '<br>
-            <div class="alert alert-success alert-dismissable">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong><span class="fa fa-check"></span></strong> Password was successfully reset!</div>',
-    'missing_input' => '<br>
-            <div class="alert alert-info alert-dismissable">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong><span class="fa fa-info-circle"></span></strong> Please fill in all required fields.</div>',
-    'password_too_short' => '<br>
-            <div class="alert alert-warning alert-dismissable">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong><span class="fa fa-lock"></span></strong> The password you entered was too short.</div>',
-    'invalid_token' => '<br>
-            <div class="alert alert-danger alert-dismissable">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong><span class="fa fa-warning"></span></strong> You have used an invalid token.</div>',
-    'unknown_error' => '<br>
-            <div class="alert alert-danger alert-dismissable">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong><span class="fa fa-warning"></span></strong> An unknown error occured!</div>',
-    'passwords_not_identical' => '<br>
-            <div class="alert alert-danger alert-dismissable">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong><span class="fa fa-warning"></span></strong> The passwords you entered did not match!</div>',
-);
-?>
-
 <!-- Page Content -->
 <div class="container">
     <div class="row">
         <div class="col-md-7 col-sm-12">
             <h1 class="mt-5">Reset your password</h1>
-            <?php
-            if (isset($_GET['e'])) {
-                $e = $_GET['e'];
-                if (!array_key_exists($e, $errors)) {
-                    $e = 'unknown_error';
-                }
-                echo $errors[ $e ];
-            }
-            ?>
+            <?php Helper::getMessage(); ?>
             <br>
             <form method="post" action="?_confirmation_token=<?php echo $token; ?>">
                 <?php

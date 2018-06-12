@@ -10,23 +10,27 @@ $klein->respond(['GET', 'POST'], '/user/settings', function ($request) {
     if (AuthHelper::isLoggedIn()) {
         $user = Helper::getUserData($_SESSION['user']);
     } else {
+        Helper::setMessage('Please login first!', 'warning');
         Helper::redirect('/login');
     }
 
     // change data
     if (isset($_POST['btn_save_my_data'])) {
         if (AuthHelper::checkCSRFToken() === false) {
-            Helper::redirect('/user/settings?e=unknown_error');
+            Helper::setMessage('An unknown error occured!', 'danger');
+            Helper::redirect('/user/settings');
         }
         if (AuthHelper::checkHoneypot() === false) {
-            Helper::redirect('/user/settings?e=unknown_error');
+            Helper::setMessage('An unknown error occured!', 'danger');
+            Helper::redirect('/user/settings');
         }
 
         $_edit = $_POST['_edit'] ?? null;
 
         // check password
         if (!password_verify($_edit['current_password'], $user['password'])) {
-            Helper::redirect('/user/settings?e=incorrect_password');
+            Helper::setMessage('The password you entered was not correct!', 'danger');
+            Helper::redirect('/user/settings');
         }
 
         $changed = 0;
@@ -40,7 +44,8 @@ $klein->respond(['GET', 'POST'], '/user/settings', function ($request) {
                 $changed++;
                 CommunicationHelper::sendNotification('User ' . $user['username'] . ' has changed his username to ' . $_edit['username']);
             } else {
-                Helper::redirect('/user/settings?e=username_in_use');
+                Helper::setMessage('This username is already in use!', 'danger');
+                Helper::redirect('/user/settings');
             }
         }
 
@@ -54,7 +59,8 @@ $klein->respond(['GET', 'POST'], '/user/settings', function ($request) {
                 $changed++;
                 CommunicationHelper::sendNotification('User ' . $user['username'] . ' has changed his e-mail address to ' . $_edit['email']);
             } else {
-                Helper::redirect('/user/settings?e=email_in_use');
+                Helper::setMessage('This email address is already in use!', 'danger');
+                Helper::redirect('/user/settings');
             }
         }
 
@@ -79,9 +85,11 @@ $klein->respond(['GET', 'POST'], '/user/settings', function ($request) {
         }
 
         if ($changed > 0) {
-            Helper::redirect('/user/settings?e=success_data_saved');
+            Helper::setMessage('Changes saved!', 'success');
+            Helper::redirect('/user/settings');
         }
-        Helper::redirect('/user/settings?e=no_modification');
+        Helper::setMessage('No changes were made.');
+        Helper::redirect('/user/settings');
 
     }
 
@@ -90,26 +98,30 @@ $klein->respond(['GET', 'POST'], '/user/settings', function ($request) {
      */
     if (isset($_POST['btn_lock_account'])) {
         if (AuthHelper::checkCSRFToken() === false) {
-            Helper::redirect('/user/settings?e=unknown_error');
+            Helper::setMessage('An unknown error occured!', 'danger');
+            Helper::redirect('/user/settings');
         }
 
         $_lock = $_POST['_lock'] ?? null;
 
         // check password
         if (!password_verify($_lock['current_password'], $user['password'])) {
-            Helper::redirect('/user/settings?e=incorrect_password');
+            Helper::setMessage('An unknown error occured!', 'danger');
+            Helper::redirect('/user/settings');
         }
 
-        if (isset($_lock['enabled']) && $_lock['enabled'] === "1") {
+        if (isset($_lock['enabled']) && $_lock['enabled'] === '1') {
             $db->update('user', [
                 'locked' => 1,
             ], [
                 'id' => $user['id']
             ]);
             CommunicationHelper::sendNotification('User ' . $user['username'] . ' has deliberately locked his account!');
+            Helper::setMessage('You locked your account and are now logged out.');
             Helper::redirect('/logout');
         } else {
-            Helper::redirect('/user/settings?e=missing_input');
+            Helper::setMessage('Please fill in all required fields!', 'warning');
+            Helper::redirect('/user/settings');
         }
     }
 
@@ -118,7 +130,8 @@ $klein->respond(['GET', 'POST'], '/user/settings', function ($request) {
      */
     if (isset($_POST['btn_save_new_password'])) {
         if (AuthHelper::checkCSRFToken() === false) {
-            Helper::redirect('/user/settings?e=unknown_error');
+            Helper::setMessage('An unknown error occured!', 'danger');
+            Helper::redirect('/user/settings');
         }
 
         $_edit = $_POST['_edit'] ?? null;
@@ -137,15 +150,19 @@ $klein->respond(['GET', 'POST'], '/user/settings', function ($request) {
                         'id' => $user['id']
                     ]);
                     CommunicationHelper::sendNotification('User ' . $user['username'] . ' has changed his password.');
-                    Helper::redirect('/user/settings?e=success_new_password');
+                    Helper::setMessage('You set a new password!', 'success');
+                    Helper::redirect('/user/settings');
                 } else {
-                    Helper::redirect('/user/settings?e=passwords_not_equal');
+                    Helper::setMessage('Passwords do not match!', 'danger');
+                    Helper::redirect('/user/settings');
                 }
             } else {
-                Helper::redirect('/user/settings?e=incorrect_password');
+                Helper::setMessage('You entered an incorrect password!', 'danger');
+                Helper::redirect('/user/settings');
             }
         } else {
-            Helper::redirect('/user/settings?e=missing_input');
+            Helper::setMessage('Please enter your current password when changing your data!', 'warning');
+            Helper::redirect('/user/settings');
         }
     }
 
@@ -154,7 +171,8 @@ $klein->respond(['GET', 'POST'], '/user/settings', function ($request) {
      */
     if (isset($_POST['btn_regenerate_apikey'])) {
         if (AuthHelper::checkCSRFToken() === false) {
-            Helper::redirect('/user/settings?e=unknown_error');
+            Helper::setMessage('An unknown error occured!', 'danger');
+            Helper::redirect('/user/settings');
         }
 
         $_edit = $_POST['_edit'] ?? null;
@@ -166,12 +184,15 @@ $klein->respond(['GET', 'POST'], '/user/settings', function ($request) {
                     'id' => $user['id']
                 ]);
                 CommunicationHelper::sendNotification('User ' . $user['username'] . ' has regenerated his API key.');
-                Helper::redirect('/user/settings?e=success_regenerated_apikey');
+                Helper::setMessage('Your API was regenerated!', 'success');
+                Helper::redirect('/user/settings');
             } else {
-                Helper::redirect('/user/settings?e=incorrect_password');
+                Helper::setMessage('The password you entered was incorrect!!', 'danger');
+                Helper::redirect('/user/settings');
             }
         } else {
-            Helper::redirect('/user/settings?e=missing_input');
+            Helper::setMessage('Please enter your current password!', 'warning');
+            Helper::redirect('/user/settings');
         }
     }
     

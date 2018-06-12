@@ -1,39 +1,9 @@
-<?php
-$errors = array(
-    'missing_input' => '<br>
-            <div class="alert alert-info alert-dismissable">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong><span class="fa fa-info-circle"></span></strong> Missing input!</div>',
-    'license_exists' => '<br>
-            <div class="alert alert-info alert-dismissable">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong><span class="fa fa-info-circle"></span></strong> This license already exists. Please do a renewal!</div>',
-    'key_in_use' => '<br>
-            <div class="alert alert-danger alert-dismissable">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong><span class="fa fa-warning"></span></strong> This license key is already in use!</div>',
-    'unknown_error' => '<br>
-            <div class="alert alert-danger alert-dismissable">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong><span class="fa fa-warning"></span></strong> Unknown error!</div>',
-);
-
-?>
-
 <!-- Page Content -->
 <div class="container">
     <div class="row">
         <div class="col-md-6">
             <h1 class="mt-5">Edit License</h1>
-            <?php
-            if (isset($_GET['e'])) {
-                $e = $_GET['e'];
-                if (!array_key_exists($e, $errors)) {
-                    $e = 'unknown_error';
-                }
-                echo $errors[ $e ];
-            }
-            ?>
+            <?php Helper::getMessage(); ?>
             <form method="post">
                 <?php
                 AuthHelper::generateCSRFInput();

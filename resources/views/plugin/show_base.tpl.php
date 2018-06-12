@@ -2,6 +2,7 @@
     <div class="row">
         <div class="col-md-12">
             <h1 class="mt-5">Show Plugin Details</h1>
+            <?php Helper::getMessage(); ?>
             <br>
             <h4><?php echo $plugin['plugin_name']; ?> (<a href="/download/plugin/<?php echo $plugin['slug']; ?>"><i class="fa fa-download"></i></a>)</h4>
             <table class="table table-borderless table-condensed">

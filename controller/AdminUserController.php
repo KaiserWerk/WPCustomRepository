@@ -6,6 +6,7 @@
 $klein->respond('GET', '/admin/user/list', function ($request) {
     $db = new DBHelper();
     if (!AuthHelper::isLoggedIn()) {
+        Helper::setMessage('Please login first!', 'warning');
         Helper::redirect('/login');
     }
     if (!AuthHelper::isAdmin($_SESSION['user'])) {
@@ -36,6 +37,7 @@ $klein->respond('GET', '/admin/user/list', function ($request) {
 $klein->respond('GET', '/admin/user/[:id]/status/locked', function ($request) {
     $db = new DBHelper();
     if (!AuthHelper::isLoggedIn()) {
+        Helper::setMessage('Please login first!', 'warning');
         Helper::redirect('/login');
     }
     if (!AuthHelper::isAdmin($_SESSION['user'])) {
@@ -58,9 +60,11 @@ $klein->respond('GET', '/admin/user/[:id]/status/locked', function ($request) {
                 'id' => $id,
             ]);
     
+            Helper::setMessage('Lock status changed.');
             Helper::redirect('/admin/user/list');
         } else {
-            Helper::redirect('/admin/user/list?e=protected_site_operator');
+            Helper::setMessage('You cannot edit the site operator!', 'danger');
+            Helper::redirect('/admin/user/list');
         }
     }
 });
@@ -72,6 +76,7 @@ $klein->respond('GET', '/admin/user/[:id]/status/locked', function ($request) {
 $klein->respond('GET', '/admin/user/[:id]/status/admin', function ($request) {
     $db = new DBHelper();
     if (!AuthHelper::isLoggedIn()) {
+        Helper::setMessage('Please login first!', 'warning');
         Helper::redirect('/login');
     }
     if (!AuthHelper::isAdmin($_SESSION['user'])) {
@@ -96,7 +101,8 @@ $klein->respond('GET', '/admin/user/[:id]/status/admin', function ($request) {
       
             Helper::redirect('/admin/user/list');
         } else {
-            Helper::redirect('/admin/user/list?e=protected_site_operator');
+            Helper::setMessage('You cannot edit the site operator!', 'danger');
+            Helper::redirect('/admin/user/list');
         }
     }
 });
@@ -106,6 +112,7 @@ $klein->respond('GET', '/admin/user/[:id]/status/admin', function ($request) {
  */
 $klein->respond('GET', '/admin/user/add', function ($request) {
     if (!AuthHelper::isLoggedIn()) {
+        Helper::setMessage('Please login first!', 'warning');
         Helper::redirect('/login');
     }
     if (!AuthHelper::isAdmin($_SESSION['user'])) {
@@ -124,6 +131,7 @@ $klein->respond('GET', '/admin/user/add', function ($request) {
 $klein->respond('POST', '/admin/user/add/save', function ($request) {
     $db = new DBHelper();
     if (!AuthHelper::isLoggedIn()) {
+        Helper::setMessage('Please login first!', 'warning');
         Helper::redirect('/login');
     }
     if (!AuthHelper::isAdmin($_SESSION['user'])) {
@@ -135,7 +143,8 @@ $klein->respond('POST', '/admin/user/add/save', function ($request) {
         $_csrf_token = $_POST['_csrf_token'] ?? null;
         if ($_csrf_token !== null) {
             if ($_csrf_token !== $_SESSION['_csrf_token']) {
-                Helper::redirect('/admin/user/list?e=unknown_error');
+                Helper::setMessage('Unknown error.', 'danger');
+                Helper::redirect('/admin/user/list');
             }
             $_add =  $_POST['_add'] ?? null;
             if ($_add !== null) {
@@ -195,25 +204,32 @@ $klein->respond('POST', '/admin/user/add/save', function ($request) {
                                 );
                                 
                             }
-                            
+    
+                            Helper::setMessage('User added!', 'success');
                             Helper::redirect('/admin/user/list');
                         } else {
-                            Helper::redirect('/admin/user/add?e=email_in_use');
+                            Helper::setMessage('This email is already in use!', 'warning');
+                            Helper::redirect('/admin/user/add');
                         }
                     } else {
-                        Helper::redirect('/admin/user/add?e=username_in_use');
+                        Helper::setMessage('This username is already in use!', 'warning');
+                        Helper::redirect('/admin/user/add');
                     }
                 } else {
-                    Helper::redirect('/admin/user/add?e=missing_input');
+                    Helper::setMessage('Missing input!');
+                    Helper::redirect('/admin/user/add');
                 }
             } else {
-                Helper::redirect('/admin/user/add?e=missing_input');
+                Helper::setMessage('Missing input!');
+                Helper::redirect('/admin/user/add');
             }
         } else {
-            Helper::redirect('/admin/user/add?e=unknown_error'); // invalid CSRF token
+            Helper::setMessage('Unknown error.', 'danger');
+            Helper::redirect('/admin/user/add'); // invalid CSRF token
         }
     } else {
-        Helper::redirect('/admin/user/add?e=unknown_error'); // wrong (or manipulated) form
+        Helper::setMessage('Unknown error.', 'danger');
+        Helper::redirect('/admin/user/add'); // wrong (or manipulated) form
     }
 });
 
@@ -223,6 +239,7 @@ $klein->respond('POST', '/admin/user/add/save', function ($request) {
 $klein->respond(['GET', 'POST'], '/admin/user/[:id]/remove', function ($request) {
     $db = new DBHelper();
     if (!AuthHelper::isLoggedIn()) {
+        Helper::setMessage('Please login first!', 'warning');
         Helper::redirect('/login');
     }
     if (!AuthHelper::isAdmin($_SESSION['user'])) {
@@ -231,23 +248,27 @@ $klein->respond(['GET', 'POST'], '/admin/user/[:id]/remove', function ($request)
     }
     $id = $request->id;
     if ($id === null) {
-        Helper::redirect('/admin/user/list?e=unknown_error');
+        Helper::setMessage('Unknown error!', 'danger');
+        Helper::redirect('/admin/user/list');
     }
 
     if ((int)$id === (int)getenv('SITE_OPERATOR')) {
-        Helper::redirect('/admin/user/list?e=protected_site_operator');
+        Helper::setMessage('You cannot edit the site operator!', 'danger');
+        Helper::redirect('/admin/user/list');
     }
     
     if (isset($_POST['btn_remove_user'])) {
         if (!AuthHelper::checkCSRFToken()) {
-            Helper::redirect('/admin/user/list?e=unknown_error');
+            Helper::setMessage('Unknown error!', 'danger');
+            Helper::redirect('/admin/user/list');
         }
         
         $db->delete('user', [
             'id' => $id,
         ]);
-        
-        Helper::redirect('/admin/user/list?e=remove_success');
+    
+        Helper::setMessage('User removed!', 'success');
+        Helper::redirect('/admin/user/list');
     } else {
         $user = Helper::getUserData($id);
         require_once viewsDir() . '/header.tpl.php';
@@ -262,6 +283,7 @@ $klein->respond(['GET', 'POST'], '/admin/user/[:id]/remove', function ($request)
 $klein->respond(['GET', 'POST'], '/admin/user/[:id]/edit', function ($request) {
     $db = new DBHelper();
     if (!AuthHelper::isLoggedIn()) {
+        Helper::setMessage('Please login first!', 'warning');
         Helper::redirect('/login');
     }
     if (!AuthHelper::isAdmin($_SESSION['user'])) {
@@ -270,12 +292,14 @@ $klein->respond(['GET', 'POST'], '/admin/user/[:id]/edit', function ($request) {
     }
     $id = $request->id;
     if ($id === null) {
-        Helper::redirect('/admin/user/list?e=unknown_error1');
+        Helper::setMessage('Unknown error!', 'danger');
+        Helper::redirect('/admin/user/list');
     }
     
     if (isset($_POST['btn_edit_user'])) {
         if (!AuthHelper::checkCSRFToken()) {
-            Helper::redirect('/admin/user/list?e=unknown_error2');
+            Helper::setMessage('Unknown error!', 'danger');
+            Helper::redirect('/admin/user/list');
         }
         
         $_edit = $_POST['_edit'];
@@ -304,8 +328,9 @@ $klein->respond(['GET', 'POST'], '/admin/user/[:id]/edit', function ($request) {
         $db->update('user', $fields, [
             'id' => $id,
         ]);
-        
-        Helper::redirect('/admin/user/list?e=edit_success');
+    
+        Helper::setMessage('Changed user data saved!', 'success');
+        Helper::redirect('/admin/user/list');
     } else {
         $user = Helper::getUserData($id);
         require_once viewsDir() . '/header.tpl.php';

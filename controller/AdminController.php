@@ -9,6 +9,7 @@
 $klein->respond('GET', '/admin/dashboard', function ($request) {
     $db = new DBHelper();
     if (!AuthHelper::isLoggedIn()) {
+        Helper::setMessage('Please login first!', 'warning');
         Helper::redirect('/login');
     }
     if (!AuthHelper::isAdmin($_SESSION['user'])) {
@@ -30,6 +31,7 @@ $klein->respond('GET', '/admin/dashboard', function ($request) {
  */
 $klein->respond('GET', '/admin/tracking_mail/list', function ($request) {
     if (!AuthHelper::isLoggedIn()) {
+        Helper::setMessage('Please login first!', 'warning');
         Helper::redirect('/login');
     }
     if (!AuthHelper::isAdmin($_SESSION['user'])) {
@@ -38,8 +40,7 @@ $klein->respond('GET', '/admin/tracking_mail/list', function ($request) {
     }
     
     if ((bool)getenv('EMAIL_TRACKING_ENABLED') === 'false') {
-        echo '<p>Email tracking is not enabled!</p>';
-        die;
+        die('<p>Email tracking is not enabled!</p>');
     }
     
     $db = new DBHelper();
@@ -64,7 +65,7 @@ $klein->respond('GET', '/admin/tracking_mail/list', function ($request) {
     ");
     $stm->execute();
     $mails = $stm->fetchAll(PDO::FETCH_ASSOC);
-   # echo '<pre>';var_dump($mails);die;
+    #echo '<pre>';var_dump($mails);die;
     
     require_once viewsDir() . '/header.tpl.php';
     require_once viewsDir() . '/admin/tracking_mail/list.tpl.php';
@@ -76,6 +77,7 @@ $klein->respond('GET', '/admin/tracking_mail/list', function ($request) {
  */
 $klein->respond('GET', '/admin/tools/test_mail_message', function ($request) {
     if (!AuthHelper::isLoggedIn()) {
+        Helper::setMessage('Please login first!', 'warning');
         Helper::redirect('/login');
     }
     if (!AuthHelper::isAdmin($_SESSION['user'])) {
@@ -99,6 +101,7 @@ $klein->respond('GET', '/admin/tools/test_mail_message', function ($request) {
  */
 $klein->respond('GET', '/admin/tools/test_stride_message', function ($request) {
     if (!AuthHelper::isLoggedIn()) {
+        Helper::setMessage('Please login first!', 'warning');
         Helper::redirect('/login');
     }
     if (!AuthHelper::isAdmin($_SESSION['user'])) {
@@ -116,6 +119,7 @@ $klein->respond('GET', '/admin/tools/test_stride_message', function ($request) {
  */
 $klein->respond('GET', '/admin/tools/test_hipchat_message', function ($request) {
     if (!AuthHelper::isLoggedIn()) {
+        Helper::setMessage('Please login first!', 'warning');
         Helper::redirect('/login');
     }
     if (!AuthHelper::isAdmin($_SESSION['user'])) {
@@ -132,6 +136,7 @@ $klein->respond('GET', '/admin/tools/test_hipchat_message', function ($request) 
  */
 $klein->respond('GET', '/admin/tools/test_slack_message', function ($request) {
     if (!AuthHelper::isLoggedIn()) {
+        Helper::setMessage('Please login first!', 'warning');
         Helper::redirect('/login');
     }
     if (!AuthHelper::isAdmin($_SESSION['user'])) {

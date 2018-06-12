@@ -3,7 +3,7 @@
 
 class Helper
 {
-    public static function setMessage($message, $type)
+    public static function setMessage($message, $type = 'info')
     {
         $_SESSION['X-Message'] = $message;
         $_SESSION['X-Message-Type'] = $type;
@@ -12,7 +12,7 @@ class Helper
     public static function getMessage()
     {
         if (array_key_exists('X-Message', $_SESSION) && array_key_exists('X-Message-Type', $_SESSION)) {
-            $output = '
+            $output = '<br>
             <div class="alert alert-%s alert-dismissible">
                 <button type="button" class="close" data-dismiss="alert">&times;</button>
                 %s

@@ -2,6 +2,7 @@
 
 $klein->respond('GET', '/plugin/list', function ($request) {
     if (!AuthHelper::isLoggedIn()) {
+        Helper::setMessage('Please login first!', 'warning');
         Helper::redirect('/login');
     }
     $db = new DBHelper();
@@ -28,6 +29,7 @@ $klein->respond('GET', '/plugin/list', function ($request) {
 
 $klein->respond('GET', '/plugin/base/[:id]/show', function ($request) {
     if (!AuthHelper::isLoggedIn()) {
+        Helper::setMessage('Please login first!', 'warning');
         Helper::redirect('/login');
     }
     
@@ -44,7 +46,8 @@ $klein->respond('GET', '/plugin/base/[:id]/show', function ($request) {
         require_once viewsDir() . '/plugin/show_base.tpl.php';
         require_once viewsDir() . '/footer.tpl.php';
     } else {
-        Helper::redirect('/plugin/list?e=none_selected');
+        Helper::setMessage('You are trying to access an invalid entry!', 'danger');
+        Helper::redirect('/plugin/list');
     }
 });
 $klein->respond('GET', '/plugin/version/[:id]/show', function ($request) {
@@ -53,6 +56,7 @@ $klein->respond('GET', '/plugin/version/[:id]/show', function ($request) {
 
 $klein->respond(['GET', 'POST'], '/plugin/base/add', function ($request) {
     if (!AuthHelper::isLoggedIn()) {
+        Helper::setMessage('Please login first!', 'warning');
         Helper::redirect('/login');
     }
     
@@ -62,7 +66,8 @@ $klein->respond(['GET', 'POST'], '/plugin/base/add', function ($request) {
         require_once viewsDir() . '/footer.tpl.php';
     } else {
         if (!AuthHelper::checkCSRFToken()) {
-            Helper::redirect('?e=unknown_error');
+            Helper::setMessage('An unknown error occured!', 'danger');
+            Helper::redirect('/plugin/base/add');
         }
         $_plugin_add = $_POST['_plugin_add'];
         
@@ -82,7 +87,7 @@ $klein->respond(['GET', 'POST'], '/plugin/base/add', function ($request) {
                 }
                 move_uploaded_file($_FILES['_plugin_add_banner_low']['tmp_name'], $dir . $file_name);
             } else {
-                die('banner low incorrect file type');
+                LoggerHelper::debug('banner low has incorrect file type', 'warn');
             }
     
             if (in_array($_FILES['_plugin_add_banner_high']['type'], array('image/png', 'image/jpeg', 'image/gif'))) {
@@ -95,7 +100,7 @@ $klein->respond(['GET', 'POST'], '/plugin/base/add', function ($request) {
                 }
                 move_uploaded_file($_FILES['_plugin_add_banner_high']['tmp_name'], $dir . $file_name);
             } else {
-                die('banner low incorrect file type');
+                LoggerHelper::debug('banner high has incorrect file type', 'warn');
             }
             
             $allowable_tags = '<b><i><p><strong><ul><ol><li><em><a><img>';
@@ -113,8 +118,12 @@ $klein->respond(['GET', 'POST'], '/plugin/base/add', function ($request) {
                 'section_other_notes' => strip_tags($_plugin_add['section_other_notes'], $allowable_tags),
                 'last_updated' => date('Y-m-d H:i:s'),
             ]);
+    
+            Helper::setMessage('Base plugin added!', 'success');
+            Helper::redirect('/plugin/list');
         } else {
-            die('Missing fields');
+            Helper::setMessage('Please fill in all required fields!', 'warning');
+            Helper::redirect('/plugin/add');
         }
         Helper::redirect('/plugin/list');
     }
@@ -122,6 +131,7 @@ $klein->respond(['GET', 'POST'], '/plugin/base/add', function ($request) {
 
 $klein->respond(['GET', 'POST'], '/plugin/version/add', function ($request) {
     if (!AuthHelper::isLoggedIn()) {
+        Helper::setMessage('Please login first!', 'warning');
         Helper::redirect('/login');
     }
     $db = new DBHelper();
@@ -141,13 +151,15 @@ $klein->respond(['GET', 'POST'], '/plugin/version/add', function ($request) {
 
 $klein->respond(['GET', 'POST'], '/plugin/base/[:id]/edit', function ($request) {
     if (!AuthHelper::isLoggedIn()) {
+        Helper::setMessage('Please login first!', 'warning');
         Helper::redirect('/login');
     }
     $id = (int)$request->id;
     $db = new DBHelper();
     if (isset($_POST['btn_plugin_edit'])) {
         if (!AuthHelper::checkCSRFToken()) {
-            Helper::redirect('/plugin/add?e=unknown_error');
+            Helper::setMessage('An unknown error occured!', 'danger');
+            Helper::redirect('/plugin/add');
         }
         $_plugin_edit = $_POST['_plugin_edit'];
         
@@ -172,8 +184,9 @@ $klein->respond(['GET', 'POST'], '/plugin/base/[:id]/edit', function ($request) 
         $db->update('plugin', $fields, [
             'id' => $id,
         ]);
-        
-        Helper::redirect('/plugin/list?e=edit_success');
+    
+        Helper::setMessage('Changes saved!', 'success');
+        Helper::redirect('/plugin/list');
     } else {
         $plugin = $db->get('plugin', '*', [
             'id' => $id,
@@ -218,7 +231,8 @@ $klein->respond('GET', '/plugin/version/[:id]/archive', function ($request) {
         ], [
             'id' => $id,
         ]);
-        
+    
+        Helper::setMessage('Plugin version archived!', 'success');
         Helper::redirect('/plugin/list');
     } else {
         require_once viewsDir() . '/header.tpl.php';
