@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9b29e3b383a76cf24e658de829c57afc",
+    "content-hash": "b45747a4bfba294cef1e0bea35832730",
     "packages": [
         {
             "name": "catfan/medoo",

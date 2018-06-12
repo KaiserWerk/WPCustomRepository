@@ -9,9 +9,9 @@
     ],
     "require": {
         "vlucas/phpdotenv": "^2.4",
-        "catfan/Medoo": "^1.5",
         "klein/klein": "^2.1",
-        "phpmailer/phpmailer": "^6.0"
+        "phpmailer/phpmailer": "^6.0",
+        "catfan/medoo": "^1.5.6"
     },
     "scripts": {
         "post-install-cmd": [
