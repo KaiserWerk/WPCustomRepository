@@ -10,52 +10,38 @@ $klein->respond('GET', '/download/plugin/[:slug]/[:version]', function ($request
     $slug = $request->slug ?? null;
     $version = $request->version ?? null;
     
-    if ($slug !== null && $version !== null) {
-        $db = new DBHelper();
-        $base_plugin = $db->get('plugin', [
-            'id',
-        ], [
-            'slug' => $slug,
-        ]);
+    $db = new DBHelper();
     
-        $db->update('plugin', [
-            'downloaded[+]' => 1,
-        ], [
-            'id' => $base_plugin['id'],
-        ]);
+    $base_plugin = $db->get('plugin', [
+        'id',
+    ], [
+        'slug' => $slug,
+    ]);
+    
+    $latest_version = $db->max('plugin_version', 'version', [
+        'plugin_entry_id' => $base_plugin['id'],
+    ]);
+    
+    if ($latest_version === false) {
+        die('No files available');
+    }
+    
+    if ($slug !== null && $version !== null) {
         
         if ($version === 'latest') {
-            if ($db->has('plugin_version', [
-                'plugin_entry_id' => $base_plugin['id'],
-            ])) {
-                $plugin_version = $db->get('plugin_version', [
-                    'version',
-                ], [
-    
-                ]);
-            } else {
-                $plugin_version = null;
-            }
+            $download_version = $latest_version;
         } else {
-            if ($db->has('plugin_version', [
-                'plugin_entry_id' => $base_plugin['id'],
-                'version' => $version,
-            ])) {
-                $plugin_version = $db->get('plugin_version', [
-                    'version',
-                ], [
-                    'plugin_entry_id' => $base_plugin['id'],
-                ]);
-            } else {
-                $plugin_version = null;
-            }
+            $download_version = $version;
         }
         
-        if ($plugin_version === null) {
-            die('No files available');
-        }
-    
-        $file_name = $slug . '_v' . $plugin_version['version'] . '.zip';
+        $db->update('plugin_version', [
+            'downloaded[+]' => 1,
+        ], [
+            'plugin_entry_id' => $base_plugin['id'],
+            'version' => $download_version,
+        ]);
+        
+        $file_name = $slug . '_v' . $download_version . '.zip';
         $dir = downloadDir() . '/' . $slug . '/';
         
         if (file_exists($dir . $file_name)) {
@@ -64,9 +50,9 @@ $klein->respond('GET', '/download/plugin/[:slug]/[:version]', function ($request
             readfile($dir . $file_name);
             die;
         } else {
-            echo 'Version file does not exist';
+            die('Version file does not exist');
         }
     } else {
-        echo 'invalid plugin slug or version constraint';
+        die('invalid plugin slug or version constraint');
     }
 });
