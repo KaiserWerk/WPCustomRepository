@@ -18,7 +18,7 @@
                 foreach ($base_plugins as $base_plugin) {
                     echo '<tr>';
                     echo '<td colspan="5">' . $base_plugin['plugin_name'] . ' &nbsp; <small><i>' . $base_plugin['slug'] . '</i></small></td>';
-                    echo '<td>Updated: ' . (new \DateTime($base_plugin['last_updated']))->format('d.m.Y') . '</td>';
+                    echo '<td>Updated: ' . (new \DateTime($base_plugin['last_updated']))->format('Y-m-d') . '</td>';
                     echo '<td>';
                     echo '<a href="/plugin/base/' . $base_plugin['id'] . '/edit">Edit</a>';
                     echo '</td>';
@@ -32,7 +32,7 @@
                             echo '<td><small>Tested: ' . $entry['tested'] . '</small></td>';
                             echo '<td><small>Requires PHP: ' . $entry['requires_php'] . '</small></td>';
                             echo '<td><small>Archived: <a href="/plugin/version/'.$entry['id'].'/toggle-archived">' . ($entry['archived'] == 0 ? 'No' : 'Yes') . '</a></small></td>';
-                            echo '<td><small>Added: ' . (new \DateTime($base_plugin['last_updated']))->format('d.m.Y') . '</small></td>';
+                            echo '<td><small>Added: ' . (new \DateTime($entry['created_at']))->format('Y-m-d') . '</small></td>';
                             echo '<td><small>';
                             echo '<a href="/plugin/version/' . $entry['id'] . '/show">Show</a>';
                             echo ' / <a href="/plugin/version/' . $entry['id'] . '/edit">Edit</a>';
