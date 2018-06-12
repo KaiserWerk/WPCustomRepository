@@ -178,7 +178,7 @@ class AuthHelper
         $result_array = array();
         $i = 0;
         foreach ($str1_parts as $part) {
-            if ($part === $str2_parts[$i]) { // also see str_cmp() and similar_text()
+            if ($part === $str2_parts[$i]) {
                 $result_array[$i] = true;
             } else {
                 $result_array[$i] = false;
@@ -197,10 +197,9 @@ class AuthHelper
     public static function isAdmin($user_id)
     {
         $db = new DBHelper();
-        $bool = $db->has('user', 'admin', [
+        return $db->has('user', 'admin', [
             'id' => (int)$user_id,
         ]);
-        return $bool;
     }
     
     /**
@@ -212,7 +211,7 @@ class AuthHelper
      */
     public static function generateCSRFInput($return = false)
     {
-        $str = '<input type="hidden" name="_csrf_token" value="'.$_SESSION['_csrf_token'].'">'.PHP_EOL;
+        $str = '<input type="hidden" name="_csrf_token" value="' . $_SESSION['_csrf_token'] . '">' . PHP_EOL;
         if (!$return) {
             echo $str;
             return '';
