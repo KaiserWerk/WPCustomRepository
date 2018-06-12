@@ -6,9 +6,14 @@ I developed a plugin exclusive to one client to be installed on nine different s
 
 ### Features
 
-* Plugin updater (haha)
-* Theme update (maybe in the future)
-* Licensing system (yes, quite rudimentary)
+* Automatic plugin updates (haha)
+* Automatic theme updates (work in progress)
+* Licensing system (yes, quite rudimentary; improvement in progress)
+* Tracking of active installations (see [Further Reading & Thoughts](#further-reading-&-thoughts))
+
+### Requirements
+* PHP 7 (maybe it runs on PHP 5)
+* A MySQL/MariaDB database (Maybe I'll include SQLite support in the future)
 
 ### Installation
 ##### Part I: On your server
@@ -46,5 +51,9 @@ In order for newly uploaded plugin versions to be recognized, the version string
 
 An **automatic** installation would be reeeally great, but to my knowledge this is not currently possible. You have to manually install your custom plugin first. If you set up everything correctly, the automatic updates will take over.
 
+If you want to track active installations, use `<your_updater_class_name>::trackInstallations('uninstalled');` in your plugin's Deactivator class and `<your_updater_class_name>::trackInstallations('installed');` in your Activator class. Please pay attention to the plural in the function name: it's `::trackInstallations`.
+
 ### TODO
 * Replace DB schema dump with new version (there are just so many changes)
+* Add SQLite support
+* rework plugin management (it's currently broken)
