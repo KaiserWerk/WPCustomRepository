@@ -39,13 +39,24 @@ $StopwatchHelper->start();
                 <?php if (AuthHelper::isLoggedIn()) { ?>
                     <li class="nav-item dropdown">
                         <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Plugin
+                            Plugins
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="/plugin/list">Plugin List</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="/plugin/base/add">Add Plugin</a>
                             <a class="dropdown-item" href="/plugin/version/add">Add Plugin Version</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Theme
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/theme/list">Theme List</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/theme/base/add">Add Theme</a>
+                            <a class="dropdown-item" href="/theme/version/add">Add Theme Version</a>
                         </div>
                     </li>
                     <?php if ((bool)getenv('LICENSE_SYSTEM_ENABLED') === true) { ?>
