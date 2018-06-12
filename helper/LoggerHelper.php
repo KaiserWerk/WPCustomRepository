@@ -73,4 +73,14 @@ class LoggerHelper
         }
         return true;
     }
+    
+    public static function logAPIRequest($target, $method, $request_headers)
+    {
+        $db = new DBHelper();
+        $db->insert('api_request', [
+            'target' => $target,
+            'method' => $method,
+            'request_headers' => serialize($request_headers),
+        ]);
+    }
 }
