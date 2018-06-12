@@ -2,22 +2,16 @@
 -- version 4.7.7
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Erstellungszeit: 28. Mai 2018 um 01:05
--- Server-Version: 10.1.29-MariaDB
--- PHP-Version: 7.2.0
+-- Host: localhost:3306
+-- Erstellungszeit: 12. Jun 2018 um 17:45
+-- Server-Version: 5.6.38
+-- PHP-Version: 7.2.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
 --
--- Datenbank: `wpcr`
+-- Datenbank: `db_wpcr`
 --
 
 -- --------------------------------------------------------
@@ -28,13 +22,15 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `api_request` (
   `id` int(11) NOT NULL,
-  `user_entry_id` int(11) DEFAULT NULL,
-  `action` varchar(30) DEFAULT NULL,
+  `target` varchar(100) DEFAULT NULL,
+  `method` varchar(10) NOT NULL,
   `request_headers` text,
-  `association_slug` varchar(15) DEFAULT NULL,
-  `response` text,
-  `created_at` datetime NOT NULL
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Daten für Tabelle `api_request`
+--
 
 -- --------------------------------------------------------
 
@@ -44,14 +40,14 @@ CREATE TABLE `api_request` (
 
 CREATE TABLE `license` (
   `id` int(11) NOT NULL,
-  `license_user` varchar(150) NOT NULL,
+  `license_user` varchar(255) NOT NULL,
   `license_key` varchar(200) NOT NULL,
-  `license_host` varchar(150) NOT NULL,
+  `license_host` varchar(100) DEFAULT NULL,
   `plugin_slug` varchar(100) NOT NULL,
   `valid_until` datetime NOT NULL,
   `renewals` int(11) NOT NULL DEFAULT '0',
   `created_at` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Daten für Tabelle `license`
@@ -70,6 +66,11 @@ CREATE TABLE `mail_sent` (
   `sent_at` datetime NOT NULL,
   `token_used_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Daten für Tabelle `mail_sent`
+--
+
 
 -- --------------------------------------------------------
 
@@ -94,21 +95,23 @@ CREATE TABLE `plugin` (
   `id` int(11) NOT NULL,
   `plugin_name` varchar(100) NOT NULL,
   `slug` varchar(100) NOT NULL,
-  `version` varchar(15) NOT NULL,
   `url` varchar(255) NOT NULL,
-  `requires` varchar(15) NOT NULL,
-  `tested` varchar(15) NOT NULL,
   `rating5` int(11) NOT NULL,
   `rating4` int(11) NOT NULL,
   `rating3` int(11) NOT NULL,
   `rating2` int(11) NOT NULL,
   `rating1` int(11) NOT NULL,
-  `downloaded` bigint(20) NOT NULL,
   `last_updated` datetime NOT NULL,
-  `added` datetime NOT NULL,
   `homepage` varchar(255) NOT NULL,
+  `banner_low` varchar(50) NOT NULL,
+  `banner_high` varchar(50) NOT NULL,
   `section_description` text NOT NULL,
-  `archived` tinyint(1) NOT NULL DEFAULT '0'
+  `section_installation` text,
+  `section_faq` text,
+  `section_screenshots` text,
+  `section_changelog` text,
+  `section_other_notes` text,
+  `license_enabled` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -118,19 +121,56 @@ CREATE TABLE `plugin` (
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `plugin_section`
+-- Tabellenstruktur für Tabelle `plugin_version`
 --
 
-CREATE TABLE `plugin_section` (
+CREATE TABLE `plugin_version` (
   `id` int(11) NOT NULL,
   `plugin_entry_id` int(11) NOT NULL,
-  `section_name` varchar(100) NOT NULL,
-  `section_content` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `version` varchar(15) NOT NULL,
+  `requires_php` varchar(10) NOT NULL,
+  `requires` varchar(10) NOT NULL,
+  `tested` varchar(10) NOT NULL,
+  `downloaded` int(11) NOT NULL DEFAULT '0',
+  `active_installations` int(11) UNSIGNED NOT NULL DEFAULT '0',
+  `archived` tinyint(1) NOT NULL DEFAULT '0',
+  `added_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Daten für Tabelle `plugin_section`
+-- Daten für Tabelle `plugin_version`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `theme`
+--
+
+CREATE TABLE `theme` (
+  `id` int(11) NOT NULL,
+  `theme_name` varchar(50) NOT NULL,
+  `slug` varchar(50) NOT NULL,
+  `author` varchar(100) NOT NULL,
+  `url` varchar(255) NOT NULL,
+  `section_description` text,
+  `updated_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `theme_version`
+--
+
+CREATE TABLE `theme_version` (
+  `id` int(11) NOT NULL,
+  `theme_entry_id` int(11) NOT NULL,
+  `version` varchar(10) NOT NULL,
+  `requires` varchar(10) NOT NULL,
+  `tested` varchar(10) NOT NULL,
+  `added_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -150,7 +190,7 @@ CREATE TABLE `user` (
   `confirmation_token_validity` datetime DEFAULT NULL,
   `last_login` datetime DEFAULT NULL,
   `sex` varchar(1) NOT NULL DEFAULT 'f',
-  `locale` varchar(5) NOT NULL,
+  `locale` varchar(5) NOT NULL DEFAULT 'en',
   `admin` tinyint(1) NOT NULL DEFAULT '0',
   `locked` tinyint(1) NOT NULL DEFAULT '0',
   `created_at` datetime NOT NULL
@@ -161,7 +201,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `first_name`, `last_name`, `password`, `email`, `apikey`, `confirmation_token`, `confirmation_token_validity`, `last_login`, `sex`, `locale`, `admin`, `locked`, `created_at`) VALUES
-(1, 'admin', 'Robin', 'Kaiser', '$2y$12$WsU6SHxD.Umc7ca7ZD.ggu5g1A52lsEdZnFBbLfxtvbjNxDTkI5ye', 't@r-k.mx', '9lnh2782hinil84b40tl', NULL, NULL, '2018-05-28 00:46:33', 'm', 'de', 1, 0, '2018-01-31 15:30:35');
+(1, 'admin', 'Ad', 'Min', '$2y$12$GicGrkBOWhUV/CSewj2Gm.SSRW5ciOzdgYjG.2CRjjXOyz0.Vt65i', 't@r-k.mx', 'o0lq42j16bh2g8f2m5ai', NULL, NULL, '2018-06-12 17:24:05', 'm', 'en', 1, 0, '2018-01-31 15:30:35');
 
 --
 -- Indizes der exportierten Tabellen
@@ -196,12 +236,26 @@ ALTER TABLE `mail_tracked`
 -- Indizes für die Tabelle `plugin`
 --
 ALTER TABLE `plugin`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `slug` (`slug`);
+
+--
+-- Indizes für die Tabelle `plugin_version`
+--
+ALTER TABLE `plugin_version`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indizes für die Tabelle `plugin_section`
+-- Indizes für die Tabelle `theme`
 --
-ALTER TABLE `plugin_section`
+ALTER TABLE `theme`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `slug` (`slug`);
+
+--
+-- Indizes für die Tabelle `theme_version`
+--
+ALTER TABLE `theme_version`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -249,11 +303,25 @@ ALTER TABLE `plugin`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT für Tabelle `plugin_section`
+-- AUTO_INCREMENT für Tabelle `plugin_version`
 --
-ALTER TABLE `plugin_section`
+ALTER TABLE `plugin_version`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+--
+-- AUTO_INCREMENT für Tabelle `theme`
+--
+ALTER TABLE `theme`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT für Tabelle `theme_version`
+--
+ALTER TABLE `theme_version`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT für Tabelle `user`
+--
+ALTER TABLE `user`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
