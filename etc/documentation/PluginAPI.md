@@ -10,9 +10,9 @@ Endpoints 1 and 2 require license data headers to be set, endpoint 3 currently d
 
 #### 1. *GET* /api/plugins/check-latest-version/[slug]
 
-Additional request parameters: none
-
-Returns JSON with the following structure: 
+Additional request parameters: none  
+Returns JSON  
+Response body structure: 
 
 ```
 {
@@ -30,10 +30,9 @@ No functionally relevant values are being returned.
 
 #### 2. *GET* /api/plugins/get-plugin-information/[slug]
 
-Additional request parameters: none
-
-Similar to 1. it returns plugin information but in a more extensive way. It returns JSON 
-with the following structure:
+Additional request parameters: none  
+Similar to 1. it returns plugin information but in a more extensive way.  
+Response body structure:
 
 ```
 {
@@ -64,8 +63,8 @@ with the following structure:
         "installation": "Install Stuff",
         "faq": "FAQ Stuff",
         "screenshots": "Some Screenshots with text here",
-        "changelog": "1. XX 2. YY 3. ZZ etc.",
-        "other_notes": "Place for information that does not really fit into any other section"
+        "changelog": "1.1 XX 1.2.1 YY 1.3 ZZ etc.",
+        "other_notes": "A place for information that does not really fit into any other section"
     },
     "banners": [
         "low": "http://wpcr.local/assets/banners/test-plugin/test-plugin_low.png",
@@ -75,9 +74,9 @@ with the following structure:
 }
 ```
 
-* The `values` and `num_ratings` are an accumulation the individual ratings.
+* The values `rating` and `num_ratings` are a calculation from the individual ratings. `rating` is a percentage of best possible ratings, e.g. 87.5% of all ratings are 5 stars.. 
 * Besides the `description` section, all other sections are optional.
-* Banners are optional.
+* Banners are optional but help making your plugin look greatly.
 
 No functionally relevant values are being returned.
 
@@ -86,7 +85,7 @@ No functionally relevant values are being returned.
 Required additional parameters:
 * slug (the slug of the plugin reporting to be (un)installed)
 * version (the version if the plugin)
-* action (installed / uninstalled)
+* action (currently possible values: `installed` and `uninstalled`)
 
 No functionally relevant values are being returned.
 
