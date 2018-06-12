@@ -131,6 +131,38 @@ $klein->respond('GET', '/api/plugins/get-plugin-information/[:slug]', function (
     echo json_encode($response, JSON_PRETTY_PRINT);
 });
 
-$klein->respond('GET', '/plugin/[:slug]/info', function ($request) {
-    echo "hehe";
+
+$klein->respond('POST', '/api/plugins/track-installations', function ($request) {
+    
+    $slug = $_POST['slug'] ?? null;
+    $version = $_POST['version'] ?? null;
+    $action = $_POST['action'] ?? null;
+    
+    if ($slug === null || $version === null || $action === null) {
+        die('missing or invalid parameters');
+    }
+    
+    $db = new DBHelper();
+    $base_plugin = $db->get('plugin', [
+        'id',
+    ], [
+        'slug' => $slug,
+    ]);
+    
+    $fields = [];
+    if ($action === 'installed') {
+        $fields = [
+            'active_installations[+]' => 1,
+        ];
+    } elseif ($action === 'uninstalled') {
+        $fields = [
+            'active_installations[-]' => 1,
+        ];
+    }
+    
+    $db->update('plugin_version', $fields, [
+        'plugin_entry_id' => $base_plugin['id'],
+        'version' => $version,
+    ]);
+    
 });
