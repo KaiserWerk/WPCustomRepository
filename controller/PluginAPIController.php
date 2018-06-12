@@ -75,7 +75,7 @@ $klein->respond('GET', '/api/plugins/get-plugin-information/[:slug]', function (
     $response->num_ratings = $ratings_sum;
     $response->downloaded = $base_plugin['downloaded'];
     #$response->donate_link = 'http://donatelink.com';
-    $response->active_installations = $base_plugin['downloaded'];
+    $response->active_installations = $latest_version['active_installations'];
     $response->last_updated = $base_plugin['last_updated'];
     $response->added = $latest_version['added_at'];
     $response->homepage = $base_plugin['homepage'];
@@ -88,15 +88,15 @@ $klein->respond('GET', '/api/plugins/get-plugin-information/[:slug]', function (
         '2' => $base_plugin['rating2'],
         '1' => $base_plugin['rating1'],
     ];
-    $response->sections = array(
+    $response->sections = [
         'description' => $base_plugin['section_description'],
-        #'installation' => $base_plugin['section_installation'],
-        #'faq' => $base_plugin['section_faq'],
-        #'screenshots' => $base_plugin['section_screenshots'],
-        #'changelog' => $base_plugin['section_changelog'],
+        'installation' => $base_plugin['section_installation'],
+        'faq' => $base_plugin['section_faq'],
+        'screenshots' => $base_plugin['section_screenshots'],
+        'changelog' => $base_plugin['section_changelog'],
         #'reviews' => 'none yet', // doesnt work anyway
-        #'other_notes' => $base_plugin['section_other_notes'],
-    );
+        'other_notes' => $base_plugin['section_other_notes'],
+    ];
     if (!empty($base_plugin['section_installation'])) {
         $response->sections['installation'] = $base_plugin['section_installation'];
     }
@@ -132,7 +132,7 @@ $klein->respond('GET', '/api/plugins/get-plugin-information/[:slug]', function (
 });
 
 
-$klein->respond('POST', '/api/plugins/track-installations', function ($request) {
+$klein->respond('POST', '/api/plugins/track-installations', function () {
     
     $slug = $_POST['slug'] ?? null;
     $version = $_POST['version'] ?? null;
@@ -143,11 +143,21 @@ $klein->respond('POST', '/api/plugins/track-installations', function ($request) 
     }
     
     $db = new DBHelper();
+    
     $base_plugin = $db->get('plugin', [
         'id',
     ], [
         'slug' => $slug,
     ]);
+    
+    $bool = $db->has('plugin_version', [
+        'plugin_entry_id' => $base_plugin['id'],
+        'version' => $version,
+    ]);
+    
+    if (!$bool) {
+        die('no plugin file found for version constraint');
+    }
     
     $fields = [];
     if ($action === 'installed') {
@@ -164,5 +174,8 @@ $klein->respond('POST', '/api/plugins/track-installations', function ($request) 
         'plugin_entry_id' => $base_plugin['id'],
         'version' => $version,
     ]);
+
+    LoggerHelper::logAPIRequest('/api/plugins/track-installations', $_SERVER['REQUEST_METHOD'], getallheaders());
     
+    echo 'Action tracked.';
 });
