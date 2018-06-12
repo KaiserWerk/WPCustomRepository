@@ -3,6 +3,28 @@
 
 class Helper
 {
+    public static function setMessage($message, $type)
+    {
+        $_SESSION['X-Message'] = $message;
+        $_SESSION['X-Message-Type'] = $type;
+    }
+    
+    public static function getMessage()
+    {
+        if (array_key_exists('X-Message', $_SESSION) && array_key_exists('X-Message-Type', $_SESSION)) {
+            $output = '
+            <div class="alert alert-%s alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                %s
+            </div>';
+            $message = $_SESSION['X-Message'];
+            $type = $_SESSION['X-Message-Type'];
+            unset($_SESSION['X-Message'], $_SESSION['X-Message-Type']);
+            echo sprintf($output, $type, $message);
+        } else {
+            echo '';
+        }
+    }
     
     public static function createZip($files = array(), $destination = '', $overwrite = false) {
         
