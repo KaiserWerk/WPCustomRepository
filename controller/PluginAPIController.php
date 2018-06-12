@@ -153,6 +153,7 @@ $klein->respond('POST', '/api/plugins/track-installations', function () {
     $bool = $db->has('plugin_version', [
         'plugin_entry_id' => $base_plugin['id'],
         'version' => $version,
+        'archived' => 0,
     ]);
     
     if (!$bool) {
