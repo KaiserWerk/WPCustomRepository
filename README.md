@@ -61,3 +61,5 @@ If you want to track active installations, use `<your_updater_class_name>::track
 * Add SQLite support
 * rework plugin management (it's currently broken)
 * **Pull new plugin versions direct from Git!**
+* Add proper JSON error messages to Helper classes and API controllers
+* Remove cookies from API calls
