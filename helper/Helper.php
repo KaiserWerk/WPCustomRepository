@@ -92,9 +92,7 @@ class Helper
         // Remove port number from host
         $host = preg_replace('/:\d+$/', '', $host);
     
-        $fullhost = 'http' . (self::isSSL() ? 's' : '') . '://' . trim($host);
-        LoggerHelper::debug($fullhost);
-        return $fullhost;
+        return 'http' . (self::isSSL() ? 's' : '') . '://' . trim($host);
     }
 
     /**

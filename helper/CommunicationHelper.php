@@ -103,15 +103,15 @@ class CommunicationHelper
     /**
      * Sends an email
      *
-     * @param $body
-     * @param $subject
-     * @param $recipient_address
-     * @param $recipient_name
-     * @param $sender_address
-     * @param $sender_name
-     * @param null $replyto_address
-     * @param null $replyto_name
-     * @param null $attachments
+     * @param string $body
+     * @param string $subject
+     * @param string $recipient_address
+     * @param string $recipient_name
+     * @param string $sender_address
+     * @param string $sender_name
+     * @param null|string $replyto_address
+     * @param null|string $replyto_name
+     * @param null|array $attachments
      * @return bool
      */
     public static function sendMail(

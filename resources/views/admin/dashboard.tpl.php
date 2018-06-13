@@ -21,6 +21,8 @@
                         <li><?php echo $user_count; ?> User(s)</li>
                         <li><?php echo $plugin_distinct_count; ?> Distinct Plugin(s)</li>
                         <li><?php echo $plugin_count; ?> Plugin Version(s)</li>
+                        <li><?php echo $theme_distinct_count; ?> Distinct Theme(s)</li>
+                        <li><?php echo $theme_count; ?> Theme Version(s)</li>
                     </ul>
                 </div>
             </div>
