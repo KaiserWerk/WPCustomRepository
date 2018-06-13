@@ -19,10 +19,10 @@ $klein->respond(['GET', 'POST'], '/login', function () {
         } else {
             $va_la = 0;
         }
-        setcookie(getenv('COOKIE_LOGIN_ATTEMPT'), $va_la + 1, time() + 60*60*24*7);
+        
+        setcookie(getenv('COOKIE_LOGIN_ATTEMPT'), $va_la + 1, time() + 60 * 60 * 24 * 7);
     
         LoggerHelper::debug('Starting login process');
-    
     
         if (empty($cred['username']) || empty($cred['password'])) {
             LoggerHelper::loginAttempt(null, 'Missing username or password.');
@@ -35,7 +35,7 @@ $klein->respond(['GET', 'POST'], '/login', function () {
             LoggerHelper::loginAttempt(null, 'Missing or invalid CSRF token.');
             LoggerHelper::debug( 'Login: Invalid CSRF Token from username ' . $cred['username']);
             /** send notification */
-            $message = 'Login attempt with invalid CSRF token from IP '.Helper::getIP().'.';
+            $message = 'Login attempt with invalid CSRF token from IP ' . Helper::getIP() . '.';
             CommunicationHelper::sendNotification($message);
             Helper::setMessage('Unknown error!', 'danger');
             Helper::redirect('/login');
