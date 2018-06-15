@@ -23,7 +23,7 @@ $klein->respond('GET', '/download/plugin/[:slug]/[:version]', function ($request
     ]);
     
     if ($latest_version === false) {
-        die('No files available');
+        HTTPHelper::jsonResponse('No files available.', 404);
     }
     
     if ($slug !== null && $version !== null) {
@@ -50,10 +50,10 @@ $klein->respond('GET', '/download/plugin/[:slug]/[:version]', function ($request
             readfile($dir . $file_name);
             die;
         } else {
-            die('Version file does not exist');
+            HTTPHelper::jsonResponse('Version file does not exist.', 404);
         }
     } else {
-        die('invalid plugin slug or version constraint');
+        HTTPHelper::jsonResponse('Invalid plugin slug or version string', 400);
     }
 });
 
@@ -80,7 +80,7 @@ $klein->respond('GET', '/download/theme/[:slug]/[:version]', function ($request)
     ]);
     
     if ($latest_version === false) {
-        die('No files available');
+        HTTPHelper::jsonResponse('No files available.', 404);
     }
     
     if ($slug !== null && $version !== null) {
@@ -107,9 +107,9 @@ $klein->respond('GET', '/download/theme/[:slug]/[:version]', function ($request)
             readfile($dir . $file_name);
             die;
         } else {
-            die('Version file does not exist');
+            HTTPHelper::jsonResponse('Version file does not exist.', 404);
         }
     } else {
-        die('invalid theme slug or version constraint');
+        HTTPHelper::jsonResponse('Invalid plugin slug or version string', 400);
     }
 });

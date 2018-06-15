@@ -31,8 +31,9 @@ $klein->respond('GET', '/api/plugins/check-latest-version/[:slug]', function ($r
     #$response->url = $base_plugin['url'];
     $response->package = Helper::getHost() . '/download/plugin/' . $slug . '/latest';
     
-    header('Content-Type: application/json');
-    echo json_encode($response, JSON_PRETTY_PRINT);
+    HTTPHelper::jsonResponse((array)$response, null, [
+        'Content-Type' => 'application/json',
+    ]);
 });
 
 $klein->respond('GET', '/api/plugins/get-plugin-information/[:slug]', function ($request) {
@@ -127,8 +128,9 @@ $klein->respond('GET', '/api/plugins/get-plugin-information/[:slug]', function (
     
     $response->download_link = Helper::getHost() . '/download/plugin/' . $slug . '/'.$latest_version['version'];
     
-    header('Content-Type: application/json');
-    echo json_encode($response, JSON_PRETTY_PRINT);
+    HTTPHelper::jsonResponse((array)$response, null, [
+        'Content-Type' => 'application/json',
+    ]);
 });
 
 
