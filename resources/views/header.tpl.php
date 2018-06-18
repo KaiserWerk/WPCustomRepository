@@ -53,7 +53,7 @@ $StopwatchHelper->start();
                             Theme
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="/theme/list">Theme List</a>
+                            <a class="dropdown-item" href="/theme/base/list">Theme List</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="/theme/base/add">Add Theme</a>
                             <a class="dropdown-item" href="/theme/version/add">Add Theme Version</a>
