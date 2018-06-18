@@ -3,7 +3,7 @@
 /**
  * Lists all email trackings with statistics
  */
-$klein->respond('GET', '/admin/tracking_mail/list', function ($request) {
+$router->respond('GET', '/admin/tracking_mail/list', function ($request) {
     if (!AuthHelper::isLoggedIn()) {
         Helper::setMessage('Please login first!', 'warning');
         Helper::redirect('/login');

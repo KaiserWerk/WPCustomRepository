@@ -1,6 +1,6 @@
 <?php
 
-$klein->respond('GET', '/license/list', function ($request) {
+$router->respond('GET', '/license/list', function ($request) {
     if (!AuthHelper::isLoggedIn()) {
         Helper::setMessage('Please login first!', 'warning');
         Helper::redirect('/login');
@@ -19,7 +19,7 @@ $klein->respond('GET', '/license/list', function ($request) {
     require_once viewsDir().'/footer.tpl.php';
 });
 
-$klein->respond(['GET', 'POST'], '/license/add', function ($request) {
+$router->respond(['GET', 'POST'], '/license/add', function ($request) {
     if (!AuthHelper::isLoggedIn()) {
         Helper::setMessage('Please login first!', 'warning');
         Helper::redirect('/login');
@@ -82,7 +82,7 @@ $klein->respond(['GET', 'POST'], '/license/add', function ($request) {
     }
 });
 
-$klein->respond(['GET', 'POST'], '/license/[:id]/renew', function ($request) {
+$router->respond(['GET', 'POST'], '/license/[:id]/renew', function ($request) {
     if (!AuthHelper::isLoggedIn()) {
         Helper::setMessage('Please login first!', 'warning');
         Helper::redirect('/login');
@@ -120,7 +120,7 @@ $klein->respond(['GET', 'POST'], '/license/[:id]/renew', function ($request) {
     }
 });
 
-$klein->respond('GET', '/license/[:id]/auto-renewal/toggle', function ($request) {
+$router->respond('GET', '/license/[:id]/auto-renewal/toggle', function ($request) {
     if (!AuthHelper::isLoggedIn()) {
         Helper::setMessage('Please login first!', 'warning');
         Helper::redirect('/login');
@@ -136,7 +136,7 @@ $klein->respond('GET', '/license/[:id]/auto-renewal/toggle', function ($request)
     }
 });
 
-$klein->respond(['GET', 'POST'], '/license/[:id]/edit', function ($request) {
+$router->respond(['GET', 'POST'], '/license/[:id]/edit', function ($request) {
     if (!AuthHelper::isLoggedIn()) {
         Helper::setMessage('Please login first!', 'warning');
         Helper::redirect('/login');
@@ -211,7 +211,7 @@ $klein->respond(['GET', 'POST'], '/license/[:id]/edit', function ($request) {
     }
 });
 
-$klein->respond('GET', '/license/[:id]/remove', function ($request) {
+$router->respond('GET', '/license/[:id]/remove', function ($request) {
     if (!AuthHelper::isLoggedIn()) {
         Helper::setMessage('Please login first!', 'warning');
         Helper::redirect('/login');

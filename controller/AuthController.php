@@ -1,6 +1,6 @@
 <?php
 
-$klein->respond(['GET', 'POST'], '/login', function () {
+$router->respond(['GET', 'POST'], '/login', function () {
     
     if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         if (AuthHelper::isLoggedIn()) {
@@ -125,7 +125,7 @@ $klein->respond(['GET', 'POST'], '/login', function () {
     }
 });
 
-$klein->respond('GET', '/logout', function ($request) {
+$router->respond('GET', '/logout', function ($request) {
     if (AuthHelper::isLoggedIn()) {
         AuthHelper::logout();
     }
@@ -137,7 +137,7 @@ $klein->respond('GET', '/logout', function ($request) {
 /**
  * Displays the reset request form
  */
-$klein->respond(['GET', 'POST'], '/resetting/request', function ($request) {
+$router->respond(['GET', 'POST'], '/resetting/request', function ($request) {
     $db = new DBHelper();
     if (isset($_POST['btn_reset_request'])) {
         $cred = $_POST['_reset_request'];
@@ -216,7 +216,7 @@ $klein->respond(['GET', 'POST'], '/resetting/request', function ($request) {
 /**
  * Resets a user's password
  */
-$klein->respond(['GET', 'POST'], '/resetting/reset', function ($request) {
+$router->respond(['GET', 'POST'], '/resetting/reset', function ($request) {
     $db = new DBHelper();
     
     $token = isset($_GET['confirmation_token']) ? trim($_GET['confirmation_token']) : null;

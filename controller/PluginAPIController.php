@@ -2,7 +2,7 @@
 
 // @TODO remove cookie from api calls
 
-$klein->respond('GET', '/api/plugins/check-latest-version/[:slug]', function ($request) {
+$router->respond('GET', '/api/plugins/check-latest-version/[:slug]', function ($request) {
     // @TODO log API request
 
     LicenseHelper::checkLicenseValidity($request->headers);
@@ -36,7 +36,7 @@ $klein->respond('GET', '/api/plugins/check-latest-version/[:slug]', function ($r
     ]);
 });
 
-$klein->respond('GET', '/api/plugins/get-plugin-information/[:slug]', function ($request) {
+$router->respond('GET', '/api/plugins/get-plugin-information/[:slug]', function ($request) {
     // @TODO log API request
 
     LicenseHelper::checkLicenseValidity($request->headers);
@@ -134,7 +134,7 @@ $klein->respond('GET', '/api/plugins/get-plugin-information/[:slug]', function (
 });
 
 
-$klein->respond('POST', '/api/plugins/track-installations', function () {
+$router->respond('POST', '/api/plugins/track-installations', function () {
     
     $slug = $_POST['slug'] ?? null;
     $version = $_POST['version'] ?? null;

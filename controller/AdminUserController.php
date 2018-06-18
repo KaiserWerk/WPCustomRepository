@@ -3,7 +3,7 @@
 /**
  * List all users
  */
-$klein->respond('GET', '/admin/user/list', function ($request) {
+$router->respond('GET', '/admin/user/list', function ($request) {
     $db = new DBHelper();
     if (!AuthHelper::isLoggedIn()) {
         Helper::setMessage('Please login first!', 'warning');
@@ -34,7 +34,7 @@ $klein->respond('GET', '/admin/user/list', function ($request) {
 /**
  * Change the 'locked' status of a user
  */
-$klein->respond('GET', '/admin/user/[:id]/status/locked', function ($request) {
+$router->respond('GET', '/admin/user/[:id]/status/locked', function ($request) {
     $db = new DBHelper();
     if (!AuthHelper::isLoggedIn()) {
         Helper::setMessage('Please login first!', 'warning');
@@ -73,7 +73,7 @@ $klein->respond('GET', '/admin/user/[:id]/status/locked', function ($request) {
  * Change the admin status of a user
  * (not of oneself)
  */
-$klein->respond('GET', '/admin/user/[:id]/status/admin', function ($request) {
+$router->respond('GET', '/admin/user/[:id]/status/admin', function ($request) {
     $db = new DBHelper();
     if (!AuthHelper::isLoggedIn()) {
         Helper::setMessage('Please login first!', 'warning');
@@ -110,7 +110,7 @@ $klein->respond('GET', '/admin/user/[:id]/status/admin', function ($request) {
 /**
  * Display the form for adding a new user
  */
-$klein->respond('GET', '/admin/user/add', function ($request) {
+$router->respond('GET', '/admin/user/add', function ($request) {
     if (!AuthHelper::isLoggedIn()) {
         Helper::setMessage('Please login first!', 'warning');
         Helper::redirect('/login');
@@ -128,7 +128,7 @@ $klein->respond('GET', '/admin/user/add', function ($request) {
 /**
  * Adds a new user and optionally sends out a notification
  */
-$klein->respond('POST', '/admin/user/add/save', function ($request) {
+$router->respond('POST', '/admin/user/add/save', function ($request) {
     $db = new DBHelper();
     if (!AuthHelper::isLoggedIn()) {
         Helper::setMessage('Please login first!', 'warning');
@@ -236,7 +236,7 @@ $klein->respond('POST', '/admin/user/add/save', function ($request) {
 /**
  * Display the form for removing a user
  */
-$klein->respond(['GET', 'POST'], '/admin/user/[:id]/remove', function ($request) {
+$router->respond(['GET', 'POST'], '/admin/user/[:id]/remove', function ($request) {
     $db = new DBHelper();
     if (!AuthHelper::isLoggedIn()) {
         Helper::setMessage('Please login first!', 'warning');
@@ -280,7 +280,7 @@ $klein->respond(['GET', 'POST'], '/admin/user/[:id]/remove', function ($request)
 /**
  * Display the form for editing a user
  */
-$klein->respond(['GET', 'POST'], '/admin/user/[:id]/edit', function ($request) {
+$router->respond(['GET', 'POST'], '/admin/user/[:id]/edit', function ($request) {
     $db = new DBHelper();
     if (!AuthHelper::isLoggedIn()) {
         Helper::setMessage('Please login first!', 'warning');

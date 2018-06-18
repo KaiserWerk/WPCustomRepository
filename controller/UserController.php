@@ -4,7 +4,7 @@
  * Displays forms for changing various user setting, like email
  * or password
  */
-$klein->respond(['GET', 'POST'], '/user/settings', function ($request) {
+$router->respond(['GET', 'POST'], '/user/settings', function ($request) {
     $db = new DBHelper();
 
     if (AuthHelper::isLoggedIn()) {

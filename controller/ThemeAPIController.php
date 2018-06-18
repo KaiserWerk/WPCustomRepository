@@ -1,6 +1,6 @@
 <?php
 
-$klein->respond('GET', '/api/themes/theme-update/[:slug]', function($request) {
+$router->respond('GET', '/api/themes/theme-update/[:slug]', function($request) {
     $slug = $request->slug ?? null;
     
     if ($slug === null) {
@@ -31,7 +31,7 @@ $klein->respond('GET', '/api/themes/theme-update/[:slug]', function($request) {
     
 });
 
-$klein->respond('GET', '/api/themes/theme-information/[:slug]', function($request) {
+$router->respond('GET', '/api/themes/theme-information/[:slug]', function($request) {
     $slug = $request->slug ?? null;
     
     if ($slug === null) {

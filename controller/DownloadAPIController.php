@@ -1,7 +1,7 @@
 <?php
 
 // returns the most recent plugin version
-$klein->respond('GET', '/download/plugin/[:slug]/[:version]', function ($request) {
+$router->respond('GET', '/download/plugin/[:slug]/[:version]', function ($request) {
     
     if (!AuthHelper::isLoggedIn()) {
         LicenseHelper::checkLicenseValidity($request->headers);
@@ -58,7 +58,7 @@ $klein->respond('GET', '/download/plugin/[:slug]/[:version]', function ($request
 });
 
 // returns the most recent theme version
-$klein->respond('GET', '/download/theme/[:slug]/[:version]', function ($request) {
+$router->respond('GET', '/download/theme/[:slug]/[:version]', function ($request) {
     
     if (!AuthHelper::isLoggedIn()) {
         LicenseHelper::checkLicenseValidity($request->headers);

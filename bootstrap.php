@@ -2,7 +2,7 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
-$klein = new \Klein\Klein();
+$router = new \Klein\Klein();
 
 try {
 // .env Configuration

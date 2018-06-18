@@ -6,7 +6,7 @@
  * it's gonna be some statistics
  */
 
-$klein->respond('GET', '/admin/dashboard', function ($request) {
+$router->respond('GET', '/admin/dashboard', function ($request) {
     $db = new DBHelper();
     if (!AuthHelper::isLoggedIn()) {
         Helper::setMessage('Please login first!', 'warning');
@@ -32,7 +32,7 @@ $klein->respond('GET', '/admin/dashboard', function ($request) {
 /**
  * send a test email
  */
-$klein->respond('GET', '/admin/tools/test_mail_message', function ($request) {
+$router->respond('GET', '/admin/tools/test_mail_message', function ($request) {
     if (!AuthHelper::isLoggedIn()) {
         Helper::setMessage('Please login first!', 'warning');
         Helper::redirect('/login');
@@ -57,7 +57,7 @@ $klein->respond('GET', '/admin/tools/test_mail_message', function ($request) {
 /**
  * send a test stride message
  */
-$klein->respond('GET', '/admin/tools/test_stride_message', function ($request) {
+$router->respond('GET', '/admin/tools/test_stride_message', function ($request) {
     if (!AuthHelper::isLoggedIn()) {
         Helper::setMessage('Please login first!', 'warning');
         Helper::redirect('/login');
@@ -76,7 +76,7 @@ $klein->respond('GET', '/admin/tools/test_stride_message', function ($request) {
 /**
  * send a test hipchat message
  */
-$klein->respond('GET', '/admin/tools/test_hipchat_message', function ($request) {
+$router->respond('GET', '/admin/tools/test_hipchat_message', function ($request) {
     if (!AuthHelper::isLoggedIn()) {
         Helper::setMessage('Please login first!', 'warning');
         Helper::redirect('/login');
@@ -94,7 +94,7 @@ $klein->respond('GET', '/admin/tools/test_hipchat_message', function ($request) 
 /**
  * send a test Slack message
  */
-$klein->respond('GET', '/admin/tools/test_slack_message', function ($request) {
+$router->respond('GET', '/admin/tools/test_slack_message', function ($request) {
     if (!AuthHelper::isLoggedIn()) {
         Helper::setMessage('Please login first!', 'warning');
         Helper::redirect('/login');
