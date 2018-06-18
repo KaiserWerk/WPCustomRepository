@@ -36,4 +36,4 @@ closedir($h);
 
 AuthHelper::__init();
 
-$klein->dispatch();
+$router->dispatch();
