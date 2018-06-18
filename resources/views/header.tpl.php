@@ -42,9 +42,9 @@ $StopwatchHelper->start();
                             Plugins
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="/plugin/list">Plugin List</a>
+                            <a class="dropdown-item" href="/plugin/base/list">Base Plugin List</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/plugin/base/add">Add Plugin</a>
+                            <a class="dropdown-item" href="/plugin/base/add">Add Base Plugin</a>
                             <a class="dropdown-item" href="/plugin/version/add">Add Plugin Version</a>
                         </div>
                     </li>
