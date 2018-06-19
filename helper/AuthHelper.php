@@ -7,7 +7,7 @@ class AuthHelper
      *
      * @return null
      */
-    public static function __init()
+    public static function init()
     {
         if (!self::isSessionStarted()) {
             session_start();
