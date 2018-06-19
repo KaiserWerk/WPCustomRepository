@@ -1,8 +1,9 @@
 <?php
 
-// @TODO remove cookie from api calls
-
 $router->respond('GET', '/api/plugins/check-latest-version/[:slug]', function ($request) {
+    
+    // @TODO remove cookie from api calls
+
     // @TODO log API request
 
     LicenseHelper::checkLicenseValidity($request->headers);
@@ -38,7 +39,7 @@ $router->respond('GET', '/api/plugins/check-latest-version/[:slug]', function ($
 
 $router->respond('GET', '/api/plugins/get-plugin-information/[:slug]', function ($request) {
     // @TODO log API request
-
+    // @TODO remove cookie from api calls
     LicenseHelper::checkLicenseValidity($request->headers);
     
     $slug = $request->slug;
@@ -68,8 +69,8 @@ $router->respond('GET', '/api/plugins/get-plugin-information/[:slug]', function 
     $response->version = $latest_version['version'];
     $response->requires_php = $latest_version['requires_php'];
     $response->slug = $slug;
-    $response->author = 'Robin Kaiser';
-    $response->author_profile = 'https://kaiserrobin.eu';
+    $response->author = 'Robin Kaiser'; // @TODO turn into DB field
+    $response->author_profile = 'https://kaiserrobin.eu'; // @TODO turn into DB field
     $response->requires = $latest_version['requires'];
     $response->tested = $latest_version['tested'];
     $response->rating = $rating;
@@ -135,7 +136,9 @@ $router->respond('GET', '/api/plugins/get-plugin-information/[:slug]', function 
 
 
 $router->respond('POST', '/api/plugins/track-installations', function () {
-    
+    // @TODO remove cookie from api calls
+    // @TODO log API request
+    // @TODO proper JSON response
     $slug = $_POST['slug'] ?? null;
     $version = $_POST['version'] ?? null;
     $action = $_POST['action'] ?? null;

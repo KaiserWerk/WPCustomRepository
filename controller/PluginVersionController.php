@@ -1,5 +1,5 @@
 <?php
-
+// @TODO update updated_at when version is added/edited/removed
 $router->respond('GET', '/plugin/version/[:id]/list', function ($request) {
     if (!AuthHelper::isLoggedIn()) {
         Helper::setMessage('Please login first!', 'warning');
