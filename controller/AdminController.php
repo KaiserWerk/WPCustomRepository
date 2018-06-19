@@ -1,4 +1,10 @@
 <?php
+
+$router->respond('GET', '/admin', function () {
+    // just redirect to dashboard
+    Helper::redirect('/admin/dashboard');
+});
+
 /**
  * Main page; the admin dashboard
  *
