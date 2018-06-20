@@ -7,7 +7,7 @@
             <table class="table table-condense table-bordered table-hover">
                 <tbody>
                 <?php
-                foreach ($base_themes as $base_theme) {
+                foreach ($vars['base_themes'] as $base_theme) {
                     echo '<tr>';
                     echo '<td colspan="7">' . $base_theme['theme_name'] . ' &nbsp; <small><i>' . $base_theme['slug'] . '</i></small></td>';
                     echo '<td>Updated: ' . (new \DateTime($base_theme['last_updated']))->format('Y-m-d') . '</td>';

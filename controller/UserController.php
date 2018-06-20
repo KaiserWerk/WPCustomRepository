@@ -6,24 +6,16 @@
  */
 $router->respond(['GET', 'POST'], '/user/settings', function ($request) {
     $db = new DBHelper();
-
-    if (AuthHelper::isLoggedIn()) {
-        $user = Helper::getUserData($_SESSION['user']);
-    } else {
-        Helper::setMessage('Please login first!', 'warning');
-        Helper::redirect('/login');
-    }
+    
+    AuthHelper::requireLogin();
+    $user = Helper::getUserData($_SESSION['user']);
+    
 
     // change data
     if (isset($_POST['btn_save_my_data'])) {
-        if (AuthHelper::checkCSRFToken() === false) {
-            Helper::setMessage('An unknown error occured!', 'danger');
-            Helper::redirect('/user/settings');
-        }
-        if (AuthHelper::checkHoneypot() === false) {
-            Helper::setMessage('An unknown error occured!', 'danger');
-            Helper::redirect('/user/settings');
-        }
+        AuthHelper::requireValidCSRFToken();
+        AuthHelper::requireValidHonepot();
+        
 
         $_edit = $_POST['_edit'] ?? null;
 
@@ -97,10 +89,7 @@ $router->respond(['GET', 'POST'], '/user/settings', function ($request) {
      * deliberately lock my account
      */
     if (isset($_POST['btn_lock_account'])) {
-        if (AuthHelper::checkCSRFToken() === false) {
-            Helper::setMessage('An unknown error occured!', 'danger');
-            Helper::redirect('/user/settings');
-        }
+        AuthHelper::requireValidCSRFToken();
 
         $_lock = $_POST['_lock'] ?? null;
 
@@ -129,10 +118,7 @@ $router->respond(['GET', 'POST'], '/user/settings', function ($request) {
      * set new password
      */
     if (isset($_POST['btn_save_new_password'])) {
-        if (AuthHelper::checkCSRFToken() === false) {
-            Helper::setMessage('An unknown error occured!', 'danger');
-            Helper::redirect('/user/settings');
-        }
+        AuthHelper::requireValidCSRFToken();
 
         $_edit = $_POST['_edit'] ?? null;
         if ($_edit !== null &&
@@ -170,10 +156,7 @@ $router->respond(['GET', 'POST'], '/user/settings', function ($request) {
      * regenerate API key
      */
     if (isset($_POST['btn_regenerate_apikey'])) {
-        if (AuthHelper::checkCSRFToken() === false) {
-            Helper::setMessage('An unknown error occured!', 'danger');
-            Helper::redirect('/user/settings');
-        }
+        AuthHelper::requireValidCSRFToken();
 
         $_edit = $_POST['_edit'] ?? null;
         if ($_edit !== null || empty($_edit['password'])) {

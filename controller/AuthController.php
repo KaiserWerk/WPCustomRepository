@@ -2,16 +2,9 @@
 
 $router->respond(['GET', 'POST'], '/login', function () {
     
-    if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-        if (AuthHelper::isLoggedIn()) {
-            Helper::setMessage('You are already logged in.');
-            Helper::redirect('/');
-        }
-        require_once viewsDir().'/header.tpl.php';
-        require_once viewsDir().'/auth/login.tpl.php';
-        require_once viewsDir().'/footer.tpl.php';
-    }
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') { // @TODO use the submit button name instead
+    AuthHelper::requireLogin();
+    
+    if (isset($_POST['btn_login'])) { // @TODO use the submit button name instead
         $db = new DBHelper();
         $cred = $_POST['_login'];
         if (isset($_COOKIE[getenv('COOKIE_LOGIN_ATTEMPT')])) {
@@ -40,6 +33,18 @@ $router->respond(['GET', 'POST'], '/login', function () {
             Helper::setMessage('Unknown error!', 'danger');
             Helper::redirect('/login');
         }
+        
+        if (!AuthHelper::checkHoneypot()) {
+            /** write log */
+            LoggerHelper::loginAttempt(null, 'Honeypot error - Bot detected?');
+            LoggerHelper::debug( 'Login: Honeypot error from username ' . $cred['username']);
+            /** send notification */
+            $message = 'Login attempt with Honeypot error from IP ' . Helper::getIP() . '.';
+            CommunicationHelper::sendNotification($message);
+            Helper::setMessage('Unknown error!', 'danger');
+            Helper::redirect('/login');
+        }
+        
         $rows = $db->select('user', [
             'id',
             'username',
@@ -58,7 +63,7 @@ $router->respond(['GET', 'POST'], '/login', function () {
         }
     
         $row = $rows[0];
-        if ($row['locked'] == 1) {
+        if ($row['locked'] === 1) {
             LoggerHelper::loginAttempt($row['id'], 'Account is locked.');
             LoggerHelper::debug('account locked', 'warn');
             Helper::setMessage('Your account is locked!', 'warning');
@@ -101,6 +106,7 @@ $router->respond(['GET', 'POST'], '/login', function () {
             Helper::setMessage('You are now logged in!', 'success');
             Helper::redirect('/');
         } else {
+            LoggerHelper::loginAttempt(null, 'Unknown credentials.');
             if (isset($_COOKIE[getenv('COOKIE_LOGIN_ATTEMPT')]) && $_COOKIE[getenv('COOKIE_LOGIN_ATTEMPT')] >= 5) {
                 // lock account
                 $db->update('user', [
@@ -122,6 +128,8 @@ $router->respond(['GET', 'POST'], '/login', function () {
             Helper::setMessage('You entered incorrect credentials!', 'danger');
             Helper::redirect('/login');
         }
+    } else {
+        Helper::renderPage('/auth/login.tpl.php');
     }
 });
 
@@ -207,9 +215,7 @@ $router->respond(['GET', 'POST'], '/resetting/request', function ($request) {
             Helper::redirect('/resetting/request');
         }
     } else {
-        require_once viewsDir() . '/header.tpl.php';
-        require_once viewsDir() . '/auth/reset_request.tpl.php';
-        require_once viewsDir() . '/footer.tpl.php';
+        Helper::renderPage('/auth/reset_request.tpl.php');
     }
 });
 
@@ -300,8 +306,8 @@ $router->respond(['GET', 'POST'], '/resetting/reset', function ($request) {
             }
         }
         
-        require_once viewsDir() . '/header.tpl.php';
-        require_once viewsDir() . '/auth/reset_reset.tpl.php';
-        require_once viewsDir() . '/footer.tpl.php';
+        Helper::renderPage('/auth/reset_reset.tpl.php', [
+            'token' => $token,
+        ]);
     }
 });
