@@ -2,6 +2,11 @@
 
 class HTTPHelper
 {
+    /**
+     * @param string $message
+     * @param int $code
+     * @param null|array $additional_headers
+     */
     public static function textResponse($message, $code = 200, $additional_headers = null)
     {
         http_response_code($code);
@@ -16,7 +21,12 @@ class HTTPHelper
         die;
     }
     
-    public static function jsonResponse(array $message, $code = 200, $additional_headers = null)
+    /**
+     * @param array|object $message
+     * @param int $code
+     * @param null|array $additional_headers
+     */
+    public static function jsonResponse($message, $code = 200, $additional_headers = null)
     {
         http_response_code($code);
         if (is_array($message)) {
@@ -25,11 +35,14 @@ class HTTPHelper
             $message->created_at = (new \DateTime())->format('Y-m-d H:i:s');
         }
         
+        $message = (array)$message;
+        
         if ($additional_headers !== null && is_array($additional_headers)) {
             foreach ($additional_headers as $key => $value) {
                 header($key . ': ' . $value);
             }
         }
+        header('Content-Type: application/json');
         echo \json_encode($message, JSON_PRETTY_PRINT);
         die;
     }
