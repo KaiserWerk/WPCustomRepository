@@ -60,13 +60,12 @@ class LoggerHelper
     {
         try {
             $db = new DBHelper();
-            $db->insert('log_login', [
+            $db->insert('login', [
                 'user_entry_id' => $user_entry_id,
                 'login_status' => $login_status,
                 'useragent' => $_SERVER['HTTP_USER_AGENT'],
                 'lang' => $_SERVER['HTTP_ACCEPT_LANGUAGE'],
                 'ip' => Helper::getIP(),
-                'created_at' => date('Y-m-d H:i:s'),
             ]);
         } catch (PDOException $e) {
             return false;
