@@ -11,6 +11,7 @@ class CommunicationHelper
      */
     public static function sendNotification($message)
     {
+        self::sendDiscordMessage($message);
         self::sendStrideMessage($message);
         self::sendSlackMessage($message);
     }
@@ -83,7 +84,7 @@ class CommunicationHelper
     public static function sendSlackMessage($message)
     {
        
-        $ch = curl_init("https://slack.com/api/chat.postMessage");
+        $ch = curl_init('https://slack.com/api/chat.postMessage');
         $data = http_build_query([
             'token' => getenv('SLACK_APIKEY'),
             'channel' => getenv('SLACK_CHANNEL'), // prefix with a '#'
