@@ -2,7 +2,10 @@
 
 $router->respond(['GET', 'POST'], '/login', function () {
     
-    AuthHelper::requireLogin();
+    if (AuthHelper::isLoggedIn()) {
+        Helper::setMessage('You are already logged in.');
+        Helper::redirect('/');
+    }
     
     if (isset($_POST['btn_login'])) { // @TODO use the submit button name instead
         $db = new DBHelper();
@@ -225,14 +228,16 @@ $router->respond(['GET', 'POST'], '/resetting/request', function ($request) {
 $router->respond(['GET', 'POST'], '/resetting/reset', function ($request) {
     $db = new DBHelper();
     
-    $token = isset($_GET['confirmation_token']) ? trim($_GET['confirmation_token']) : null;
+    $token = isset($_REQUEST['confirmation_token']) ? trim($_REQUEST['confirmation_token']) : null;
     if ($token === null || !preg_match('/^[A-Za-z0-9-]+/', $token)) {
         $token = trim($_GET['_confirmation_token']);
-        if (empty($token) || !preg_match('/^[A-Za-z0-9-]+/', $token)) {
-            Helper::setMessage('You supplied an invalid reset Token!', 'danger');
-            Helper::redirect('/resetting/reset');
-        }
     }
+    
+    // darf leer sein, also nicht weiterleiten!
+    /*if (empty($token) || !preg_match('/^[A-Za-z0-9-]+/', $token)) {
+        #Helper::setMessage('You supplied an invalid reset Token!', 'danger');
+        #Helper::redirect('/resetting/reset');
+    }*/
     // mail tracking
     if (getenv('EMAIL_TRACKING_ENABLED') === 'true') {
         $db->update('mail_sent', [
@@ -244,15 +249,13 @@ $router->respond(['GET', 'POST'], '/resetting/reset', function ($request) {
     
     // Formular wurde abgeschickt
     if (isset($_POST['btn_reset_reset'])) {
-        // token vorbereiten
-        if ($_POST['_csrf_token'] !== $_SESSION['_csrf_token']) {
-            Helper::setMessage('Unknown error!', 'danger');
-            Helper::redirect('/resetting/reset');
-        }
+        
+        AuthHelper::requireValidCSRFToken();
+        
         if (!$db->has('user', [
             'confirmation_token' => $token,
         ])) {
-            Helper::setMessage('Unknown error!', 'danger');
+            Helper::setMessage('Unknown error 1!', 'danger');
             Helper::redirect('/resetting/reset');
         }
         $row = $db->get('user', [
@@ -265,16 +268,16 @@ $router->respond(['GET', 'POST'], '/resetting/reset', function ($request) {
         $cred = $_POST['_reset_reset'];
         if (empty($cred['password1']) || empty($cred['password2'])) {
             Helper::setMessage('Please fill in all fields!', 'warning');
-            Helper::redirect('/resetting/reset?confirmation_token='.$token);
+            Helper::redirect('/resetting/reset?confirmation_token=' . $token);
         }
         if (!AuthHelper::str_cmp_sec($cred['password1'], $cred['password2'])) {
             Helper::setMessage('The passwords you entered do not match!', 'danger');
-            Helper::redirect('/resetting/reset?confirmation_token='.$token);
+            Helper::redirect('/resetting/reset?confirmation_token=' . $token);
         }
         
         if (!preg_match('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.[\W]).{12,}$/', $cred['password1'])) {
-            Helper::setMessage('A new password must be at least 12 characters long and contain lowercase, uppercase and numbers!', 'danger');
-            Helper::redirect('/resetting/reset?confirmation_token='.$token);
+            Helper::setMessage('A new password must be at least 12 characters long and contain lowercase, uppercase and numbers!', 'warning');
+            Helper::redirect('/resetting/reset?confirmation_token=' . $token);
         }
         
         $hash = password_hash($cred['password1'], PASSWORD_BCRYPT, ['cost' => 12]);
