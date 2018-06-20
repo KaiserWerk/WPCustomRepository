@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Erstellungszeit: 12. Jun 2018 um 17:45
+-- Erstellungszeit: 20. Jun 2018 um 12:18
 -- Server-Version: 5.6.38
 -- PHP-Version: 7.2.1
 
@@ -28,10 +28,6 @@ CREATE TABLE `api_request` (
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Daten für Tabelle `api_request`
---
-
 -- --------------------------------------------------------
 
 --
@@ -49,9 +45,21 @@ CREATE TABLE `license` (
   `created_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
 --
--- Daten für Tabelle `license`
+-- Tabellenstruktur für Tabelle `login`
 --
+
+CREATE TABLE `login` (
+  `id` int(11) NOT NULL,
+  `user_entry_id` int(11) DEFAULT NULL,
+  `login_status` varchar(50) DEFAULT NULL,
+  `useragent` varchar(255) DEFAULT NULL,
+  `lang` varchar(255) DEFAULT NULL,
+  `ip` varchar(15) DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -66,11 +74,6 @@ CREATE TABLE `mail_sent` (
   `sent_at` datetime NOT NULL,
   `token_used_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Daten für Tabelle `mail_sent`
---
-
 
 -- --------------------------------------------------------
 
@@ -114,10 +117,6 @@ CREATE TABLE `plugin` (
   `license_enabled` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Daten für Tabelle `plugin`
---
-
 -- --------------------------------------------------------
 
 --
@@ -136,10 +135,6 @@ CREATE TABLE `plugin_version` (
   `archived` tinyint(1) NOT NULL DEFAULT '0',
   `added_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Daten für Tabelle `plugin_version`
---
 
 -- --------------------------------------------------------
 
@@ -167,6 +162,7 @@ CREATE TABLE `theme_version` (
   `id` int(11) NOT NULL,
   `theme_entry_id` int(11) NOT NULL,
   `version` varchar(10) NOT NULL,
+  `requires_php` varchar(10) NOT NULL,
   `requires` varchar(10) NOT NULL,
   `tested` varchar(10) NOT NULL,
   `added_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -185,23 +181,22 @@ CREATE TABLE `user` (
   `last_name` varchar(100) DEFAULT NULL,
   `password` varchar(100) NOT NULL,
   `email` varchar(150) NOT NULL,
-  `apikey` varchar(50) NOT NULL,
   `confirmation_token` varchar(150) DEFAULT NULL,
   `confirmation_token_validity` datetime DEFAULT NULL,
   `last_login` datetime DEFAULT NULL,
-  `sex` varchar(1) NOT NULL DEFAULT 'f',
+  `sex` varchar(1) NOT NULL DEFAULT 'm',
   `locale` varchar(5) NOT NULL DEFAULT 'en',
   `admin` tinyint(1) NOT NULL DEFAULT '0',
   `locked` tinyint(1) NOT NULL DEFAULT '0',
-  `created_at` datetime NOT NULL
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Daten für Tabelle `user`
 --
 
-INSERT INTO `user` (`id`, `username`, `first_name`, `last_name`, `password`, `email`, `apikey`, `confirmation_token`, `confirmation_token_validity`, `last_login`, `sex`, `locale`, `admin`, `locked`, `created_at`) VALUES
-(1, 'admin', 'Ad', 'Min', '$2y$12$GicGrkBOWhUV/CSewj2Gm.SSRW5ciOzdgYjG.2CRjjXOyz0.Vt65i', 't@r-k.mx', 'o0lq42j16bh2g8f2m5ai', NULL, NULL, '2018-06-12 17:24:05', 'm', 'en', 1, 0, '2018-01-31 15:30:35');
+INSERT INTO `user` (`id`, `username`, `first_name`, `last_name`, `password`, `email`, `confirmation_token`, `confirmation_token_validity`, `last_login`, `sex`, `locale`, `admin`, `locked`, `created_at`) VALUES
+(1, 'admin', 'Robin', 'Kaiser', '$2y$12$GicGrkBOWhUV/CSewj2Gm.SSRW5ciOzdgYjG.2CRjjXOyz0.Vt65i', 't@r-k.mx', NULL, NULL, '2018-06-20 12:15:23', 'm', 'en', 1, 0, '2018-06-19 15:30:35');
 
 --
 -- Indizes der exportierten Tabellen
@@ -219,6 +214,12 @@ ALTER TABLE `api_request`
 ALTER TABLE `license`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `license_key` (`license_key`);
+
+--
+-- Indizes für die Tabelle `login`
+--
+ALTER TABLE `login`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indizes für die Tabelle `mail_sent`
@@ -265,7 +266,6 @@ ALTER TABLE `user`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `username` (`username`),
   ADD UNIQUE KEY `email` (`email`),
-  ADD UNIQUE KEY `apikey` (`apikey`),
   ADD UNIQUE KEY `confirmation_token` (`confirmation_token`);
 
 --
@@ -282,6 +282,12 @@ ALTER TABLE `api_request`
 -- AUTO_INCREMENT für Tabelle `license`
 --
 ALTER TABLE `license`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT für Tabelle `login`
+--
+ALTER TABLE `login`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -324,4 +330,4 @@ ALTER TABLE `theme_version`
 -- AUTO_INCREMENT für Tabelle `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
