@@ -179,7 +179,7 @@ $router->respond(['GET', 'POST'], '/user/settings', function ($request) {
         }
     }
     
-    require_once viewsDir() . '/header.tpl.php';
-    require_once viewsDir() . '/user/settings.tpl.php';
-    require_once viewsDir() . '/footer.tpl.php';
+    Helper::renderPage('/user/settings.tpl.php', [
+        'user' => $user,
+    ]);
 });
