@@ -103,12 +103,16 @@ class Helper
      * @param bool $is_filename
      * @return null|string
      */
-    public static function sluggify($string, $is_filename = false) {
+    public static function sluggify($string, $is_filename = false, $lowercase = false) {
         $pattern = '/[^A-Za-z0-9]+/';
         if ($is_filename === true) {
             $pattern = '/[^A-Za-z0-9\.]+/';
         }
-        return preg_replace($pattern, '-', $string);
+        $string = preg_replace($pattern, '-', $string);
+        if ($lowercase) {
+            $string = strtolower($string);
+        }
+        return $string;
     }
 
     /**
