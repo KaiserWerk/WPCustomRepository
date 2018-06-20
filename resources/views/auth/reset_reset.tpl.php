@@ -5,19 +5,14 @@
             <h1 class="mt-5">Reset your password</h1>
             <?php Helper::getMessage(); ?>
             <br>
-            <form method="post" action="?_confirmation_token=<?php echo $vars['token']; ?>">
-                <?php
-                AuthHelper::generateCSRFInput();
-                AuthHelper::generateHoneypotInput();
-                if (!isset($_GET['confirmation_token'])) {
-                    ?>
+            <form method="post" action="?_confirmation_token=<?=$token;?>">
+                <?php AuthHelper::generateCSRFInput(); AuthHelper::generateHoneypotInput(); ?>
+                <?php if (!isset($_GET['confirmation_token'])): ?>
                     <div class="form-group">
                         <label for="password1">Confirmation Token:</label>
                         <input type="text" name="confirmation_token" class="form-control" id="password1">
                     </div>
-                    <?php
-                }
-                ?>
+                <?php endif; ?>
                 <div class="form-group">
                     <label for="password1">New Password:</label>
                     <input type="password" name="_reset_reset[password1]" class="form-control" id="password1">

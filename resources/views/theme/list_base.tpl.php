@@ -7,11 +7,11 @@
             <table class="table table-condense table-bordered table-hover">
                 <tbody>
                 <?php
-                foreach ($vars['base_themes'] as $base_theme) {
+                foreach ($base_themes as $base_theme) {
                     echo '<tr>';
-                    echo '<td colspan="7">' . $base_theme['theme_name'] . ' &nbsp; <small><i>' . $base_theme['slug'] . '</i></small></td>';
-                    echo '<td>Updated: ' . (new \DateTime($base_theme['last_updated']))->format('Y-m-d') . '</td>';
-                    echo '<td>';
+                    echo '<td width="34%">' . $base_theme['theme_name'] . ' &nbsp; <small><i>' . $base_theme['slug'] . '</i></small></td>';
+                    echo '<td width="33%">Updated: ' . (new \DateTime($base_theme['last_updated']))->format('Y-m-d') . '</td>';
+                    echo '<td width="33%">';
                     echo '<a href="/theme/base/' . $base_theme['id'] . '/edit">Edit</a>';
                     echo ' / <a href="/theme/version/' . $base_theme['id'] . '/list">Show Versions</a>';
                     echo ' / <a href="/theme/base/' . $base_theme['id'] . '/remove" onclick="return confirm(\'Continue?\');">Remove</a>';

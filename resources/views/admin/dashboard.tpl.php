@@ -18,11 +18,11 @@
                 <div class="col-md-6 col-sm-12">
                     <h4>Basic Statistics</h4>
                     <ul>
-                        <li><?php echo $vars['user_count']; ?> User(s)</li>
-                        <li><?php echo $vars['plugin_base_count']; ?> Base Plugin(s)</li>
-                        <li><?php echo $vars['plugin_version_count']; ?> Plugin Version(s)</li>
-                        <li><?php echo $vars['theme_base_count']; ?> Base Theme(s)</li>
-                        <li><?php echo $vars['theme_version_count']; ?> Theme Version(s)</li>
+                        <li><?php echo $user_count; ?> User(s)</li>
+                        <li><?php echo $plugin_base_count; ?> Base Plugin(s)</li>
+                        <li><?php echo $plugin_version_count; ?> Plugin Version(s)</li>
+                        <li><?php echo $theme_base_count; ?> Base Theme(s)</li>
+                        <li><?php echo $theme_version_count; ?> Theme Version(s)</li>
                     </ul>
                 </div>
             </div>

@@ -1,7 +1,4 @@
 <!-- Page Content -->
-<?php
-$user = $vars['user'];
-?>
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
@@ -12,7 +9,7 @@ $user = $vars['user'];
                 <div class="col-md-8 col-sm-12">
                     <form method="post">
                         <?php AuthHelper::generateCSRFInput(); ?>
-                        <input type="hidden" name="id" value="<?php echo $vars['id']; ?> ">
+                        <input type="hidden" name="id" value="<?php echo $id; ?> ">
                         <div class="form-group">
                             <label for="username">Username:</label>
                             <input id="username" name="_edit[username]" type="text" class="form-control" value="<?php echo $user['username']; ?>" required>
@@ -35,13 +32,13 @@ $user = $vars['user'];
                         </div>
                         <div class="form-group">
                             <label>Sex:</label><br>
-                            <label class="radio-inline"><input name="_edit[sex]" type="radio" value="m"<?php if($user['sex']=='m') echo ' checked'; ?>> Male</label> &nbsp;
-                            <label class="radio-inline"><input name="_edit[sex]" type="radio" value="f"<?php if($user['sex']=='f') echo ' checked'; ?>> Female</label> &nbsp;
+                            <label class="radio-inline"><input name="_edit[sex]" type="radio" value="m"<?php if($user['sex'] === 'm') echo ' checked'; ?>> Male</label> &nbsp;
+                            <label class="radio-inline"><input name="_edit[sex]" type="radio" value="f"<?php if($user['sex'] === 'f') echo ' checked'; ?>> Female</label> &nbsp;
                         </div>
                         <div class="checkbox">
                             Flags:<br>
-                            <label for="locked"><input id="locked" name="_edit[locked]" type="checkbox" value="1"<?php if($user['locked']=='1') echo ' checked'; ?>> Locked</label> &nbsp;
-                            <label for="admin"><input id="admin" name="_edit[admin]" type="checkbox" value="1"<?php if($user['admin']=='1') echo ' checked'; ?>> Admin</label> &nbsp;
+                            <label for="locked"><input id="locked" name="_edit[locked]" type="checkbox" value="1"<?php if($user['locked'] == '1') echo ' checked'; ?>> Locked</label> &nbsp;
+                            <label for="admin"><input id="admin" name="_edit[admin]" type="checkbox" value="1"<?php if($user['admin'] == '1') echo ' checked'; ?>> Admin</label> &nbsp;
                         </div>
                         <div class="form-group">
                             <br>

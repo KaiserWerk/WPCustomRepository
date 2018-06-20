@@ -1,8 +1,7 @@
-<?php $base_theme = $vars['base_theme']; ?>
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <h1 class="mt-5">Edit Plugin</h1>
+            <h1 class="mt-5">Edit Base Theme</h1>
             <?php Helper::getMessage(); ?>
             <br>
             <div class="row">
@@ -10,7 +9,7 @@
                     <?php AuthHelper::generateCSRFInput(); ?>
                     <div class="col-md-6 col-sm-12">
                         <div class="form-group">
-                            <label for="theme_name">Plugin Name</label>
+                            <label for="theme_name">Theme Name</label>
                             <input type="text" name="_theme_base_edit[theme_name]" id="plugin_name" class="form-control" value="<?php echo $base_theme['theme_name']; ?>" required>
                         </div>
                         <div class="form-group">

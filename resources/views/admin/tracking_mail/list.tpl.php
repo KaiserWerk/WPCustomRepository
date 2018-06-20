@@ -16,7 +16,7 @@
                 </thead>
                 <tbody>
                     <?php
-                    foreach ($vars['mails'] as $mail) {
+                    foreach ($mails as $mail) {
                         echo '<tr>';
                         echo '<td>'.$mail['confirmation_token'].'</td>';
                         echo '<td>'.$mail['recipient'].'</td>';

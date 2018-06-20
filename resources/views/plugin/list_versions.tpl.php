@@ -1,7 +1,3 @@
-<?php
-$base_plugin = $vars['base_plugin'];
-$plugin_versions = $vars['plugin_versions'];
-?>
 <div class="container">
     <div class="row">
         <div class="col-md-12">
@@ -31,7 +27,7 @@ $plugin_versions = $vars['plugin_versions'];
                         echo '</tr>';
                     }
                 } else {
-                    echo '<tr><td colspan="6" class="text-center text-muted"><small>No versions found for plugin <b>'.$base_plugin['plugin_name'].'</b>!</small></td> </tr>';
+                    echo '<tr><td class="text-center text-muted"><small>No versions found for plugin <b>'.$base_plugin['plugin_name'].'</b>!</small></td> </tr>';
                 }
                 ?>
                 </tbody>

@@ -1,5 +1,4 @@
 <!-- Page Content -->
-<?php $license = $vars['license']; ?>
 <div class="container">
     <div class="row">
         <div class="col-md-6">
@@ -27,7 +26,7 @@
                     <select name="_edit[plugin_slug]" id="plugin_slug" size="1" class="form-control">
                         <?php
                         echo '<option value=""><i>None</i></option>';
-                        foreach ($vars['pluginSlugSelections'] as $pluginSlugSelection) {
+                        foreach ($pluginSlugSelections as $pluginSlugSelection) {
                             echo '<option value="';
                             echo $pluginSlugSelection['slug'];
                             if ($pluginSlugSelection['slug'] === $license['plugin_slug']) {

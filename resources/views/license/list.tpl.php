@@ -19,7 +19,7 @@
                 </thead>
                 <tbody>
                 <?php
-                foreach ($vars['licenses'] as $license) {
+                foreach ($licenses as $license) {
                     echo '<tr>';
                     echo '<td>'.$license['license_user'].'</td>';
                     echo '<td><textarea class="form-control-plaintext" onfocus="this.select();" rows="1" cols="50">'.$license['license_key'].'</textarea></td>';
