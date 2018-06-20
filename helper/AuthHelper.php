@@ -39,6 +39,30 @@ class AuthHelper
         return null;
     }
     
+    public static function requireLogin()
+    {
+        if (!self::isLoggedIn()) {
+            Helper::setMessage('Please login first!', 'warning');
+            Helper::redirect('/login');
+        }
+    }
+    
+    public static function requireValidCSRFToken()
+    {
+        if (!self::checkCSRFToken()) {
+            Helper::setMessage('An unknown error occured!', 'danger');
+            Helper::redirect(isset($_SERVER['HTTP_REFERER']) ?? '/');
+        }
+    }
+    
+    public static function requireValidHonepot()
+    {
+        if (!self::checkHoneypot()) {
+            Helper::setMessage('An unknown error occured!', 'danger');
+            Helper::redirect(isset($_SERVER['HTTP_REFERER']) ?? '/');
+        }
+    }
+    
     /**
      * Checks whether the session is already started
      * session_status() is buggy, don't use it
@@ -186,6 +210,14 @@ class AuthHelper
             ++$i;
         }
         return (bool)array_product($result_array);
+    }
+    
+    public static function requireAdmin()
+    {
+        if (!self::isAdmin($_SESSION['user'])) {
+            http_response_code(403);
+            Helper::errorPage(403);
+        }
     }
     
     /**
