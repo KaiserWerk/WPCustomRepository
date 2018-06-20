@@ -27,10 +27,41 @@ $router->with('/theme/base', function () use ($router) {
     /**
      * Add a base theme
      */
-    $router->respond(['GET', 'POST'], '/add', function () {
+    $router->respond(['GET', 'POST'], '/add', function ($request) {
         AuthHelper::requireLogin();
         if (isset($_POST['btn_theme_base_add'])) {
-        
+            AuthHelper::checkCSRFToken();
+            $_theme_base_add = $_POST['_theme_base_add'];
+    
+            $fields = [
+                'theme_name' => '',
+                'slug' => '',
+                'author' => '',
+                'author_homepage' => '',
+                'url' => '',
+                'section_description' => '',
+            ];
+    
+            foreach ($_theme_base_add as $key => $value) {
+                if (!empty($_theme_base_add[$key])) {
+                    $fields[$key] = $_theme_base_add[$key];
+                } else {
+                    unset($fields[$key]);
+                }
+            }
+    
+            #var_dump($fields);die;
+    
+            if (count($fields) === 0) {
+                Helper::setMessage('No values were entered.');
+                Helper::redirect('/theme/base/list');
+            }
+    
+            $db = new DBHelper();
+            $db->insert('theme', $fields);
+    
+            Helper::setMessage('Base theme added!', 'success');
+            Helper::redirect('/theme/base/list');
         } else {
             Helper::renderPage('/theme/add_base.tpl.php');
         }
@@ -46,21 +77,23 @@ $router->with('/theme/base', function () use ($router) {
             $_theme_base_edit = $_POST['_theme_base_edit'];
             
             $fields = [
-                'theme_name',
-                'slug',
-                'author',
-                'author_homepage',
-                'url',
-                'section_description',
+                'theme_name' => '',
+                'slug' => '',
+                'author' => '',
+                'author_homepage' => '',
+                'url' => '',
+                'section_description' => '',
             ];
             
             foreach ($_theme_base_edit as $key => $value) {
-                if (!empty($fields[$key])) {
-                    $fields[$key] = $value;
+                if (!empty($_theme_base_edit[$key])) {
+                    $fields[$key] = $_theme_base_edit[$key];
                 } else {
                     unset($fields[$key]);
                 }
             }
+            
+            #var_dump($fields);die;
             
             if (count($fields) === 0) {
                 Helper::setMessage('No changes were made.');
@@ -94,9 +127,15 @@ $router->with('/theme/base', function () use ($router) {
     /**
      * Remove a base theme
      */
-    $router->respond('GET', '/[:id]/remove', function () {
+    $router->respond('GET', '/[:id]/remove', function ($request) {
         AuthHelper::requireLogin();
+        $db = new DBHelper();
+        $db->delete('theme', [
+            'id' => $request->id,
+        ]);
         
+        Helper::setMessage('Base theme removed!', 'success');
+        Helper::redirect('/theme/base/list');
     });
     
 });
