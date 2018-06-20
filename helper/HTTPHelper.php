@@ -12,6 +12,8 @@ class HTTPHelper
         http_response_code($code);
         if (!empty($message)) {
             echo $message;
+        } else {
+            echo 'A response was created but a message was not supplied.';
         }
         if ($additional_headers !== null && is_array($additional_headers)) {
             foreach ($additional_headers as $key => $value) {
@@ -25,14 +27,15 @@ class HTTPHelper
      * @param array|object $message
      * @param int $code
      * @param null|array $additional_headers
+     *
+     * @return bool
      */
     public static function jsonResponse($message, $code = 200, $additional_headers = null)
     {
         http_response_code($code);
-        if (is_array($message)) {
-            $message['created_at'] = (new \DateTime())->format('Y-m-d H:i:s');
-        } elseif (is_object($message)) {
-            $message->created_at = (new \DateTime())->format('Y-m-d H:i:s');
+        
+        if (!is_object($message) && !is_array($message)) {
+            return false;
         }
         
         $message = (array)$message;
