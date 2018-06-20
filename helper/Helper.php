@@ -3,6 +3,24 @@
 
 class Helper
 {
+    public static function renderPage($bodyTemplate, $vars = [], $headerTemplate = 'header.tpl.php',
+        $footerTemplate = 'footer.tpl.php')
+    {
+        if (!file_exists(viewsDir() . '/' . $bodyTemplate)) {
+            echo 'BodyTemplate not found.<br>';
+        }
+        if (!file_exists(viewsDir() . '/' . $headerTemplate)) {
+            echo 'HeaderTemplate not found.<br>';
+        }
+        if (!file_exists(viewsDir() . '/' . $footerTemplate)) {
+            echo 'FooterTemplate not found.<br>';
+        }
+        
+        require viewsDir() . '/' . $headerTemplate;
+        require viewsDir() . $bodyTemplate;
+        require viewsDir() . '/' . $footerTemplate;
+    }
+    
     public static function setMessage($message, $type = 'info')
     {
         $_SESSION['X-Message'] = $message;
@@ -28,14 +46,14 @@ class Helper
     
     public static function createZip($files = array(), $destination = '', $overwrite = false) {
         
-        if(file_exists($destination) && !$overwrite) {
+        if (file_exists($destination) && !$overwrite) {
             return false;
         }
 
         $valid_files = array();
-        if(is_array($files)) {
-            foreach($files as $file) {
-                if(file_exists($file['file'])) {
+        if (is_array($files)) {
+            foreach ($files as $file) {
+                if (file_exists($file['file'])) {
                     $valid_files[] = array(
                         'file' => $file['file'],
                         'name' => $file['name'],
@@ -46,14 +64,14 @@ class Helper
 
         #echo "<pre>"; var_dump($valid_files);die;
 
-        if(count($valid_files) > 0) {
+        if (count($valid_files) > 0) {
 
             $zip = new ZipArchive();
-            if($zip->open($destination,$overwrite ? ZIPARCHIVE::OVERWRITE : ZIPARCHIVE::CREATE) !== true) {
+            if ($zip->open($destination,$overwrite ? ZIPARCHIVE::OVERWRITE : ZIPARCHIVE::CREATE) !== true) {
                 return false;
             }
 
-            foreach($valid_files as $file) {
+            foreach ($valid_files as $file) {
                 $zip->addFile($file['file'], $file['name']);
             }
             $zip->close();
@@ -213,7 +231,7 @@ class Helper
         if ($ipaddress !== false) {
             return filter_var($ipaddress, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
         }
-        return false;
+        return 'ip not found';
     }
 
     /**
