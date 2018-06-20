@@ -87,6 +87,13 @@ $router->with('/api/themes', function () use ($router) {
                 'version' => 'DESC',
             ],
         ]);
+    
+        if ($latest_version === false) {
+            HTTPHelper::jsonResponse([
+                'status' => 'error',
+                'message' => 'Theme version not found',
+            ], 404);
+        }
         
         $data = new stdClass;
         $data->slug = $slug;
