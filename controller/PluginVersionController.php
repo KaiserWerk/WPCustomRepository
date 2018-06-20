@@ -3,20 +3,19 @@
 
 $router->with('/plugin/version', function () use ($router) {
     
+    /**
+     * List plugin versions for base plugin ID
+     */
     $router->respond('GET', '/[:id]/list', function ($request) {
         AuthHelper::requireLogin();
         
-        
-        $id = $request->id ?? null;
-        if ($id === null) {
-            Helper::setMessage('Invalid entry!', 'danger');
-            Helper::redirect('/plugin/base/list');
-        }
+        $id = $request->id;
         
         $db = new DBHelper();
         $base_plugin = $db->get('plugin', '*', [
             'id' => (int)$id,
         ]);
+        
         if ($base_plugin === false) {
             Helper::setMessage('Base plugin not found!', 'danger');
             Helper::redirect('/plugin/base/list');
@@ -36,7 +35,7 @@ $router->with('/plugin/version', function () use ($router) {
         
         Helper::renderPage('/plugin/list_versions.tpl.php', [
             'base_plugin' => $base_plugin,
-            'plugin_version' => $plugin_versions,
+            'plugin_versions' => $plugin_versions,
         ]);
     });
     
@@ -80,8 +79,53 @@ $router->with('/plugin/version', function () use ($router) {
         AuthHelper::requireLogin();
         
         $db = new DBHelper();
-        if (isset($_POST['btn_plugin_add'])) {
-            // @TODO
+        if (isset($_POST['btn_plugin_version_add'])) {
+            AuthHelper::requireValidCSRFToken();
+            $_plugin_version_add = $_POST['_plugin_version_add'];
+            
+            $fields = [
+                'plugin_entry_id' => '',
+                'version' => '',
+                'requires_php' => '',
+                'requires' => '',
+                'tested' => '',
+            ];
+            
+            foreach ($_plugin_version_add as $key => $value) {
+                if (array_key_exists($key, $fields) && !empty($_plugin_version_add[$key])) {
+                    $fields[$key] = $_plugin_version_add[$key];
+                } else {
+                    unset($fields[$key]);
+                    #Helper::setMessage('Form was manipulated!', 'danger');
+                    #Helper::redirect('/plugin/version/add');
+                }
+            }
+            
+            $base_plugin = $db->get('plugin', '*', [
+                'id' => $_plugin_version_add['plugin_entry_id'],
+            ]);
+            
+            if (count($fields) > 0) {
+                $db->insert('plugin_version', $fields);
+            } else {
+                Helper::setMessage('No changes were made.');
+                Helper::redirect('/plugin/version/add');
+            }
+    
+            if (in_array($_FILES['_plugin_version_add_plugin_file']['type'],
+                array('application/zip', 'application/octet-stream', 'application/x-zip-compressed', 'multipart/x-zip'))) {
+                $dir = projectDir(). '/var/plugin_files/' . $base_plugin['slug'] . '/';
+                $file_name = $file_name = $base_plugin['slug'] . '_v' . $_plugin_version_add['version'] . '.zip';
+                if (!is_dir($dir)) {
+                    @mkdir($dir, 0775, true);
+                }
+                move_uploaded_file($_FILES['_plugin_version_add_plugin_file']['tmp_name'], $dir . $file_name);
+            } else {
+                LoggerHelper::debug('Plugin file has incorrect file type!', 'warn');
+            }
+            
+            Helper::setMessage('Plugin version added!', 'success');
+            Helper::redirect('/plugin/base/list');
         } else {
             $base_plugins = $db->select('plugin', [
                 'id',
@@ -90,11 +134,11 @@ $router->with('/plugin/version', function () use ($router) {
     
             if ($base_plugins === false) {
                 Helper::setMessage('No plugins found!', 'danger');
-                Helper::redirect('/plugin/base/list');
+                Helper::redirect('/plugin/base/add');
             }
     
             Helper::renderPage('/plugin/add_version.tpl.php', [
-                'base_plugin' => $base_plugins,
+                'base_plugins' => $base_plugins,
             ]);
         }
     });
