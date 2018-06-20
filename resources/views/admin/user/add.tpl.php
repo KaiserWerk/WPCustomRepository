@@ -7,7 +7,7 @@
             <br>
             <div class="row">
                 <div class="col-md-8 col-sm-12">
-                    <form action="/admin/user/add/save" method="post">
+                    <form method="post">
                         <?php AuthHelper::generateCSRFInput(); ?>
                         <div class="form-group">
                             <label for="username">Username:</label>

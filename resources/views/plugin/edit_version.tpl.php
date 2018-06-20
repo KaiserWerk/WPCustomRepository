@@ -1,3 +1,7 @@
+<?php
+$base_plugin = $vars['base_plugin'];
+$plugin_version = $vars['plugin_version'];
+?>
 <div class="container">
     <div class="row">
         <div class="col-md-12">

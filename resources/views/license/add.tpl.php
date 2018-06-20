@@ -15,7 +15,7 @@
                 </div>
                 <div class="form-group">
                     <label for="license_key">License Key*</label>
-                    <textarea name="_add[license_key]" id="license_key" class="form-control" maxlength="200" rows="4" required><?php echo $key; ?></textarea>
+                    <textarea name="_add[license_key]" id="license_key" class="form-control" maxlength="200" rows="4" required><?php echo $vars['key']; ?></textarea>
                 </div>
                 <div class="form-group">
                     <label for="license_host">License Host</label>
@@ -26,7 +26,7 @@
                     <select name="_add[plugin_slug]" id="plugin_slug" size="1" class="form-control">
                         <?php
                         echo '<option value=""><i>None</i></option>';
-                        foreach ($pluginSlugSelections as $pluginSlugSelection) {
+                        foreach ($vars['pluginSlugSelections'] as $pluginSlugSelection) {
                             echo '<option value="';
                             echo $pluginSlugSelection['slug'];
                             echo '">';

@@ -17,7 +17,8 @@
                 </thead>
                 <tbody>
                 <?php
-                foreach ($users as $user) {
+                foreach ($vars['users'] as $user) {
+                    
                     echo '<tr>';
                     echo '<td>'.$user['username'].'</td>';
                     echo '<td>'.$user['email'].'</td>';

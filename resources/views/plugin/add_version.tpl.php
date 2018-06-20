@@ -12,7 +12,7 @@
                             <label for="plugin_name">Base Plugin Name</label>
                             <select name="_plugin_add[plugin_name]" id="plugin_name" class="form-control" size="1" required>
                             <?php
-                            foreach ($base_plugins as $base_plugin) {
+                            foreach ($vars['base_plugins'] as $base_plugin) {
                                 echo '<option value="';
                                 echo $base_plugin['id'];
                                 echo '">';

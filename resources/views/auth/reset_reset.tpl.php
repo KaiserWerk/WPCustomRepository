@@ -5,7 +5,7 @@
             <h1 class="mt-5">Reset your password</h1>
             <?php Helper::getMessage(); ?>
             <br>
-            <form method="post" action="?_confirmation_token=<?php echo $token; ?>">
+            <form method="post" action="?_confirmation_token=<?php echo $vars['token']; ?>">
                 <?php
                 AuthHelper::generateCSRFInput();
                 AuthHelper::generateHoneypotInput();

@@ -7,10 +7,13 @@
             <div class="row">
                 <div class="col-md-6">
                     <form method="post">
-                        <?php AuthHelper::generateCSRFInput(); ?>
+                        <?php
+                        AuthHelper::generateCSRFInput();
+                        AuthHelper::generateHoneypotInput();
+                        ?>
                         Username / Email: <input type="text" name="_login[username]" class="form-control"><br>
                         Password: <input type="password" name="_login[password]" class="form-control"><br>
-                        <input type="submit" value="Login" class="btn btn-primary">
+                        <input type="submit" name="btn_login" value="Login" class="btn btn-primary">
                     </form>
                 </div>
                 <div class="col-md-6">

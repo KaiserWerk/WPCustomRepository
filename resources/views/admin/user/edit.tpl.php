@@ -1,4 +1,7 @@
 <!-- Page Content -->
+<?php
+$user = $vars['user'];
+?>
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
@@ -7,9 +10,9 @@
             <br>
             <div class="row">
                 <div class="col-md-8 col-sm-12">
-                    <form action="/admin/user/edit" method="post">
+                    <form method="post">
                         <?php AuthHelper::generateCSRFInput(); ?>
-                        <input type="hidden" name="id" value="<?php echo $id; ?> ">
+                        <input type="hidden" name="id" value="<?php echo $vars['id']; ?> ">
                         <div class="form-group">
                             <label for="username">Username:</label>
                             <input id="username" name="_edit[username]" type="text" class="form-control" value="<?php echo $user['username']; ?>" required>

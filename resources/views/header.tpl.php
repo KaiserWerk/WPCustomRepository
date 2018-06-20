@@ -13,6 +13,7 @@ $StopwatchHelper->start();
 
     <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap-united.min.css">
     <link rel="stylesheet" href="/assets/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/screen.css">
     <style>
         body {
             padding-top: 50px;
@@ -59,18 +60,16 @@ $StopwatchHelper->start();
                             <a class="dropdown-item" href="/theme/version/add">Add Theme Version</a>
                         </div>
                     </li>
-                    <?php if ((bool)getenv('LICENSE_SYSTEM_ENABLED') === true) { ?>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                License
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="/license/list">License List</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="/license/add">Add License</a>
-                            </div>
-                        </li>
-                    <?php } ?>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            License
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/license/list">License List</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/license/add">Add License</a>
+                        </div>
+                    </li>
                 <?php } ?>
                 <!--<li class="nav-item dropdown">
                     <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -93,7 +92,7 @@ $StopwatchHelper->start();
                         <a class="dropdown-item" href="/admin/user/add">Add User</a>
                         <?php if ((bool)getenv('EMAIL_TRACKING_ENABLED') === true) { ?>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="/admin/tracking_mail/list">Tracking E-Mails</a>
+                        <a class="dropdown-item" href="/admin/tracking-mail/list">Tracking E-Mails</a>
                         <?php } ?>
                     </div>
                 </li>

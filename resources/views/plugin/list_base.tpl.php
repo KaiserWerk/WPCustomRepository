@@ -8,7 +8,7 @@
                 <tbody>
                 <?php
 
-                foreach ($base_plugins as $base_plugin) {
+                foreach ($vars['base_plugins'] as $base_plugin) {
                     echo '<tr>';
                     echo '<td colspan="7">' . $base_plugin['plugin_name'] . ' &nbsp; <small><i>' . $base_plugin['slug'] . '</i></small></td>';
                     echo '<td>Updated: ' . (new \DateTime($base_plugin['last_updated']))->format('Y-m-d') . '</td>';

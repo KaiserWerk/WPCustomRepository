@@ -5,7 +5,7 @@
             <h1 class="mt-5">License List</h1>
             <?php Helper::getMessage(); ?>
             <br>
-            <table class="table table-condense table-bordered table-hover">
+            <table class="table table-condense table-bordered table-hover table-license">
                 <thead>
                 <tr>
                     <th>License User</th>
@@ -19,7 +19,7 @@
                 </thead>
                 <tbody>
                 <?php
-                foreach ($licenses as $license) {
+                foreach ($vars['licenses'] as $license) {
                     echo '<tr>';
                     echo '<td>'.$license['license_user'].'</td>';
                     echo '<td><textarea class="form-control-plaintext" onfocus="this.select();" rows="1" cols="50">'.$license['license_key'].'</textarea></td>';
