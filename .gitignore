@@ -4,6 +4,7 @@
 /vendor
 /var/logs/*
 /var/plugin_files/*
+/var/theme_files/*
 /var/plugin_archive/*
 /public/banner_files/*
 public/.DS_Store
