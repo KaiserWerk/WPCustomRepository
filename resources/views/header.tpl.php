@@ -51,7 +51,7 @@ $StopwatchHelper->start();
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Theme
+                            Themes
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="/theme/base/list">Theme List</a>
@@ -118,56 +118,3 @@ $StopwatchHelper->start();
         </div>
     </div>
 </nav>
-
-<!--<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
-                    aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/">WPCustomRepository</a>
-        </div>
-        
-        <div id="navbar" class="navbar-collapse collapse">
-            <ul class="nav navbar-nav pull-right">
-                <li><a href="#">Home</a></li>
-                <?php if (AuthHelper::isLoggedIn() && AuthHelper::isAdmin($_SESSION['user'])) { ?>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
-                        <div class="dropdown-menu" aria-labelledby="dropdown03">
-                            <ul class="nav">
-                                <li><a class="dropdown-item" href="/admin/dashboard">Dashboard</a></li>
-                                <li class="nav-divider"></li>
-                                <li><a class="dropdown-item" href="/admin/user/list">User List</a></li>
-                                <li><a class="dropdown-item" href="/admin/user/add">Add User</a></li>
-                                <?php if (getenv('LICENSE_SYSTEM_ENABLED') === 'true') { ?>
-                                    <li class="nav-divider"></li>
-                                    <li><a class="dropdown-item" href="/admin/license/list">License Overview</a></li>
-                                    <li><a class="dropdown-item" href="/admin/license/add">Add License</a></li>
-                                <?php } ?>
-                                <?php if (getenv('EMAIL_TRACKING_ENABLED') === 'true') { ?>
-                                    <li class="nav-divider"></li>
-                                    <li><a class="dropdown-item" href="/admin/tracking_mail/list">Tracking Mail List</a></li>
-                                    
-                                <?php } ?>
-                                
-                            </ul>
-                        </div>
-                    </li>
-                    
-                <?php } ?>
-                <li><a href="/plugin/list">Plugins</a></li>
-                <?php if (!AuthHelper::isLoggedIn()) { ?> <li><a href="/login">Login</a></li> <?php } ?>
-                
-                
-                <?php if (AuthHelper::isLoggedIn()) { ?> <li><a title="Logged in as " href="/logout">Logout</a></li> <?php } ?>
-            </ul>
-        </div>
-        
-    </div>
-</nav>-->
-
