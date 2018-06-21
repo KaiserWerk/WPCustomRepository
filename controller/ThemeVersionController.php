@@ -46,11 +46,54 @@ $router->with('/theme/version', function () use ($router) {
     /**
      * Add a theme version
      */
-    $router->respond('GET', '/add', function ($request) {
+    $router->respond(['GET', 'POST'], '/add', function ($request) {
         AuthHelper::requireLogin();
         $db = new DBHelper();
         if (isset($_POST['btn_theme_version_add'])) {
-        
+            AuthHelper::requireValidCSRFToken();
+            $_theme_version_add = $_POST['_theme_version_add'];
+            
+            $fields = [
+                'theme_entry_id' => null,
+                'version' => null,
+                'requires_php' => null,
+                'requires' => null,
+                'tested' => null,
+            ];
+            
+            foreach ($_theme_version_add as $key => $value) {
+                if (!empty($_theme_version_add[$key])) {
+                    $fields[$key] = $_theme_version_add[$key];
+                } else {
+                    if ($fields[$key] === null) {
+                        unset($fields[$key]);
+                    }
+                }
+            }
+            
+            $db->insert('theme_version', $fields);
+            
+            $base_theme = $db->get('theme', '*', [
+                'id' => $_theme_version_add['theme_entry_id'],
+            ]);
+            
+            /** upload theme version file */
+            $uploaded_file = $_FILES['_theme_version_add_theme_file'];
+            if (!in_array($uploaded_file['type'], ['application/zip', 'application/octet-stream',
+                'application/x-zip-compressed', 'multipart/x-zip'])) {
+                Helper::setMessage('Theme file has an invalid mime type!', 'danger');
+                Helper::redirect('/theme/version/add');
+            }
+            $dir = projectDir(). '/var/theme_files/' . $base_theme['slug'] . '/';
+            $file_name = $file_name = $base_theme['slug'] . '_v' . $_theme_version_add['version'] . '.zip';
+            if (!is_dir($dir)) {
+                @mkdir($dir, 0775, true);
+            }
+            move_uploaded_file($uploaded_file['tmp_name'], $dir . $file_name);
+            
+            Helper::setMessage('Theme version added!', 'success');
+            Helper::redirect('/theme/version/' . $_theme_version_add['theme_entry_id'] . '/list');
+            
         } else {
             $base_themes = $db->select('theme', [
                 'id',
