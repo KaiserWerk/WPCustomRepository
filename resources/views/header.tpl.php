@@ -111,9 +111,8 @@ $StopwatchHelper->start();
                         <?php else: ?>
                             <a class="dropdown-item" href="/login"><i class="fa fa-sign-in"></i> Login</a>
                         <?php endif; ?>
-                    
+                    </div>
                 </li>
-
             </ul>
         </div>
     </div>
