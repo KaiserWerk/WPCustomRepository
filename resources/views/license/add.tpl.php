@@ -22,11 +22,20 @@
                     <input type="text" name="_add[license_host]" id="license_host" class="form-control">
                 </div>
                 <div class="form-group">
-                    <label for="plugin_slug">Plugin*</label>
-                    <select name="_add[plugin_slug]" id="plugin_slug" size="1" class="form-control">
+                    <label for="plugin_entry_id">Plugin*</label>
+                    <select name="_add[plugin_entry_id]" id="plugin_entry_id" size="1" class="form-control">
                         <option value=""><i>None</i></option>
-                        <?php foreach ($pluginSlugSelections as $pluginSlugSelection): ?>
-                            <option value="<?=$pluginSlugSelection['slug'];?>"><?=$pluginSlugSelection['plugin_name'];?></option>
+                        <?php foreach ($base_plugins as $base_plugin): ?>
+                            <option value="<?=$base_plugin['id'];?>"><?=$base_plugin['plugin_name'];?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="theme_entry_id">or Theme*</label>
+                    <select name="_add[theme_entry_id]" id="theme_entry_id" size="1" class="form-control">
+                        <option value=""><i>None</i></option>
+                        <?php foreach ($base_themes as $base_theme): ?>
+                            <option value="<?=$base_theme['id'];?>"><?=$base_theme['theme_name'];?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>

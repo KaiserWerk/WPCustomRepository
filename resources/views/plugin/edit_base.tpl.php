@@ -10,34 +10,34 @@
                     <div class="col-md-6 col-sm-12">
                         <div class="form-group">
                             <label for="plugin_name">Plugin Name</label>
-                            <input type="text" name="_plugin_edit[plugin_name]" id="plugin_name" class="form-control" value="<?php echo $plugin['plugin_name']; ?>" required>
+                            <input type="text" name="_plugin_edit[plugin_name]" id="plugin_name" class="form-control" value="<?=$plugin['plugin_name'];?>" required>
                         </div>
                         <div class="form-group">
                             <label for="slug">Plugin Slug</label>
-                            <input type="text" name="_plugin_edit[slug]" id="slug" class="form-control" value="<?php echo $plugin['slug']; ?>" required>
+                            <input type="text" name="_plugin_edit[slug]" id="slug" class="form-control" value="<?=$plugin['slug'];?>" required>
                         </div>
                         <div class="form-group">
                             <label for="version">Version <small>(<a href="https://semver.org/" target="_blank">see SemVer</a>)</small></label>
-                            <input type="text" name="_plugin_edit[version]" id="version" class="form-control" value="<?php echo $plugin['version']; ?>" required>
+                            <input type="text" name="_plugin_edit[version]" id="version" class="form-control" value="<?=$plugin['version'];?>" required>
                         </div>
                         <div class="form-group">
                             <label for="requires">Requires</label>
-                            <input type="text" name="_plugin_edit[requires]" id="requires" class="form-control" value="<?php echo $plugin['requires']; ?>">
+                            <input type="text" name="_plugin_edit[requires]" id="requires" class="form-control" value="<?=$plugin['requires'];?>">
                         </div>
                         <div class="form-group">
                             <label for="tested">Tested</label>
-                            <input type="text" name="_plugin_edit[tested]" id="tested" class="form-control" value="<?php echo $plugin['tested']; ?>">
+                            <input type="text" name="_plugin_edit[tested]" id="tested" class="form-control" value="<?=$plugin['tested'];?>">
                         </div>
                         <div class="form-group">
                             <label for="homepage">Homepage</label>
-                            <input type="text" name="_plugin_edit[homepage]" id="homepage" class="form-control" value="<?php echo $plugin['homepage']; ?>" placeholder="http://">
+                            <input type="text" name="_plugin_edit[homepage]" id="homepage" class="form-control" value="<?=$plugin['homepage'];?>" placeholder="http://">
                         </div>
                     </div>
                     <div class="col-md-6 col-sm-12">
                         <div class="form-group">
                             <label for="section_description">Section Description</label>
                             <script src="/assets/ckeditor/ckeditor.js"></script>
-                            <textarea name="_plugin_edit[section_description]" id="section_description" class="form-control" rows="8" required><?php echo $plugin['section_description']; ?></textarea>
+                            <textarea name="_plugin_edit[section_description]" id="section_description" class="form-control" rows="8" required><?=$plugin['section_description'];?></textarea>
                             <script>
                                 CKEDITOR.replace( 'section_description' );
                             </script>

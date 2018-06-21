@@ -42,7 +42,7 @@
                     <div class="card">
                         <div class="card-header">My API key</div>
                         <div class="card-body">
-                            <p class="text-center h3"><?php echo $user['apikey']; ?></p>
+                            <p class="text-center h3"><?=$user['apikey'];?></p>
                             <form action="/user/settings" method="post">
                                 <?php
                                 AuthHelper::generateCSRFInput();
@@ -74,19 +74,19 @@
                                 ?>
                                 <div class="form-group">
                                     <label for="username">Username:</label>
-                                    <input id="username" name="_edit[username]" type="text" class="form-control" placeholder="<?php echo $user['username']; ?>">
+                                    <input id="username" name="_edit[username]" type="text" class="form-control" placeholder="<?=$user['username'];?>">
                                 </div>
                                 <div class="form-group">
                                     <label for="first_name">First name:</label>
-                                    <input id="first_name" name="_edit[first_name]" type="text" class="form-control" placeholder="<?php echo $user['first_name']; ?>">
+                                    <input id="first_name" name="_edit[first_name]" type="text" class="form-control" placeholder="<?=$user['first_name'];?>">
                                 </div>
                                 <div class="form-group">
                                     <label for="last_name">Last name:</label>
-                                    <input id="last_name" name="_edit[last_name]" type="text" class="form-control" placeholder="<?php echo $user['last_name']; ?>">
+                                    <input id="last_name" name="_edit[last_name]" type="text" class="form-control" placeholder="<?=$user['last_name'];?>">
                                 </div>
                                 <div class="form-group">
                                     <label for="email">Email:</label>
-                                    <input id="email" name="_edit[email]" type="text" class="form-control" placeholder="<?php echo $user['email']; ?>">
+                                    <input id="email" name="_edit[email]" type="text" class="form-control" placeholder="<?=$user['email'];?>">
                                 </div>
                                 <br>
                                 <div class="form-group">

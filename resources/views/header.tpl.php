@@ -37,7 +37,7 @@ $StopwatchHelper->start();
                 <li class="nav-item active">
                     <a class="nav-link" href="/">Home</a>
                 </li>
-                <?php if (AuthHelper::isLoggedIn()) { ?>
+                <?php if (AuthHelper::isLoggedIn()): ?>
                     <li class="nav-item dropdown">
                         <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Plugins
@@ -70,7 +70,7 @@ $StopwatchHelper->start();
                             <a class="dropdown-item" href="/license/add">Add License</a>
                         </div>
                     </li>
-                <?php } ?>
+                <?php endif; ?>
                 <!--<li class="nav-item dropdown">
                     <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Language
@@ -80,7 +80,7 @@ $StopwatchHelper->start();
                         <a class="dropdown-item" href="/language?locale=en"><img src="/assets/images/country_flags/en.png" height="14">&nbsp; English</a>
                     </div>
                 </li>-->
-                <?php if (AuthHelper::isLoggedIn() && AuthHelper::isAdmin($_SESSION['user'])) { ?>
+                <?php if (AuthHelper::isLoggedIn() && AuthHelper::isAdmin($_SESSION['user'])): ?>
                 <li class="nav-item dropdown">
                     <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Admin
@@ -90,27 +90,27 @@ $StopwatchHelper->start();
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="/admin/user/list">User Overview</a>
                         <a class="dropdown-item" href="/admin/user/add">Add User</a>
-                        <?php if ((bool)getenv('EMAIL_TRACKING_ENABLED') === true) { ?>
+                        <?php if ((bool)getenv('EMAIL_TRACKING_ENABLED') === true): ?>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="/admin/tracking-mail/list">Tracking E-Mails</a>
-                        <?php } ?>
+                        <?php endif; ?>
                     </div>
                 </li>
-                <?php } ?>
+                <?php endif; ?>
                 <li class="nav-item dropdown">
                     <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-cog"></i>
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="width: 200px;">
-                        <?php if (AuthHelper::isLoggedIn()) { ?>
+                        <?php if (AuthHelper::isLoggedIn()): ?>
                             <a class="dropdown-item" href="/user/settings">Settings</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/logout" data-tooltip="" data-placement="bottom" title="" data-original-title="Logged in as: <?php echo AuthHelper::getUsername(); ?>">
+                            <a class="dropdown-item" href="/logout" data-tooltip="" data-placement="bottom" title="" data-original-title="Logged in as: <?AuthHelper::getUsername();?>">
                                 Logout
                             </a>
-                        <?php } else { ?>
+                        <?php else: ?>
                             <a class="dropdown-item" href="/login"><i class="fa fa-sign-in"></i> Login</a>
-                        <?php } ?>
+                        <?php endif; ?>
                     
                 </li>
 

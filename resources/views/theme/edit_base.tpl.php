@@ -10,23 +10,23 @@
                     <div class="col-md-6 col-sm-12">
                         <div class="form-group">
                             <label for="theme_name">Theme Name</label>
-                            <input type="text" name="_theme_base_edit[theme_name]" id="plugin_name" class="form-control" value="<?php echo $base_theme['theme_name']; ?>" required>
+                            <input type="text" name="_theme_base_edit[theme_name]" id="plugin_name" class="form-control" value="<?=$base_theme['theme_name'];?>" required>
                         </div>
                         <div class="form-group">
                             <label for="slug">Theme Slug</label>
-                            <input type="text" name="_theme_base_edit[slug]" id="slug" class="form-control" value="<?php echo $base_theme['slug']; ?>" required>
+                            <input type="text" name="_theme_base_edit[slug]" id="slug" class="form-control" value="<?=$base_theme['slug'];?>" required>
                         </div>
                         <div class="form-group">
                             <label for="author">Author</label>
-                            <input type="text" name="_theme_base_edit[author]" id="author" class="form-control" value="<?php echo $base_theme['author']; ?>" required>
+                            <input type="text" name="_theme_base_edit[author]" id="author" class="form-control" value="<?=$base_theme['author'];?>" required>
                         </div>
                         <div class="form-group">
                             <label for="author_homepage">Author Homepage</label>
-                            <input type="url" name="_theme_base_edit[author_homepage]" id="author_homepage" class="form-control" value="<?php echo $base_theme['author_homepage']; ?>">
+                            <input type="url" name="_theme_base_edit[author_homepage]" id="author_homepage" class="form-control" value="<?=$base_theme['author_homepage'];?>">
                         </div>
                         <div class="form-group">
                             <label for="url">URL</label>
-                            <input type="url" name="_theme_base_edit[url]" id="url" class="form-control" value="<?php echo $base_theme['url']; ?>">
+                            <input type="url" name="_theme_base_edit[url]" id="url" class="form-control" value="<?=$base_theme['url'];?>">
                         </div>
                     </div>
                     <div class="col-md-6 col-sm-12">
@@ -34,7 +34,7 @@
                             <label for="section_description">Section Description</label>
                             <script src="/assets/ckeditor/ckeditor.js"></script>
                             <textarea name="_theme_base_edit[section_description]" id="section_description" class="form-control"
-                                      rows="8" required><?php echo $base_theme['section_description']; ?></textarea>
+                                      rows="8" required><?=$base_theme['section_description'];?></textarea>
                             <script>
                                 CKEDITOR.replace( 'section_description' );
                             </script>

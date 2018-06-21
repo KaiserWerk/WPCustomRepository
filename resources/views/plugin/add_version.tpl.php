@@ -11,15 +11,9 @@
                         <div class="form-group">
                             <label for="plugin_entry_id">Base Plugin</label>
                             <select name="_plugin_version_add[plugin_entry_id]" id="plugin_entry_id" class="form-control" size="1" required>
-                            <?php
-                            foreach ($base_plugins as $base_plugin) {
-                                echo '<option value="';
-                                echo $base_plugin['id'];
-                                echo '">';
-                                echo $base_plugin['plugin_name'];
-                                echo '</option>';
-                            }
-                            ?>
+                            <?php foreach ($base_plugins as $base_plugin): ?>
+                                <option value="<?=$base_plugin['id'];?>"><?=$base_plugin['plugin_name'];?></option>
+                            <?php endforeach; ?>
                             </select>
                         </div>
                        
@@ -44,7 +38,7 @@
                     <div class="col-md-6 col-sm-12">
                         <div class="form-group">
                             <label for="homepage">Homepage</label>
-                            <input type="text" name="_plugin_version_add[homepage]" id="homepage" class="form-control" placeholder="http://" value="<?php echo Helper::getHost(); ?>/plugin/">
+                            <input type="text" name="_plugin_version_add[homepage]" id="homepage" class="form-control" placeholder="http://" value="<?=Helper::getHost();?>/plugin/">
                         </div>
                         <div class="form-group">
                             <label for="plugin_file">Plugin File</label>

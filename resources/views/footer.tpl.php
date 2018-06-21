@@ -9,7 +9,7 @@
             </small>
             <br>
             <small>
-                Script executed in <?php echo (string)round($StopwatchHelper->stop()->getIntervalSeconds(), 6); ?>s
+                Script executed in <?=(string)round($StopwatchHelper->stop()->getIntervalSeconds(), 6);?>s
             </small>
         </div>
     </div>
@@ -23,6 +23,6 @@
         $('[data-tooltip]').tooltip();
     });
 </script>
-<!-- Script execution time: <?php echo $StopwatchHelper->stop()->getIntervalSeconds(); ?> -->
+<!-- Script execution time: <?=$StopwatchHelper->stop()->getIntervalSeconds();?> -->
 </body>
 </html>

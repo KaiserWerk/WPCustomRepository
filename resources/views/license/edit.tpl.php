@@ -26,9 +26,21 @@
                     <select name="_edit[plugin_slug]" id="plugin_slug" size="1" class="form-control">
                         <option value=""><i>None</i></option>
                         <?php foreach ($base_plugins as $base_plugin): ?>
-                            <option value="<?=$base_plugin['slug'];?>" <?php if ($base_plugin['slug'] === $license['plugin_slug']): ?>
+                            <option value="<?=$base_plugin['id'];?>" <?php if ($base_plugin['id'] === $license['plugin_entry_id']): ?>
                                  selected="selected"<?php endif; ?>">
                             <?=$base_plugin['plugin_name'];?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="plugin_slug">or Theme*</label>
+                    <select name="_edit[theme_slug]" id="plugin_slug" size="1" class="form-control">
+                        <option value=""><i>None</i></option>
+                        <?php foreach ($base_themes as $base_theme): ?>
+                            <option value="<?=$base_theme['id'];?>" <?php if ($base_theme['id'] === $license['theme_entry:id']): ?>
+                                 selected="selected"<?php endif; ?>">
+                            <?=$base_theme['theme_name'];?>
                             </option>
                         <?php endforeach; ?>
                     </select>
