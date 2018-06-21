@@ -120,19 +120,6 @@ $router->with('/license', function () use ($router) {
         }
     });
     
-    $router->respond('GET', '/[:id]/auto-renewal/toggle', function ($request) {
-        AuthHelper::requireLogin();
-        
-        $id = $request->id ?? null;
-        if ($id !== null) {
-            $db = new DBHelper();
-            // @TODO auto renewal toggle if at all
-        } else {
-            Helper::setMessage('You are trying to access an invalid entry!', 'danger');
-            Helper::redirect('/license/list');
-        }
-    });
-    
     $router->respond(['GET', 'POST'], '/[:id]/edit', function ($request) {
         AuthHelper::requireLogin();
         
