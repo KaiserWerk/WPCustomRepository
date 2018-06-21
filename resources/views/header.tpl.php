@@ -14,15 +14,6 @@ $StopwatchHelper->start();
     <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap-united.min.css">
     <link rel="stylesheet" href="/assets/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="/assets/screen.css">
-    <style>
-        body {
-            padding-top: 50px;
-            padding-bottom: 20px;
-        }
-    </style>
-    <!--<link rel="stylesheet" href="/assets/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="/assets/css/main.css">-->
-    
 </head>
 <body>
 
