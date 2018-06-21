@@ -4,11 +4,13 @@ $router->with('/api/plugins', function () use ($router) {
     
     $router->respond('GET', '/check-latest-version/[:slug]', function ($request) {
         
+        #var_dump(getallheaders());die;
+        
         // @TODO remove cookie from api calls
+        
+        LoggerHelper::logAPIRequest('/api/plugins/check-latest-version/[:slug]', $_SERVER['REQUEST_METHOD'], getallheaders());
     
-        // @TODO log API request
-    
-        LicenseHelper::checkLicenseValidity($request->headers);
+        LicenseHelper::checkLicenseValidity();
         
         $slug = $request->slug;
         $db = new DBHelper();
@@ -38,8 +40,11 @@ $router->with('/api/plugins', function () use ($router) {
     });
     
     $router->respond('GET', '/get-plugin-information/[:slug]', function ($request) {
-        // @TODO log API request
+
         // @TODO remove cookie from api calls
+    
+        LoggerHelper::logAPIRequest('/api/plugins/get-plugin-information/[:slug]', $_SERVER['REQUEST_METHOD'], getallheaders());
+        
         LicenseHelper::checkLicenseValidity($request->headers);
         
         $slug = $request->slug;
