@@ -17,7 +17,7 @@
                         <td><small>Downloaded: <?=$entry['downloaded'];?></small></td>
                         <td><small>Installations: <?=$entry['active_installations'];?></small></td>
                         <td><small>Added: <?=(new \DateTime($entry['added_at']))->format('Y-m-d');?></small></td>
-                        <td><small>';
+                        <td><small>
                         <a href="/plugin/version/<?=$entry['id'];?>/show">Show</a>
                          / <a href="/plugin/version/<?=$entry['id'];?>/edit">Edit</a>
                          / <a href="/plugin/version/<?=$entry['id'];?>/remove" onclick="return confirm('Continue?');">Remove</a>
