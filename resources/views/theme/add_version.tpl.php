@@ -11,16 +11,9 @@
                         <div class="form-group">
                             <label for="plugin_name">Base Plugin Name</label>
                             <select name="_theme_version_add[theme_entry_id]" id="theme_entry_id" class="form-control" size="1" required>
-                                <?php
-                                
-                                foreach ($base_themes as $base_theme) {
-                                    echo '<option value="';
-                                    echo $base_theme['id'];
-                                    echo '">';
-                                    echo $base_theme['theme_name'];
-                                    echo '</option>';
-                                }
-                                ?>
+                                <?php foreach ($base_themes as $base_theme): ?>
+                                    <option value="<?=$base_theme['id'];?>"><?=$base_theme['theme_name'];?></option>
+                                <?php endforeach; ?>
                             </select>
                         </div>
                         

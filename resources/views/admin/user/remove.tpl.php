@@ -8,10 +8,10 @@
             <div class="row">
 
                 <div class="col-md-12 col-sm-12 text-center">
-                    <form action="/admin/user/<?php echo $id; ?>/remove" method="post">
+                    <form action="/admin/user/<?=$id;?>/remove" method="post">
                         <?php AuthHelper::generateCSRFInput(); ?>
 
-                        <p class="h5">Are you sure you want to permanently remove the following user account? <br><br><?php echo $user['username']; ?></p>
+                        <p class="h5">Are you sure you want to permanently remove the following user account? <br><br><?=$user['username'];?></p>
 
                         <div class="form-group">
                             <br>

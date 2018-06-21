@@ -11,32 +11,26 @@
                 ?>
                 <div class="form-group">
                     <label for="license_user">License User*</label>
-                    <input type="text" name="_edit[license_user]" id="license_user" class="form-control" required value="<?php echo $license['license_user']; ?>">
+                    <input type="text" name="_edit[license_user]" id="license_user" class="form-control" required value="<?=$license['license_user'];?>">
                 </div>
                 <div class="form-group">
                     <label for="license_key">License Key*</label>
-                    <textarea name="_edit[license_key]" id="license_key" class="form-control" maxlength="200" rows="4" required><?php echo $license['license_key']; ?></textarea>
+                    <textarea name="_edit[license_key]" id="license_key" class="form-control" maxlength="200" rows="4" required><?=$license['license_key'];?></textarea>
                 </div>
                 <div class="form-group">
                     <label for="license_host">License Host</label>
-                    <input type="text" name="_edit[license_host]" id="license_host" class="form-control" value="<?php echo $license['license_host']; ?>">
+                    <input type="text" name="_edit[license_host]" id="license_host" class="form-control" value="<?=$license['license_host'];?>">
                 </div>
                 <div class="form-group">
                     <label for="plugin_slug">Plugin*</label>
                     <select name="_edit[plugin_slug]" id="plugin_slug" size="1" class="form-control">
-                        <?php
-                        echo '<option value=""><i>None</i></option>';
-                        foreach ($pluginSlugSelections as $pluginSlugSelection) {
-                            echo '<option value="';
-                            echo $pluginSlugSelection['slug'];
-                            if ($pluginSlugSelection['slug'] === $license['plugin_slug']) {
-                                echo '" selected="selected';
-                            }
-                            echo '">';
-                            echo $pluginSlugSelection['plugin_name'];
-                            echo '</option>';
-                        }
-                        ?>
+                        <option value=""><i>None</i></option>
+                        <?php foreach ($base_plugins as $base_plugin): ?>
+                            <option value="<?=$base_plugin['slug'];?>" <?php if ($base_plugin['slug'] === $license['plugin_slug']): ?>
+                                 selected="selected"<?php endif; ?>">
+                            <?=$base_plugin['plugin_name'];?>
+                            </option>
+                        <?php endforeach; ?>
                     </select>
                 </div>
                 <div class="form-group">

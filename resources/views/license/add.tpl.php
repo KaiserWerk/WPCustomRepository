@@ -15,7 +15,7 @@
                 </div>
                 <div class="form-group">
                     <label for="license_key">License Key*</label>
-                    <textarea name="_add[license_key]" id="license_key" class="form-control" maxlength="200" rows="4" required><?php echo $key; ?></textarea>
+                    <textarea name="_add[license_key]" id="license_key" class="form-control" maxlength="200" rows="4" required><?=$key;?></textarea>
                 </div>
                 <div class="form-group">
                     <label for="license_host">License Host</label>
@@ -24,21 +24,15 @@
                 <div class="form-group">
                     <label for="plugin_slug">Plugin*</label>
                     <select name="_add[plugin_slug]" id="plugin_slug" size="1" class="form-control">
-                        <?php
-                        echo '<option value=""><i>None</i></option>';
-                        foreach ($pluginSlugSelections as $pluginSlugSelection) {
-                            echo '<option value="';
-                            echo $pluginSlugSelection['slug'];
-                            echo '">';
-                            echo $pluginSlugSelection['plugin_name'];
-                            echo '</option>';
-                        }
-                        ?>
+                        <option value=""><i>None</i></option>
+                        <?php foreach ($pluginSlugSelections as $pluginSlugSelection): ?>
+                            <option value="<?=$pluginSlugSelection['slug'];?>"><?=$pluginSlugSelection['plugin_name'];?></option>
+                        <?php endforeach; ?>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="valid_until">Valid Until*</label>
-                    <input type="text" name="_add[valid_until]" id="valid_until" class="form-control" required value="<?php echo date('Y')+1 . '-' . date('m-d'); ?>">
+                    <input type="text" name="_add[valid_until]" id="valid_until" class="form-control" required value="<?=date('Y')+1 . '-' . date('m-d');?>">
                 </div>
                 <div class="form-group">
                     <br>

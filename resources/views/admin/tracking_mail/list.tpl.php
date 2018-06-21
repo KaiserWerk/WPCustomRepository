@@ -15,17 +15,21 @@
                 </tr>
                 </thead>
                 <tbody>
-                    <?php
-                    foreach ($mails as $mail) {
-                        echo '<tr>';
-                        echo '<td>'.$mail['confirmation_token'].'</td>';
-                        echo '<td>'.$mail['recipient'].'</td>';
-                        echo '<td>'.$mail['sent_at'].'</td>';
-                        echo '<td>'.$mail['token_used_at'].'</td>';
-                        echo '<td>'.$mail['tracking_count'].'</td>';
-                        echo '</tr>';
-                    }
-                    ?>
+                <?php if (count($mails) > 0): ?>
+                    <?php foreach ($mails as $mail): ?>
+                    <tr>
+                        <td><?=$mail['confirmation_token'];?></td>
+                        <td><?=$mail['recipient'];?></td>
+                        <td><?=$mail['sent_at']?></td>
+                        <td><?=$mail['token_used_at'];?></td>
+                        <td><?=$mail['tracking_count'];?></td>
+                    </tr>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="5" class="text-center">No tracking mails found!</td>
+                    </tr>
+                <?php endif; ?>
                 </tbody>
             </table>
         </div>

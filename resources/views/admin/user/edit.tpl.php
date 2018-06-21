@@ -9,18 +9,18 @@
                 <div class="col-md-8 col-sm-12">
                     <form method="post">
                         <?php AuthHelper::generateCSRFInput(); ?>
-                        <input type="hidden" name="id" value="<?php echo $id; ?> ">
+                        <input type="hidden" name="id" value="<?=$id;?> ">
                         <div class="form-group">
                             <label for="username">Username:</label>
-                            <input id="username" name="_edit[username]" type="text" class="form-control" value="<?php echo $user['username']; ?>" required>
+                            <input id="username" name="_edit[username]" type="text" class="form-control" value="<?=$user['username'];?>" required>
                         </div>
                         <div class="form-group">
                             <label for="first_name">First name:</label>
-                            <input id="first_name" name="_edit[first_name]" type="text" class="form-control" value="<?php echo $user['first_name']; ?>" required>
+                            <input id="first_name" name="_edit[first_name]" type="text" class="form-control" value="<?=$user['first_name'];?>" required>
                         </div>
                         <div class="form-group">
                             <label for="last_name">Last name:</label>
-                            <input id="last_name" name="_edit[last_name]" type="text" class="form-control" value="<?php echo $user['last_name']; ?>" required>
+                            <input id="last_name" name="_edit[last_name]" type="text" class="form-control" value="<?=$user['last_name'];?>" required>
                         </div>
                         <div class="form-group">
                             <label for="password">Password:</label>
@@ -28,7 +28,7 @@
                         </div>
                         <div class="form-group">
                             <label for="email">E-Mail:</label>
-                            <input id="email" name="_edit[email]" type="email" class="form-control" value="<?php echo $user['email']; ?>" required>
+                            <input id="email" name="_edit[email]" type="email" class="form-control" value="<?=$user['email'];?>" required>
                         </div>
                         <div class="form-group">
                             <label>Sex:</label><br>

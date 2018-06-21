@@ -6,7 +6,10 @@
             <?php Helper::getMessage(); ?>
             <br>
             <form method="post" action="?_confirmation_token=<?=$token;?>">
-                <?php AuthHelper::generateCSRFInput(); AuthHelper::generateHoneypotInput(); ?>
+                <?php
+                AuthHelper::generateCSRFInput();
+                AuthHelper::generateHoneypotInput();
+                ?>
                 <?php if (!isset($_GET['confirmation_token'])): ?>
                     <div class="form-group">
                         <label for="password1">Confirmation Token:</label>
