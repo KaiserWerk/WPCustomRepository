@@ -10,12 +10,8 @@ class LicenseHelper
      */
     public static function checkLicenseValidity($headers)
     {
-        if ((bool)getenv('LICENSE_SYSTEM_ENABLED') === false) {
-            return true;
-        }
-        
         $licenseUser = $headers['X-License-User'] ?? null;
-        $licenseKey = $headers['X-License-Key'] ?? null;
+        $licenseKey  = $headers['X-License-Key'] ?? null;
         $licenseHost = $headers['Host'] ?? gethostbyname(Helper::getIP());
     
         if ($licenseUser === null || $licenseKey === null) {
@@ -29,20 +25,32 @@ class LicenseHelper
         if ($license !== false) {
             // @TODO proper JSON error messages
             if ($license['license_user'] !== $licenseUser) {
-                die('Invalid license user.');
+                HTTPHelper::jsonResponse([
+                    'status' => 'error',
+                    'message' => 'Invalid license user',
+                ], 401);
             }
             
             if (!empty($license['license_host']) && $license['license_host'] !== $licenseHost) {
-                die('invalid host.');
+                HTTPHelper::jsonResponse([
+                    'status' => 'error',
+                    'message' => 'Invalid host',
+                ], 401);
             }
             
             $valid = new \DateTime($license['valid_until']);
             $now = new \DateTime();
             if ($valid <= $now) {
-                die('license expired.');
+                HTTPHelper::jsonResponse([
+                    'status' => 'error',
+                    'message' => 'License expired',
+                ], 410);
             }
         } else {
-            die('invalid license data.');
+            HTTPHelper::jsonResponse([
+                'status' => 'error',
+                'message' => 'License not found',
+            ], 404);
         }
         return true;
     }
