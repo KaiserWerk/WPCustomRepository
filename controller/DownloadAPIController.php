@@ -2,6 +2,10 @@
 
 $router->with('/download', function () use ($router) {
     
+    /**
+     * Fetches and downloads the desired plugin version
+     * [:version] can be a version string (v1.2.3) or the keyword 'latest'
+     */
     $router->respond('GET', '/plugin/[:slug]/[:version]', function ($request) {
         
         if (!AuthHelper::isLoggedIn()) {
@@ -53,7 +57,7 @@ $router->with('/download', function () use ($router) {
             ]);
             
             $file_name = $slug . '_v' . $download_version . '.zip';
-            $dir = downloadDir() . '/' . $slug . '/';
+            $dir = tempDir() . '/plugin_files/' . $slug . '/';
             
             if (file_exists($dir . $file_name)) {
                 header('Content-Type: application/zip');
@@ -74,15 +78,18 @@ $router->with('/download', function () use ($router) {
         }
     });
     
-    // returns the most recent theme version
+    /**
+     * Fetches and downloads the desired plugin version
+     * [:version] can be a version string (v1.2.3) or the keyword 'latest'
+     */
     $router->respond('GET', '/theme/[:slug]/[:version]', function ($request) {
         
         if (!AuthHelper::isLoggedIn()) {
             LicenseHelper::checkLicenseValidity($request->headers);
         }
         
-        $slug = $request->slug ?? null;
-        $version = $request->version ?? null;
+        $slug = $request->slug;
+        $version = $request->version;
         
         $db = new DBHelper();
         
@@ -91,7 +98,7 @@ $router->with('/download', function () use ($router) {
         ], [
             'slug' => $slug,
         ]);
-    
+        
         if ($base_theme === false) {
             HTTPHelper::jsonResponse([
                 'status' => 'error',
@@ -99,8 +106,11 @@ $router->with('/download', function () use ($router) {
             ], 404);
         }
         
-        $latest_version = $db->max('theme_version', 'version', [
+        $latest_version = $db->get('theme_version', '*', [
             'theme_entry_id' => $base_theme['id'],
+            'ORDER' => [
+                'version' => 'DESC',
+            ]
         ]);
         
         if ($latest_version === false) {
@@ -110,34 +120,39 @@ $router->with('/download', function () use ($router) {
             ], 404);
         }
         
-        if ($slug !== null && $version !== null) {
-            
-            if ($version === 'latest') {
-                $download_version = $latest_version;
-            } else {
-                $download_version = $version;
-            }
-            
-            $file_name = $slug . '_v' . $download_version . '.zip';
-            $dir = downloadDir() . '/' . $slug . '/';
-            
-            if (file_exists($dir . $file_name)) {
-                header('Content-Type: application/zip');
-                header('Content-Disposition: attachment; filename="' . $file_name . '"');
-                readfile($dir . $file_name);
-                die;
-            } else {
-                HTTPHelper::jsonResponse([
-                    'status' => 'error',
-                    'message' => 'Version file does not exist.',
-                ], 404);
-            }
-        } else {
+        if ($slug === null || $version === null) {
             HTTPHelper::jsonResponse([
                 'status' => 'error',
                 'message' => 'Invalid theme slug or version string',
             ], 400);
         }
+            
+        if ($version === 'latest') {
+            $download_version = $latest_version;
+        } else {
+            $download_version = $version;
+        }
+        
+        $db->update('theme_version', [
+            'downloaded[+]' => 1,
+        ], [
+            'theme_entry_id' => $base_theme['id'],
+            'version' => $download_version,
+        ]);
+        
+        $file_name = $slug . '_v' . $download_version . '.zip';
+        $dir = tempDir() . '/theme_files/' . $slug . '/';
+        
+        if (!file_exists($dir . $file_name)) {
+            HTTPHelper::jsonResponse([
+                'status' => 'error',
+                'message' => 'Version file does not exist.',
+            ], 404);
+        }
+        header('Content-Type: application/zip');
+        header('Content-Disposition: attachment; filename="' . $file_name . '"');
+        readfile($dir . $file_name);
+        die;
     });
     
 });
