@@ -8,10 +8,6 @@ $router->with('/download', function () use ($router) {
      */
     $router->respond('GET', '/plugin/[:slug]/[:version]', function ($request) {
         
-        if (!AuthHelper::isLoggedIn()) {
-            LicenseHelper::checkLicenseValidity($request->headers);
-        }
-        
         $slug = $request->slug ?? null;
         $version = $request->version ?? null;
         
@@ -83,10 +79,6 @@ $router->with('/download', function () use ($router) {
      * [:version] can be a version string (v1.2.3) or the keyword 'latest'
      */
     $router->respond('GET', '/theme/[:slug]/[:version]', function ($request) {
-        
-        if (!AuthHelper::isLoggedIn()) {
-            LicenseHelper::checkLicenseValidity($request->headers);
-        }
         
         $slug = $request->slug;
         $version = $request->version;
