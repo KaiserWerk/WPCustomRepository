@@ -3,6 +3,30 @@
 
 class Helper
 {
+    public static function basePluginByID($id)
+    {
+        $db = new DBHelper();
+        $row = $db->get('plugin', '*', [
+            'id' => $id,
+        ]);
+        if ($row !== false) {
+            return $row;
+        }
+        return false;
+    }
+    
+    public static function baseThemeByID($id)
+    {
+        $db = new DBHelper();
+        $row = $db->get('theme', '*', [
+            'id' => $id,
+        ]);
+        if ($row !== false) {
+            return $row;
+        }
+        return false;
+    }
+    
     public static function renderPage($bodyTemplate, $vars = [], $headerTemplate = 'header.tpl.php',
         $footerTemplate = 'footer.tpl.php')
     {
