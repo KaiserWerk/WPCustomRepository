@@ -8,14 +8,18 @@ class LicenseHelper
      * @param $headers
      * @return bool
      */
-    public static function checkLicenseValidity($headers)
+    public static function checkLicenseValidity()
     {
+        $headers = getallheaders();
         $licenseUser = $headers['X-License-User'] ?? null;
         $licenseKey  = $headers['X-License-Key'] ?? null;
         $licenseHost = $headers['Host'] ?? gethostbyname(Helper::getIP());
     
         if ($licenseUser === null || $licenseKey === null) {
-            die('missing license data');
+            HTTPHelper::jsonResponse([
+                'status' => 'error',
+                'message' => 'missing license data',
+            ]);
         }
     
         $db = new DBHelper();
