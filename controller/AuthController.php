@@ -7,7 +7,7 @@ $router->respond(['GET', 'POST'], '/login', function () {
         Helper::redirect('/');
     }
     
-    if (isset($_POST['btn_login'])) { // @TODO use the submit button name instead
+    if (isset($_POST['btn_login'])) {
         $db = new DBHelper();
         $cred = $_POST['_login'];
         if (isset($_COOKIE[getenv('COOKIE_LOGIN_ATTEMPT')])) {
