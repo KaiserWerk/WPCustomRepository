@@ -73,13 +73,21 @@ class LoggerHelper
         return true;
     }
     
+    /**
+     * @param string $target
+     * @param string $method
+     * @param array $request_headers
+     * 
+     * @return bool
+     */
     public static function logAPIRequest($target, $method, $request_headers)
     {
         $db = new DBHelper();
         $db->insert('api_request', [
             'target' => $target,
             'method' => $method,
-            'request_headers' => serialize($request_headers),
+            'request_headers' => print_r($request_headers, true),
         ]);
+        return true;
     }
 }
