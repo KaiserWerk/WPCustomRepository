@@ -62,12 +62,23 @@ $router->with('/license', function () use ($router) {
             Helper::setMessage('License added!', 'success');
             Helper::redirect('/license/list');
         } else {
-            $pluginSlugSelections = @array_unique($db->select('plugin', ['plugin_name', 'slug']));
+            /** get base plugins */
+            $base_plugins = $db->select('plugin', [
+                'plugin_name',
+                'slug',
+            ]);
+    
+            /** get base themes */
+            $base_themes = $db->select('theme', [
+                'theme_name',
+                'slug',
+            ]);
     
             $key = AuthHelper::generateToken(200);
             
             Helper::renderPage('/license/add.tpl.php', [
-                'pluginSlugSelection' => $pluginSlugSelections,
+                'base_plugins' => $base_plugins,
+                'base_themes' => $base_themes,
                 'key' => $key,
             ]);
         }
@@ -156,7 +167,7 @@ $router->with('/license', function () use ($router) {
                     ]
                 ])) {
                     Helper::setMessage('This license already exists! Please renew as needed!', 'danger');
-                    Helper::redirect('/license/'.$id.'/edit');
+                    Helper::redirect('/license/' . $id . '/edit');
                 }
             
                 $db->update('license', [
@@ -172,14 +183,26 @@ $router->with('/license', function () use ($router) {
                 Helper::setMessage('Changes saved!', 'success');
                 Helper::redirect('/license/list');
             } else {
-                $pluginSlugSelections = @array_unique($db->select('plugin', ['plugin_name', 'slug']));
+                /** get base plugins */
+                $base_plugins = $db->select('plugin', [
+                    'plugin_name',
+                    'slug',
+                ]);
     
+                /** get base themes */
+                $base_themes = $db->select('theme', [
+                    'theme_name',
+                    'slug',
+                ]);
+    
+                /** get data for license */
                 $license = $db->get('license', '*', [
                     'id' => $id,
                 ]);
                 
                 Helper::renderPage('/license/edit.tpl.php', [
-                    'pluginSlugSelection' => $pluginSlugSelections,
+                    'base_plugins' => $base_plugins,
+                    'base_themes' => $base_themes,
                     'license' => $license,
                 ]);
             }
