@@ -24,6 +24,19 @@ $router->with('/theme/base', function () use ($router) {
         ]);
     });
     
+    $router->respond('GET', '/[:id]/show', function ($request) {
+        AuthHelper::requireLogin();
+        
+        $db = new DBHelper();
+        $base_theme = $db->get('theme', '*', [
+            'id' => $request->id,
+        ]);
+        
+        Helper::renderPage('/theme/show_base.tpl.php', [
+            'base_theme' => $base_theme,
+        ]);
+    });
+    
     /**
      * Add a base theme
      */

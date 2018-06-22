@@ -40,12 +40,7 @@ class LoggerHelper
         } else {
             return false;
         }
-
-        #if ((Config::getConfig())->write_external_log) {
-        #    // @TODO use external log?
-        #    // use $log_line or even better $log_line_raw
-        #}
-
+        
         return true;
     }
     

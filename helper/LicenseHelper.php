@@ -27,7 +27,6 @@ class LicenseHelper
             'license_key' => $licenseKey,
         ]);
         if ($license !== false) {
-            // @TODO proper JSON error messages
             if ($license['license_user'] !== $licenseUser) {
                 HTTPHelper::jsonResponse([
                     'status' => 'error',
