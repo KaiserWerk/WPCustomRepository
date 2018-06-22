@@ -21,6 +21,7 @@
                     <label for="license_host">License Host</label>
                     <input type="text" name="_add[license_host]" id="license_host" class="form-control">
                 </div>
+                <!-- @TODO Umschalter einfügen -->
                 <div class="form-group">
                     <label for="plugin_entry_id">Plugin*</label>
                     <select name="_add[plugin_entry_id]" id="plugin_entry_id" size="1" class="form-control">
