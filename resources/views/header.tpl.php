@@ -11,8 +11,8 @@ $StopwatchHelper->start();
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap-united.min.css" media="nope!" onload="this.media='all';">
-    <link rel="stylesheet" href="/assets/font-awesome/css/font-awesome.min.css" media="nope!" onload="this.media='all';">
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap-united.min.css">
+    <link rel="stylesheet" href="/assets/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="/assets/screen.css">
 </head>
 <body>
