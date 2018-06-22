@@ -41,6 +41,20 @@ $router->with('/theme/version', function () use ($router) {
      */
     $router->respond('GET', '/[:id]/show', function ($request) {
         AuthHelper::requireLogin();
+        
+        $db = new DBHelper();
+        $theme_version = $db->get('theme_version', '*', [
+            'id' => $request->id,
+        ]);
+        
+        $base_theme = $db->get('theme', '*', [
+            'id' => $theme_version['theme_entry_id'],
+        ]);
+        
+        Helper::renderPage('/theme/show_version.tpl.php', [
+            'theme_version' => $theme_version,
+            'base_theme' => $base_theme,
+        ]);
     });
     
     /**
@@ -113,23 +127,44 @@ $router->with('/theme/version', function () use ($router) {
     /**
      * Edit a theme version
      */
-    $router->respond('GET', '/[:id]/edit', function ($request) {
+    $router->respond(['GET', 'POST'], '/[:id]/edit', function ($request) {
         AuthHelper::requireLogin();
         $db = new DBHelper();
         if (isset($_POST['btn_theme_version_edit'])) {
-        
+            $_theme_version_edit = $_POST['_theme_version_edit'];
+            
+            $fields = [
+                'version' => null,
+                'requires_php' => null,
+                'requires' => null,
+            ];
+            
+            foreach ($_theme_version_edit as $key => $value) {
+                if (array_key_exists($key, $fields)) {
+                    $fields[$key] = $_theme_version_edit[$key];
+                } else {
+                    unset($fields[$key]);
+                }
+            }
+            
+            $db->update('theme_version', $fields, [
+                'id' => $request->id,
+            ]);
+            
+            Helper::setMessage('Changes saved!');
+            Helper::redirect('/theme/base/list');
         } else {
-            $base_themes = $db->select('theme', [
-                'id',
-                'theme_name',
-            ], [
-                'ORDER' => [
-                    'theme_name' => 'DESC',
-                ]
+            $theme_version = $db->get('theme_version', '*', [
+                'id' => $request->id,
+            ]);
+    
+            $base_theme = $db->get('theme', '*', [
+                'id' => $theme_version['theme_entry_id'],
             ]);
         
             Helper::renderPage('/theme/edit_version.tpl.php', [
-                'base_themes' => $base_themes,
+                'base_theme' => $base_theme,
+                'theme_version' => $theme_version,
             ]);
         }
     });
