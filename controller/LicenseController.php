@@ -202,13 +202,14 @@ $router->with('/license', function () use ($router) {
     $router->respond('GET', '/[:id]/remove', function ($request) {
         AuthHelper::requireLogin();
         
-        $id = $request->id ?? null;
-        if ($id !== null) {
-            $db = new DBHelper();
-            $db->delete('license', [
-                'id' => $id,
-            ]);
-            
+        $id = $request->id;
+        
+        $db = new DBHelper();
+        $bool = $db->delete('license', [
+            'id' => $id,
+        ]);
+        
+        if ($bool !== false) {
             Helper::setMessage('License removed!', 'success');
             Helper::redirect('/license/list');
         } else {
