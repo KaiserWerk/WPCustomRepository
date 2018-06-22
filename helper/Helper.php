@@ -49,6 +49,7 @@ class Helper
         require viewsDir() . '/' . $headerTemplate;
         require viewsDir() . $bodyTemplate;
         require viewsDir() . '/' . $footerTemplate;
+        die;
     }
     
     public static function setMessage($message, $type = 'info')
