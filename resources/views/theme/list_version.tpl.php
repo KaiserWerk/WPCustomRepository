@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <h1 class="mt-5">Theme <strong><?=$base_theme['theme_name'];?></strong> Version list</h1>
+            <h1 class="mt-5"><strong><?=$base_theme['theme_name'];?></strong> - Version list</h1>
             <?php Helper::getMessage(); ?>
             <br>
             <table class="table table-condense table-bordered table-hover">
