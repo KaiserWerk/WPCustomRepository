@@ -1,5 +1,5 @@
 <?php
-
+AuthHelper::init();
 $router->respond(['GET', 'POST'], '/login', function () {
     
     if (AuthHelper::isLoggedIn()) {

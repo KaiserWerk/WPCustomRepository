@@ -1,5 +1,5 @@
 <?php
-
+AuthHelper::init();
 $router->with('/plugin/base', function () use ($router) {
     
     $router->respond('GET', '/list', function ($request) {
@@ -48,7 +48,7 @@ $router->with('/plugin/base', function () use ($router) {
     $router->respond(['GET', 'POST'], '/add', function ($request) {
         AuthHelper::requireLogin();
         
-        if (isset($_POST['btn_plugin_add'])) {
+        if (isset($_POST['btn_plugin_base_add'])) {
             AuthHelper::requireValidCSRFToken();
             
             $_plugin_add = $_POST['_plugin_add'];
@@ -102,12 +102,12 @@ $router->with('/plugin/base', function () use ($router) {
                 ]);
         
                 Helper::setMessage('Base plugin added!', 'success');
-                Helper::redirect('/plugin/list');
+                Helper::redirect('/plugin/base/list');
             } else {
                 Helper::setMessage('Please fill in all required fields!', 'warning');
-                Helper::redirect('/plugin/add');
+                Helper::redirect('/plugin/base/add');
             }
-            Helper::redirect('/plugin/list');
+            Helper::redirect('/plugin/base/list');
         } else {
             Helper::renderPage('/plugin/add_base.tpl.php');
         }

@@ -34,6 +34,4 @@ while($f = readdir($h)) {
 }
 closedir($h);
 
-AuthHelper::init();
-
 $router->dispatch();

@@ -1,5 +1,5 @@
 <?php
-
+AuthHelper::init();
 $router->with('/admin/user', function () use ($router) {
     
     /**

@@ -1,5 +1,5 @@
 <?php
-
+AuthHelper::init();
 $router->with('/theme/base', function () use ($router) {
     
     /**
