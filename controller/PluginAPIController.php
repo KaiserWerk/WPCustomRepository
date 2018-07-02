@@ -30,7 +30,6 @@ $router->with('/api/plugins', function () use ($router) {
         $response = new stdClass();
         $response->slug = $slug;
         $response->new_version = $latest_version['version'];
-        #$response->url = $base_plugin['url'];
         $response->package = Helper::getHost() . '/download/plugin/' . $slug . '/latest';
         
         HTTPHelper::jsonResponse((array)$response);
