@@ -1,4 +1,5 @@
 <?php
+AuthHelper::init();
 // @TODO update updated_at when version is added/edited/removed
 
 $router->with('/plugin/version', function () use ($router) {

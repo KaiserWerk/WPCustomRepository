@@ -1,5 +1,5 @@
 <?php
-
+AuthHelper::init();
 $router->with('/admin', function () use ($router) {
     
     /** just to redirect to dashboard */

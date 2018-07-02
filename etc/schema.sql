@@ -132,7 +132,6 @@ CREATE TABLE `plugin_version` (
   `tested` varchar(10) NOT NULL,
   `downloaded` int(11) NOT NULL DEFAULT '0',
   `active_installations` int(11) UNSIGNED NOT NULL DEFAULT '0',
-  `archived` tinyint(1) NOT NULL DEFAULT '0',
   `added_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

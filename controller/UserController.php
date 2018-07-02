@@ -1,5 +1,5 @@
 <?php
-
+AuthHelper::init();
 /**
  * Displays forms for changing various user setting, like email
  * or password
