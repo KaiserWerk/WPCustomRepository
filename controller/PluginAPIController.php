@@ -4,8 +4,6 @@ $router->with('/api/plugins', function () use ($router) {
     
     $router->respond('GET', '/check-latest-version/[:slug]', function ($request) {
         
-        #var_dump(getallheaders());die;
-        
         // @TODO remove cookie from api calls
         
         LoggerHelper::logAPIRequest('/api/plugins/check-latest-version/[:slug]', $_SERVER['REQUEST_METHOD'], getallheaders());
@@ -24,10 +22,9 @@ $router->with('/api/plugins', function () use ($router) {
             'version'
         ], [
             'plugin_entry_id' => $base_plugin['id'],
-            'archived' => 0,
             'ORDER' => [
-                'version' => 'DESC'
-            ]
+                'version' => 'DESC',
+            ],
         ]);
         
         $response = new stdClass();
@@ -45,7 +42,7 @@ $router->with('/api/plugins', function () use ($router) {
     
         LoggerHelper::logAPIRequest('/api/plugins/get-plugin-information/[:slug]', $_SERVER['REQUEST_METHOD'], getallheaders());
         
-        LicenseHelper::checkLicenseValidity($request->headers);
+        LicenseHelper::checkLicenseValidity();
         
         $slug = $request->slug;
         
@@ -134,14 +131,13 @@ $router->with('/api/plugins', function () use ($router) {
         
         $response->download_link = Helper::getHost() . '/download/plugin/' . $slug . '/'.$latest_version['version'];
         
-        HTTPHelper::jsonResponse((array)$response);
+        HTTPHelper::jsonResponse($response);
     });
     
     
     $router->respond('POST', '/track-installations', function () {
         // @TODO remove cookie from api calls
-        // @TODO log API request
-        // @TODO proper JSON response
+        LoggerHelper::logAPIRequest('/api/plugins/track-installations', $_SERVER['REQUEST_METHOD'], getallheaders());
         $slug = $_POST['slug'] ?? null;
         $version = $_POST['version'] ?? null;
         $action = $_POST['action'] ?? null;

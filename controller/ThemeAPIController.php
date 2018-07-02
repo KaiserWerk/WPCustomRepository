@@ -12,7 +12,7 @@ $router->with('/api/themes', function () use ($router) {
             ], 400);
         }
         
-        LicenseHelper::checkLicenseValidity($request->headers);
+        LicenseHelper::checkLicenseValidity();
         
         $db = new DBHelper();
     
@@ -66,7 +66,7 @@ $router->with('/api/themes', function () use ($router) {
             ], 400);
         }
         
-        LicenseHelper::checkLicenseValidity($request->headers);
+        LicenseHelper::checkLicenseValidity();
         
         $db = new DBHelper();
         
