@@ -36,10 +36,3 @@ function viewsDir($echo = false) {
     }
     echo  __DIR__.'/resources/views';
 }
-
-function archiveDir($echo = false) {
-    if ( ! $echo ) {
-        return tempDir() . '/plugin_archive';
-    }
-    echo tempDir() . '/plugin_archive';
-}
