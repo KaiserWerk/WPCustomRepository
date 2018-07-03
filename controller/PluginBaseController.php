@@ -51,19 +51,18 @@ $router->with('/plugin/base', function () use ($router) {
         if (isset($_POST['btn_plugin_base_add'])) {
             AuthHelper::requireValidCSRFToken();
             
-            $_plugin_add = $_POST['_plugin_add'];
-            
+            $_plugin_base_add = $_POST['_plugin_base_add'];
             if (
-                !empty($_plugin_add['plugin_name']) &&
-                !empty($_plugin_add['slug']) &&
-                !empty($_plugin_add['homepage']) &&
-                !empty($_plugin_add['section_description'])
+                !empty($_plugin_base_add['plugin_name']) &&
+                !empty($_plugin_base_add['slug']) &&
+                !empty($_plugin_base_add['homepage']) &&
+                !empty($_plugin_base_add['section_description'])
             ) {
                 if (in_array($_FILES['_plugin_add_banner_low']['type'], array('image/png', 'image/jpeg', 'image/gif'))) {
                     $parts = explode('.', $_FILES['_plugin_add_banner_low']['name']);
                     $end = $parts[count($parts)-1];
-                    $dir = publicDir() . '/banner_files/' . $_plugin_add['slug'] . '/';
-                    $file_name = $file_name = $_plugin_add['slug'] . '_banner_low.' . $end;
+                    $dir = publicDir() . '/banner_files/' . $_plugin_base_add['slug'] . '/';
+                    $file_name = $file_name = $_plugin_base_add['slug'] . '_banner_low.' . $end;
                     if (!is_dir($dir)) {
                         @mkdir($dir, 0775, true);
                     }
@@ -75,8 +74,8 @@ $router->with('/plugin/base', function () use ($router) {
                 if (in_array($_FILES['_plugin_add_banner_high']['type'], array('image/png', 'image/jpeg', 'image/gif'))) {
                     $parts = explode('.', $_FILES['_plugin_add_banner_high']['name']);
                     $end = $parts[count($parts)-1];
-                    $dir = publicDir() . '/banner_files/' . $_plugin_add['slug'] . '/';
-                    $file_name = $file_name = $_plugin_add['slug'] . '_banner_high.' . $end;
+                    $dir = publicDir() . '/banner_files/' . $_plugin_base_add['slug'] . '/';
+                    $file_name = $file_name = $_plugin_base_add['slug'] . '_banner_high.' . $end;
                     if (!is_dir($dir)) {
                         @mkdir($dir, 0775, true);
                     }
@@ -89,15 +88,15 @@ $router->with('/plugin/base', function () use ($router) {
                 
                 $db = new DBHelper();
                 $db->insert('plugin', [
-                    'plugin_name' => $_plugin_add['plugin_name'],
-                    'slug' => $_plugin_add['slug'],
-                    'homepage' => $_plugin_add['homepage'],
-                    'section_description' => strip_tags($_plugin_add['section_description'], $allowable_tags),
-                    'section_installation' => strip_tags($_plugin_add['section_installation'], $allowable_tags),
-                    'section_faq' => strip_tags($_plugin_add['section_faq'], $allowable_tags),
-                    'section_screenshots' => strip_tags($_plugin_add['section_screenshots'], $allowable_tags),
-                    'section_changelog' => strip_tags($_plugin_add['section_changelog'], $allowable_tags),
-                    'section_other_notes' => strip_tags($_plugin_add['section_other_notes'], $allowable_tags),
+                    'plugin_name' => $_plugin_base_add['plugin_name'],
+                    'slug' => $_plugin_base_add['slug'],
+                    'homepage' => $_plugin_base_add['homepage'],
+                    'section_description' => strip_tags($_plugin_base_add['section_description'], $allowable_tags),
+                    'section_installation' => strip_tags($_plugin_base_add['section_installation'], $allowable_tags),
+                    'section_faq' => strip_tags($_plugin_base_add['section_faq'], $allowable_tags),
+                    'section_screenshots' => strip_tags($_plugin_base_add['section_screenshots'], $allowable_tags),
+                    'section_changelog' => strip_tags($_plugin_base_add['section_changelog'], $allowable_tags),
+                    'section_other_notes' => strip_tags($_plugin_base_add['section_other_notes'], $allowable_tags),
                     'last_updated' => date('Y-m-d H:i:s'),
                 ]);
         
