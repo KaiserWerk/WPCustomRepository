@@ -52,7 +52,6 @@ $router->with('/api/plugins', function () use ($router) {
         
         $latest_version = $db->get('plugin_version', '*', [
             'plugin_entry_id' => $base_plugin['id'],
-            'archived' => 0,
             'ORDER' => [
                 'version' => 'DESC'
             ]
@@ -121,11 +120,11 @@ $router->with('/api/plugins', function () use ($router) {
         
         $response->banners = array();
         
-        if (file_exists(publicDir() . '/banner_files/' . $slug . '/'.$base_plugin['banner_low'])) {
-            $response->banners['low'] = Helper::getHost() . '/banner_files/' . $slug . '_banner_low.png';
+        if (file_exists(publicDir() . '/banner_files/' . $slug . '/' . $slug . '_banner_low.png')) {
+            $response->banners['low'] = Helper::getHost() . '/banner_files/' . $slug . '/' . $slug . '_banner_low.png';
         }
-        if (file_exists(publicDir() . '/banner_files/' . $slug . '/' . $base_plugin['banner_high'])) {
-            $response->banners['high'] = Helper::getHost() . '/banner_files/' . $slug.'_banner_high.png';
+        if (file_exists(publicDir() . '/banner_files/' . $slug . '/' . $slug.'_banner_high.png')) {
+            $response->banners['high'] = Helper::getHost() . '/banner_files/' . $slug . '/' . $slug.'_banner_high.png';
         }
         
         $response->download_link = Helper::getHost() . '/download/plugin/' . $slug . '/'.$latest_version['version'];
