@@ -21,6 +21,11 @@ $climate->arguments->add([
         'longPrefix'   => 'no-interaction',
         'description'  => 'Uses the non-interactive mode',
     ],
+    'clear-sessions' => [
+        'shortPrefix' => 'cls',
+        'longPrefix'   => 'clear-sessions',
+        'description'  => 'Removes all active sessions (which logs out all users)',
+    ],
     'create-user' => [
         'shortPrefix' => 'cu',
         'longPrefix'   => 'create-user',
@@ -57,6 +62,16 @@ $climate->arguments->parse();
 if ($climate->arguments->defined('help')) {
     $climate->usage();
 }
+
+if ($climate->arguments->defined('clear-sessions')) {
+    $files = glob(__DIR__ . '/../var/sessions/sess_*');
+    foreach($files as $file) {
+        if(is_file($file)) {
+            unlink( $file );
+        }
+    }
+}
+
 if ($climate->arguments->defined('create-user')) {
     if ($climate->arguments->defined('no-interaction')) {
         $username = $climate->arguments->get('username');
