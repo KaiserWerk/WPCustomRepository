@@ -6,18 +6,7 @@ if (php_sapi_name() !== "cli") {
 
 require __DIR__ . '/../bootstrap.php';
 require __DIR__ . '/../helper/DBHelper.php';
-/*$db = new \Medoo\Medoo([
-    // required
-    'database_type' => getenv('DB_DRIVER'),
-    'database_name' => getenv('DB_NAME'),
-    'server' => getenv('DB_HOST'),
-    'username' => getenv('DB_USER'),
-    'password' => getenv('DB_PASSWORD'),
-    'prefix' => getenv('DB_PREFIX'),
-    'charset' => getenv('DB_CHARSET'),
-    'port' => getenv('DB_CHARSET'),
-]);
-*/
+
 $climate = new \League\CLImate\CLImate;
 $db = new DBHelper();
 
