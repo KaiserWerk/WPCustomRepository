@@ -37,10 +37,6 @@
                     </div>
                     <div class="col-md-6 col-sm-12">
                         <div class="form-group">
-                            <label for="homepage">Homepage</label>
-                            <input type="text" name="_plugin_version_add[homepage]" id="homepage" class="form-control" placeholder="http://" value="<?=Helper::getHost();?>/plugin/">
-                        </div>
-                        <div class="form-group">
                             <label for="plugin_file">Plugin File</label>
                             <input type="file" name="_plugin_version_add_plugin_file" id="plugin_file" class="form-control-file" required>
                         </div>
