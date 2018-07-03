@@ -43,21 +43,30 @@ $router->with('/license', function () use ($router) {
                 'AND' => [
                     'license_user' => $_add['license_user'],
                     'license_host' => $_add['license_host'],
-                    'plugin_slug' => $_add['plugin_slug'],
+                    'OR' => [
+                        'plugin_entry_id' => $_add['plugin_entry_id'],
+                        'theme_entry_id' => $_add['theme_entry_id'],
+                    ]
                 ]
             ])) {
                 Helper::setMessage('This license already exists! Please renew as needed.', 'danger');
                 Helper::redirect('/license/add');
             }
             
-            $db->insert('license', [
+            $bool = $db->insert('license', [
+                'plugin_entry_id' => $_add['plugin_entry_id'],
+                'theme_entry_id' => $_add['theme_entry_id'],
                 'license_user' => $_add['license_user'],
                 'license_key' => $_add['license_key'],
                 'license_host' => $_add['license_host'],
-                'plugin_slug' => $_add['plugin_slug'],
                 'valid_until' => $_add['valid_until'],
                 'created_at' => date('Y-m-d H:i:s'),
             ]);
+            
+            if ($bool === false) {
+                Helper::setMessage('Database error!', 'danger');
+                Helper::redirect('/license/list');
+            }
         
             Helper::setMessage('License added!', 'success');
             Helper::redirect('/license/list');
