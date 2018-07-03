@@ -43,3 +43,17 @@ function archiveDir($echo = false) {
     }
     echo tempDir() . '/plugin_archive';
 }
+
+ini_set('log_errors', true);
+ini_set('error_log', tempDir() . '/logs/php-errors.log');
+ini_set('session.save_handler', 'files');
+ini_set('session.save_path', tempDir() . '/sessions/');
+ini_set('session.gc_probability', 1); // important for debian systems
+ini_set('session.name', getenv('SESSNAME'));
+if ((bool)getenv('DEBUG') === true) {
+    error_reporting(E_ALL);
+    ini_set('display_errors', true);
+} else {
+    error_reporting(0);
+    ini_set('display_errors', false);
+}
