@@ -56,7 +56,7 @@ $router->with('/license', function () use ($router) {
             $bool = $db->insert('license', [
                 'plugin_entry_id' => $_add['plugin_entry_id'],
                 'theme_entry_id' => $_add['theme_entry_id'],
-                'license_user' => $_add['license_user'],
+                'license_user' => strtoupper($_add['license_user']),
                 'license_key' => $_add['license_key'],
                 'license_host' => $_add['license_host'],
                 'valid_until' => $_add['valid_until'],
