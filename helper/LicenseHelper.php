@@ -13,7 +13,7 @@ class LicenseHelper
         $headers = getallheaders();
         $licenseUser = $headers['X-License-User'] ?? null;
         $licenseKey  = $headers['X-License-Key'] ?? null;
-        $licenseHost = $headers['Host'] ?? gethostbyname(Helper::getIP());
+        $licenseHost = Helper::getIP();
     
         if ($licenseUser === null || $licenseKey === null) {
             HTTPHelper::jsonResponse([
