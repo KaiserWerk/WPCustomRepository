@@ -1,0 +1,143 @@
+<?php
+
+if (php_sapi_name() !== "cli") {
+    exit;
+}
+
+require __DIR__ . '/../bootstrap.php';
+require __DIR__ . '/../helper/DBHelper.php';
+/*$db = new \Medoo\Medoo([
+    // required
+    'database_type' => getenv('DB_DRIVER'),
+    'database_name' => getenv('DB_NAME'),
+    'server' => getenv('DB_HOST'),
+    'username' => getenv('DB_USER'),
+    'password' => getenv('DB_PASSWORD'),
+    'prefix' => getenv('DB_PREFIX'),
+    'charset' => getenv('DB_CHARSET'),
+    'port' => getenv('DB_CHARSET'),
+]);
+*/
+$climate = new \League\CLImate\CLImate;
+$db = new DBHelper();
+
+$climate->arguments->add([
+    'help' => [
+        'shortPrefix' => 'h',
+        'longPrefix'   => 'help',
+        'description'  => 'Show possible arguments',
+    ],
+    'no-interaction' => [
+        'shortPrefix' => 'n',
+        'longPrefix'   => 'no-interaction',
+        'description'  => 'Uses the non-interactive mode',
+    ],
+    'create-user' => [
+        'shortPrefix' => 'cu',
+        'longPrefix'   => 'create-user',
+        'description'  => 'Create a user',
+    ],
+    'remove-user' => [
+        'shortPrefix' => 'ru',
+        'longPrefix'   => 'remove-user',
+        'description'  => 'Remove a user',
+    ],
+    'username' => [
+        'shortPrefix' => 'u',
+        'longPrefix' => 'username',
+        'description' => 'Supplies the username',
+    ],
+    'password' => [
+        'shortPrefix' => 'p',
+        'longPrefix' => 'password',
+        'description' => 'Supplies the password',
+    ],
+    'email' => [
+        'shortPrefix' => 'e',
+        'longPrefix' => 'email',
+        'description' => 'Supplies the email',
+    ],
+    'admin' => [
+        'shortPrefix' => 'a',
+        'longPrefix' => 'admin',
+        'description' => 'Determines whether new user has admin privileges',
+    ],
+]);
+$climate->arguments->parse();
+
+if ($climate->arguments->defined('help')) {
+    $climate->usage();
+}
+if ($climate->arguments->defined('create-user')) {
+    if ($climate->arguments->defined('no-interaction')) {
+        $username = $climate->arguments->get('username');
+        $password = $climate->arguments->get('password');
+        $email = $climate->arguments->get('email');
+        if (!empty($username) && !empty($password) && !empty($email)) {
+            $fields = [
+                'username' => $username,
+                'password' => password_hash($password, PASSWORD_BCRYPT, ['cost' => 12]),
+                'email' => $email,
+            ];
+            if ($climate->arguments->defined('admin')) {
+                $fields['admin'] = 1;
+            }
+            $db->insert('user', $fields);
+            $climate->lightGreen()->out('Creating user '.$username.'.');
+        } else {
+            $climate->red()->out('Could not create user!');
+        }
+        
+    } else {
+        $usernameInput = $climate->input('Username?');
+        $username = $usernameInput->prompt();
+        $passwordInput = $climate->password('Password?');
+        $password = $passwordInput->prompt();
+        $emailInput = $climate->input('Email?');
+        $email = $emailInput->prompt();
+        if (!empty($username) && !empty($password) && !empty($email)) {
+            $fields = [
+                'username' => $username,
+                'password' => password_hash($password, PASSWORD_BCRYPT, ['cost' => 12]),
+                'email' => $email,
+            ];
+            if ($climate->arguments->defined('admin')) {
+                $fields['admin'] = 1;
+            }
+            $db->insert('user', $fields);
+            $climate->lightGreen()->out( 'Creating user ' . $username . ' with password ' . $password . ' and email ' . $email );
+        } else {
+            $climate->red()->out('Could not create user!');
+        }
+    }
+}
+if ($climate->arguments->defined('remove-user')) {
+    if ($climate->arguments->defined('no-interaction')) {
+        $username = $climate->arguments->get('username');
+        if (!empty($username)) {
+            $db->delete('user', [
+                'username' => $username,
+            ]);
+            $climate->lightGreen()->out('Removing user ' . $username);
+        } else {
+            $climate->red()->out('Could not remove user!');
+        }
+        
+    } else {
+        $usernameInput = $climate->input('Username?');
+        $username = $usernameInput->prompt();
+        if (!empty($username)) {
+            $confirm = $climate->confirm( 'Do you confirm?' );
+            if ( $confirm->confirmed() ) {
+                $db->delete('user', [
+                    'username' => $username,
+                ]);
+                $climate->lightGreen()->out( 'Removing user ' . $username );
+            } else {
+                $climate->info( 'Cancelled.' );
+            }
+        } else {
+            $climate->red()->out('Could not remove user!');
+        }
+    }
+}
