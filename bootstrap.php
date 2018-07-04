@@ -48,7 +48,8 @@ ini_set('log_errors', true);
 ini_set('error_log', tempDir() . '/logs/php-errors.log');
 ini_set('session.save_handler', 'files');
 ini_set('session.save_path', tempDir() . '/sessions/');
-ini_set('session.gc_probability', 1); // important for debian systems
+/** important for debian systems if you set a custom session save path */
+ini_set('session.gc_probability', 1);
 ini_set('session.name', getenv('SESSNAME'));
 if ((bool)getenv('DEBUG') === true) {
     error_reporting(E_ALL);
