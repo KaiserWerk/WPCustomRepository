@@ -11,7 +11,9 @@ $router->respond(['GET', 'POST'], '/user/settings', function ($request) {
     $user = Helper::getUserData($_SESSION['user']);
     
 
-    // change data
+    /**
+     * Change my data
+     */
     if (isset($_POST['btn_save_my_data'])) {
         AuthHelper::requireValidCSRFToken();
         AuthHelper::requireValidHonepot();
