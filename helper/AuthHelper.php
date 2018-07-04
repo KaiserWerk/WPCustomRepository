@@ -273,7 +273,7 @@ class AuthHelper
      */
     public static function generateHoneypotInput($return = false)
     {
-        $str = '<input type="text" name="_user_email" class="form-control" style="visibility: hidden;">'.PHP_EOL;
+        $str = '<input type="text" name="_user_email" class="form-control" style="visibility: hidden; display: none;">'.PHP_EOL;
         if (!$return) {
             echo $str;
             return '';
