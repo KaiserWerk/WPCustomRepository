@@ -78,8 +78,8 @@ $StopwatchHelper->start();
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="width: 250px;">
                         <a class="dropdown-item" href="/admin/dashboard">Dashboard</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="/admin/settings">System Settings</a>
+                        <!--<div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/admin/settings">System Settings</a>-->
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="/admin/user/list">User Overview</a>
                         <a class="dropdown-item" href="/admin/user/add">Add User</a>
