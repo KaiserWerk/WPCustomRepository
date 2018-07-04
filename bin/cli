@@ -10,54 +10,58 @@ require __DIR__ . '/../helper/DBHelper.php';
 $climate = new \League\CLImate\CLImate;
 $db = new DBHelper();
 
-$climate->arguments->add([
-    'help' => [
-        'shortPrefix' => 'h',
-        'longPrefix'   => 'help',
-        'description'  => 'Show possible arguments',
-    ],
-    'no-interaction' => [
-        'shortPrefix' => 'n',
-        'longPrefix'   => 'no-interaction',
-        'description'  => 'Uses the non-interactive mode',
-    ],
-    'clear-sessions' => [
-        'shortPrefix' => 'cls',
-        'longPrefix'   => 'clear-sessions',
-        'description'  => 'Removes all active sessions (which logs out all users)',
-    ],
-    'create-user' => [
-        'shortPrefix' => 'cu',
-        'longPrefix'   => 'create-user',
-        'description'  => 'Create a user',
-    ],
-    'remove-user' => [
-        'shortPrefix' => 'ru',
-        'longPrefix'   => 'remove-user',
-        'description'  => 'Remove a user',
-    ],
-    'username' => [
-        'shortPrefix' => 'u',
-        'longPrefix' => 'username',
-        'description' => 'Supplies the username',
-    ],
-    'password' => [
-        'shortPrefix' => 'p',
-        'longPrefix' => 'password',
-        'description' => 'Supplies the password',
-    ],
-    'email' => [
-        'shortPrefix' => 'e',
-        'longPrefix' => 'email',
-        'description' => 'Supplies the email',
-    ],
-    'admin' => [
-        'shortPrefix' => 'a',
-        'longPrefix' => 'admin',
-        'description' => 'Determines whether new user has admin privileges',
-    ],
-]);
-$climate->arguments->parse();
+try {
+    $climate->arguments->add([
+        'help' => [
+            'shortPrefix' => 'h',
+            'longPrefix' => 'help',
+            'description' => 'Show possible arguments',
+        ],
+        'no-interaction' => [
+            'shortPrefix' => 'n',
+            'longPrefix' => 'no-interaction',
+            'description' => 'Uses the non-interactive mode',
+        ],
+        'clear-sessions' => [
+            'shortPrefix' => 'cls',
+            'longPrefix' => 'clear-sessions',
+            'description' => 'Removes all active sessions (which logs out all users)',
+        ],
+        'create-user' => [
+            'shortPrefix' => 'cu',
+            'longPrefix' => 'create-user',
+            'description' => 'Create a user',
+        ],
+        'remove-user' => [
+            'shortPrefix' => 'ru',
+            'longPrefix' => 'remove-user',
+            'description' => 'Remove a user',
+        ],
+        'username' => [
+            'shortPrefix' => 'u',
+            'longPrefix' => 'username',
+            'description' => 'Supplies the username',
+        ],
+        'password' => [
+            'shortPrefix' => 'p',
+            'longPrefix' => 'password',
+            'description' => 'Supplies the password',
+        ],
+        'email' => [
+            'shortPrefix' => 'e',
+            'longPrefix' => 'email',
+            'description' => 'Supplies the email',
+        ],
+        'admin' => [
+            'shortPrefix' => 'a',
+            'longPrefix' => 'admin',
+            'description' => 'Determines whether new user has admin privileges',
+        ],
+    ]);
+    $climate->arguments->parse();
+} catch (\Exception $e) {
+    echo 'Could not add or parse arguments: ' . $e->getMessage();
+}
 
 /**
  * Show commands / usage
