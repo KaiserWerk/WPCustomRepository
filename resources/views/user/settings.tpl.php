@@ -36,31 +36,7 @@
                             </form>
                         </div>
                     </div>
-
-                    <br>
-
-                    <div class="card">
-                        <div class="card-header">My API key</div>
-                        <div class="card-body">
-                            <p class="text-center h3"><?=$user['apikey'];?></p>
-                            <form action="/user/settings" method="post">
-                                <?php
-                                AuthHelper::generateCSRFInput();
-                                AuthHelper::generateHoneypotInput();
-                                ?>
-                                <br>
-                                <div class="form-group">
-                                    <label for="current_password">Your current password:</label>
-                                    <input id="current_password" name="_edit[password]" type="password" class="form-control" required>
-                                </div>
-
-                                <div class="form-group">
-                                    <button type="submit" name="btn_regenerate_apikey" class="btn btn-sm btn-primary">Regenerate my API key</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-
+                    
                 </div>
                 <div class="col-md-6 col-sm-12">
 
@@ -100,36 +76,7 @@
                             </form>
                         </div>
                     </div>
-
-                    <br>
-
-                    <div class="card">
-                        <div class="card-header">Lock my account</div>
-                        <div class="card-body">
-                            <form action="/user/settings" method="post">
-                                <?php
-                                AuthHelper::generateCSRFInput();
-                                AuthHelper::generateHoneypotInput();
-                                ?>
-                                <div class="form-group">
-                                    <label for="locked" class="text-center" style="display: block;">
-                                        <input id="locked" name="_lock[enabled]" type="checkbox" value="1" required>
-                                        Yes, lock my account
-                                    </label>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="current_password">Your current password:</label>
-                                    <input id="current_password" name="_lock[current_password]" type="password" class="form-control" required>
-                                </div>
-
-                                <div class="form-group">
-                                    <button type="submit" name="btn_lock_account" class="btn btn-sm btn-primary">Lock my account</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-
+                    
                 </div>
             </div>
 

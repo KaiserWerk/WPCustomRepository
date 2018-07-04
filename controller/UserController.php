@@ -84,36 +84,7 @@ $router->respond(['GET', 'POST'], '/user/settings', function ($request) {
         Helper::redirect('/user/settings');
 
     }
-
-    /**
-     * deliberately lock my account
-     */
-    if (isset($_POST['btn_lock_account'])) {
-        AuthHelper::requireValidCSRFToken();
-
-        $_lock = $_POST['_lock'] ?? null;
-
-        // check password
-        if (!password_verify($_lock['current_password'], $user['password'])) {
-            Helper::setMessage('An unknown error occured!', 'danger');
-            Helper::redirect('/user/settings');
-        }
-
-        if (isset($_lock['enabled']) && $_lock['enabled'] === '1') {
-            $db->update('user', [
-                'locked' => 1,
-            ], [
-                'id' => $user['id']
-            ]);
-            CommunicationHelper::sendNotification('User ' . $user['username'] . ' has deliberately locked his account!');
-            Helper::setMessage('You locked your account and are now logged out.');
-            Helper::redirect('/logout');
-        } else {
-            Helper::setMessage('Please fill in all required fields!', 'warning');
-            Helper::redirect('/user/settings');
-        }
-    }
-
+    
     /**
      * set new password
      */
@@ -148,33 +119,6 @@ $router->respond(['GET', 'POST'], '/user/settings', function ($request) {
             }
         } else {
             Helper::setMessage('Please enter your current password when changing your data!', 'warning');
-            Helper::redirect('/user/settings');
-        }
-    }
-
-    /**
-     * regenerate API key
-     */
-    if (isset($_POST['btn_regenerate_apikey'])) {
-        AuthHelper::requireValidCSRFToken();
-
-        $_edit = $_POST['_edit'] ?? null;
-        if ($_edit !== null || empty($_edit['password'])) {
-            if (password_verify($_edit['password'], $user['password'])) {
-                $db->update('user', [
-                    'apikey' => AuthHelper::generateToken(20),
-                ], [
-                    'id' => $user['id']
-                ]);
-                CommunicationHelper::sendNotification('User ' . $user['username'] . ' has regenerated his API key.');
-                Helper::setMessage('Your API was regenerated!', 'success');
-                Helper::redirect('/user/settings');
-            } else {
-                Helper::setMessage('The password you entered was incorrect!!', 'danger');
-                Helper::redirect('/user/settings');
-            }
-        } else {
-            Helper::setMessage('Please enter your current password!', 'warning');
             Helper::redirect('/user/settings');
         }
     }
