@@ -97,8 +97,6 @@ $router->with('/plugin/version', function () use ($router) {
                     $fields[$key] = $_plugin_version_add[$key];
                 } else {
                     unset($fields[$key]);
-                    #Helper::setMessage('Form was manipulated!', 'danger');
-                    #Helper::redirect('/plugin/version/add');
                 }
             }
             
@@ -113,6 +111,7 @@ $router->with('/plugin/version', function () use ($router) {
                 Helper::redirect('/plugin/version/add');
             }
     
+            /** if a file is selected and has the correct type, rename and move it */
             if (in_array($_FILES['_plugin_version_add_plugin_file']['type'],
                 array('application/zip', 'application/octet-stream', 'application/x-zip-compressed', 'multipart/x-zip'))) {
                 $dir = projectDir(). '/var/plugin_files/' . $base_plugin['slug'] . '/';
@@ -124,6 +123,13 @@ $router->with('/plugin/version', function () use ($router) {
             } else {
                 LoggerHelper::debug('Plugin file has incorrect file type!', 'warn');
             }
+            
+            /** update last_updated column */
+            $db->update('plugin', [
+                'last_updated' => date('Y-m-d H:i:s'),
+            ], [
+                'id' => $base_plugin['id'],
+            ]);
             
             Helper::setMessage('Plugin version added!', 'success');
             Helper::redirect('/plugin/base/list');
@@ -192,6 +198,13 @@ $router->with('/plugin/version', function () use ($router) {
                 Helper::setMessage('Base plugin not found!', 'danger');
                 Helper::redirect('/plugin/base/list');
             }
+    
+            /** update last_updated column */
+            $db->update('plugin', [
+                'last_updated' => date('Y-m-d H:i:s'),
+            ], [
+                'id' => $base_plugin['id'],
+            ]);
             
             Helper::setMessage('Changes saved!', 'success');
             Helper::redirect('/plugin/version/' . $base_plugin['id'] . '/list');
@@ -221,59 +234,45 @@ $router->with('/plugin/version', function () use ($router) {
         }
     });
     
-    // base plugin entries cannot be archived
-    $router->respond('GET', '/[:id]/archive', function ($request) {
-        AuthHelper::requireLogin();
-        
-        /*$id = $request->id;
-        $do = $_GET['do'] ?? null;
-        $db = new DBHelper();
-        
-        $plugin = $db->get('plugin', [
-            'id',
-            'plugin_name',
-            'slug',
-            'version',
-        ], [
-            'id' => $id,
-        ]);
-    
-        if ($plugin === false) {
-            Helper::setMessage('Plugin not found!', 'danger');
-            Helper::redirect('/plugin/base/list');
-        }
-        
-        if ($do !== null) {
-            $file_name = $plugin['slug'] . '_v' . $plugin['version'] . '.zip';
-            $dir = downloadDir() . '/' . $plugin['slug'] . '/';
-            if (file_exists($dir . $file_name)) {
-                $newdir = archiveDir() . '/' . $plugin['slug'] . '/';
-                if (!is_dir($newdir)) {
-                    @mkdir($newdir, 0775, true);
-                }
-                @rename($dir . $file_name, $newdir . $file_name);
-            }
-            
-            $db->update('plugin', [
-                'archived' => 1,
-            ], [
-                'id' => $id,
-            ]);
-            
-            Helper::setMessage('Plugin version archived!', 'success');
-            Helper::redirect('/plugin/list');
-        } else {
-            Helper::renderPage('/plugin/archive.tpl.php');
-        }*/
-    });
-    
-    
-    /*$router->respond('GET', '/[:id]/toggle-archived', function ($request) {
-    
-    });
     
     $router->respond('GET', '/[:id]/remove', function ($request) {
+        AuthHelper::requireLogin();
+        $id = (int)$request->id;
+        $db = new DBHelper();
+        
+        
     
-    });*/
+        $plugin_version = $db->get('plugin_version', '*', [
+            'id' => $id,
+        ]);
+        
+        $base_plugin = $db->get('plugin', '*', [
+            'id' => $plugin_version['plugin_entry_id'],
+        ]);
+    
+        if ($base_plugin === false) {
+            Helper::setMessage('Base plugin not found!', 'danger');
+            Helper::redirect('/plugin/base/list');
+        }
+    
+        /** update last_updated column */
+        $db->update('plugin', [
+            'last_updated' => date('Y-m-d H:i:s'),
+        ], [
+            'id' => $base_plugin['id'],
+        ]);
+    
+        $bool = $db->delete('plugin_version', [
+            'id' => $id,
+        ]);
+        
+        if (!$bool) {
+            Helper::setMessage('Could not remove plugin version!', 'danger');
+            Helper::redirect('/plugin/version/' . $base_plugin['id'] . '/list');
+        } else {
+            Helper::setMessage('Plugin version removed.', 'success');
+            Helper::redirect('/plugin/version/' . $base_plugin['id'] . '/list');
+        }
+    });
     
 });
