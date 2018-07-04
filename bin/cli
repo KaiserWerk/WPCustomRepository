@@ -59,10 +59,16 @@ $climate->arguments->add([
 ]);
 $climate->arguments->parse();
 
+/**
+ * Show commands / usage
+ */
 if ($climate->arguments->defined('help')) {
     $climate->usage();
 }
 
+/**
+ * Clear session folder
+ */
 if ($climate->arguments->defined('clear-sessions')) {
     $files = glob(__DIR__ . '/../var/sessions/sess_*');
     foreach($files as $file) {
@@ -72,6 +78,11 @@ if ($climate->arguments->defined('clear-sessions')) {
     }
 }
 
+/**
+ * Create a user
+ *
+ * If the supplied username is already in use, this does nothing
+ */
 if ($climate->arguments->defined('create-user')) {
     if ($climate->arguments->defined('no-interaction')) {
         $username = $climate->arguments->get('username');
@@ -115,6 +126,12 @@ if ($climate->arguments->defined('create-user')) {
         }
     }
 }
+
+/**
+ * Removes a user
+ *
+ * If the supplied username does not exist, this does nothing
+ */
 if ($climate->arguments->defined('remove-user')) {
     if ($climate->arguments->defined('no-interaction')) {
         $username = $climate->arguments->get('username');
