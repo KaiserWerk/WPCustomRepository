@@ -194,9 +194,6 @@ CREATE TABLE `user` (
 -- Daten für Tabelle `user`
 --
 
-INSERT INTO `user` (`id`, `username`, `first_name`, `last_name`, `password`, `email`, `confirmation_token`, `confirmation_token_validity`, `last_login`, `sex`, `locale`, `admin`, `locked`, `created_at`) VALUES
-(1, 'admin', 'Robin', 'Kaiser', '$2y$12$GicGrkBOWhUV/CSewj2Gm.SSRW5ciOzdgYjG.2CRjjXOyz0.Vt65i', 't@r-k.mx', NULL, NULL, '2018-06-20 12:15:23', 'm', 'en', 1, 0, '2018-06-19 15:30:35');
-
 --
 -- Indizes der exportierten Tabellen
 --
@@ -329,4 +326,4 @@ ALTER TABLE `theme_version`
 -- AUTO_INCREMENT für Tabelle `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
