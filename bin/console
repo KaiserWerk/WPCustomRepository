@@ -92,6 +92,7 @@ if ($climate->arguments->defined('clear-sessions')) {
             unlink( $file );
         }
     }
+    $climate->lightGreen()->out('Sessions cleared successfully!');
 }
 
 /**
