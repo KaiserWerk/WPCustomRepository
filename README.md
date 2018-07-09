@@ -63,3 +63,4 @@ If you want to track active installations, use `<your_updater_class_name>::track
 * **Pull new plugin versions direct from Git!**
 * Add proper JSON error messages to Helper classes and API controllers
 * Remove cookies from API calls
+* Add proper Foreign Key Constraints (maybe)
