@@ -1,7 +1,12 @@
 .env
+wpcr.db
+.DS_Store
+public/.DS_Store
+
 /.idea
 /.git
 /vendor
+
 /var/logs
 !/var/logs/.gitkeep
 /var/plugin_files
@@ -12,5 +17,5 @@
 !/var/sessions/.gitkeep
 /public/banner_files
 !/public/banner_files/.gitkeep
-public/.DS_Store
-.DS_Store
+
+
