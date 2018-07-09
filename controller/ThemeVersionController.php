@@ -1,11 +1,11 @@
 <?php
-AuthHelper::init();
 $router->with('/theme/version', function () use ($router) {
     
     /**
      * List all versions for base theme ID
      */
     $router->respond('GET', '/[:id]/list', function ($request) {
+        AuthHelper::init();
         AuthHelper::requireLogin();
         
         $id = $request->id;
@@ -40,6 +40,7 @@ $router->with('/theme/version', function () use ($router) {
      * Show details of a theme version
      */
     $router->respond('GET', '/[:id]/show', function ($request) {
+        AuthHelper::init();
         AuthHelper::requireLogin();
         
         $db = new DBHelper();
@@ -61,6 +62,7 @@ $router->with('/theme/version', function () use ($router) {
      * Add a theme version
      */
     $router->respond(['GET', 'POST'], '/add', function ($request) {
+        AuthHelper::init();
         AuthHelper::requireLogin();
         $db = new DBHelper();
         if (isset($_POST['btn_theme_version_add'])) {
@@ -128,6 +130,7 @@ $router->with('/theme/version', function () use ($router) {
      * Edit a theme version
      */
     $router->respond(['GET', 'POST'], '/[:id]/edit', function ($request) {
+        AuthHelper::init();
         AuthHelper::requireLogin();
         $db = new DBHelper();
         if (isset($_POST['btn_theme_version_edit'])) {
@@ -173,7 +176,10 @@ $router->with('/theme/version', function () use ($router) {
      * Remove a theme version
      */
     $router->respond('GET', '/[:id]/remove', function ($request) {
+        AuthHelper::init();
         AuthHelper::requireLogin();
+        
+        
     });
     
 });

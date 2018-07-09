@@ -1,7 +1,7 @@
 <?php
-AuthHelper::init();
+
 $router->respond(['GET', 'POST'], '/login', function () {
-    
+    AuthHelper::init();
     if (AuthHelper::isLoggedIn()) {
         Helper::setMessage('You are already logged in.');
         Helper::redirect('/');
@@ -137,6 +137,7 @@ $router->respond(['GET', 'POST'], '/login', function () {
 });
 
 $router->respond('GET', '/logout', function ($request) {
+    AuthHelper::init();
     if (AuthHelper::isLoggedIn()) {
         AuthHelper::logout();
     }

@@ -3,11 +3,7 @@
 $router->with('/api/plugins', function () use ($router) {
     
     $router->respond('GET', '/check-latest-version/[:slug]', function ($request) {
-        
-        // @TODO remove cookie from api calls
-        
         LoggerHelper::logAPIRequest('/api/plugins/check-latest-version/[:slug]', $_SERVER['REQUEST_METHOD'], getallheaders());
-    
         LicenseHelper::checkLicenseValidity();
         
         $slug = $request->slug;
@@ -36,11 +32,7 @@ $router->with('/api/plugins', function () use ($router) {
     });
     
     $router->respond('GET', '/get-plugin-information/[:slug]', function ($request) {
-
-        // @TODO remove cookie from api calls
-    
         LoggerHelper::logAPIRequest('/api/plugins/get-plugin-information/[:slug]', $_SERVER['REQUEST_METHOD'], getallheaders());
-        
         LicenseHelper::checkLicenseValidity();
         
         $slug = $request->slug;
@@ -134,7 +126,6 @@ $router->with('/api/plugins', function () use ($router) {
     
     
     $router->respond('POST', '/track-installations', function () {
-        // @TODO remove cookie from api calls
         LoggerHelper::logAPIRequest('/api/plugins/track-installations', $_SERVER['REQUEST_METHOD'], getallheaders());
         $slug = $_POST['slug'] ?? null;
         $version = $_POST['version'] ?? null;

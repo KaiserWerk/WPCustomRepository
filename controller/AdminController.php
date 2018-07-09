@@ -1,5 +1,5 @@
 <?php
-AuthHelper::init();
+
 $router->with('/admin', function () use ($router) {
     
     /** just to redirect to dashboard */
@@ -15,6 +15,7 @@ $router->with('/admin', function () use ($router) {
      */
     
     $router->respond('GET', '/dashboard', function ($request) {
+        AuthHelper::init();
         AuthHelper::requireLogin();
         AuthHelper::requireAdmin();
         
@@ -39,11 +40,12 @@ $router->with('/admin', function () use ($router) {
      * send a test email
      */
     $router->respond('GET', '/tools/mail-message', function ($request) {
+        AuthHelper::init();
         AuthHelper::requireLogin();
         AuthHelper::requireAdmin();
         
         CommunicationHelper::sendMail(
-            'This is a Test-Mail.',
+            'This is an email test message.',
             'WPCustomRepository Test-Mail',
             getenv('MAILER_USER'),
             getenv('MAILER_USER_NAME'),
@@ -59,10 +61,11 @@ $router->with('/admin', function () use ($router) {
      * send a test stride message
      */
     $router->respond('GET', '/tools/stride-message', function ($request) {
+        AuthHelper::init();
         AuthHelper::requireLogin();
         AuthHelper::requireAdmin();
         
-        CommunicationHelper::sendStrideMessage('Dies ist eine Stride Test-Nachricht.');
+        CommunicationHelper::sendStrideMessage('This is a stride test message.');
         LoggerHelper::debug('Tries so send a Stride test message.');
         Helper::setMessage('You sent a test Stride message.');
         Helper::redirect('/admin/dashboard');
@@ -73,10 +76,11 @@ $router->with('/admin', function () use ($router) {
      * send a test hipchat message
      */
     $router->respond('GET', '/tools/hipchat-message', function ($request) {
+        AuthHelper::init();
         AuthHelper::requireLogin();
         AuthHelper::requireAdmin();
         
-        CommunicationHelper::sendHipChatMessage('Dies ist eine HipChat Test-Nachricht.');
+        CommunicationHelper::sendHipChatMessage('This is a HipChat test message.');
         LoggerHelper::debug('Tries so send a HipChat test message.');
         Helper::setMessage('You sent a test HipChat message.');
         Helper::redirect('/admin/dashboard');
@@ -86,10 +90,11 @@ $router->with('/admin', function () use ($router) {
      * send a test Slack message
      */
     $router->respond('GET', '/tools/slack-message', function ($request) {
+        AuthHelper::init();
         AuthHelper::requireLogin();
         AuthHelper::requireAdmin();
         
-        CommunicationHelper::sendSlackMessage('Dies ist eine Slack Test-Nachricht.');
+        CommunicationHelper::sendSlackMessage('This is a Slack test message.');
         LoggerHelper::debug('Tries so send a Slack test message.');
         Helper::setMessage('You sent a test Slack message.');
         Helper::redirect('/admin/dashboard');

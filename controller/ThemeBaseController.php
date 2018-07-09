@@ -1,11 +1,11 @@
 <?php
-AuthHelper::init();
 $router->with('/theme/base', function () use ($router) {
     
     /**
      * List all base themes
      */
     $router->respond('GET', '/list', function () {
+        AuthHelper::init();
         AuthHelper::requireLogin();
         
         $db = new DBHelper();
@@ -25,6 +25,7 @@ $router->with('/theme/base', function () use ($router) {
     });
     
     $router->respond('GET', '/[:id]/show', function ($request) {
+        AuthHelper::init();
         AuthHelper::requireLogin();
         
         $db = new DBHelper();
@@ -41,6 +42,7 @@ $router->with('/theme/base', function () use ($router) {
      * Add a base theme
      */
     $router->respond(['GET', 'POST'], '/add', function ($request) {
+        AuthHelper::init();
         AuthHelper::requireLogin();
         if (isset($_POST['btn_theme_base_add'])) {
             AuthHelper::checkCSRFToken();
@@ -84,6 +86,7 @@ $router->with('/theme/base', function () use ($router) {
      * Edit a base theme
      */
     $router->respond(['GET', 'POST'], '/[:id]/edit', function ($request) {
+        AuthHelper::init();
         AuthHelper::requireLogin();
         if (isset($_POST['btn_theme_base_edit'])) {
             AuthHelper::checkCSRFToken();
@@ -141,6 +144,7 @@ $router->with('/theme/base', function () use ($router) {
      * Remove a base theme
      */
     $router->respond('GET', '/[:id]/remove', function ($request) {
+        AuthHelper::init();
         AuthHelper::requireLogin();
         $db = new DBHelper();
         $db->delete('theme', [

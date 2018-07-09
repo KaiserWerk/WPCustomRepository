@@ -1,5 +1,4 @@
 <?php
-AuthHelper::init();
 // @TODO update updated_at when version is added/edited/removed
 
 $router->with('/plugin/version', function () use ($router) {
@@ -8,6 +7,7 @@ $router->with('/plugin/version', function () use ($router) {
      * List plugin versions for base plugin ID
      */
     $router->respond('GET', '/[:id]/list', function ($request) {
+        AuthHelper::init();
         AuthHelper::requireLogin();
         
         $id = $request->id;
@@ -41,6 +41,7 @@ $router->with('/plugin/version', function () use ($router) {
     });
     
     $router->respond('GET', '/[:id]/show', function ($request) {
+        AuthHelper::init();
         AuthHelper::requireLogin();
         
         $id = $request->id ?? null;
@@ -77,6 +78,7 @@ $router->with('/plugin/version', function () use ($router) {
     });
     
     $router->respond(['GET', 'POST'], '/add', function ($request) {
+        AuthHelper::init();
         AuthHelper::requireLogin();
         
         $db = new DBHelper();
@@ -151,6 +153,7 @@ $router->with('/plugin/version', function () use ($router) {
     });
     
     $router->respond(['GET', 'POST'], '/[:id]/edit', function ($request) {
+        AuthHelper::init();
         AuthHelper::requireLogin();
         
         $id = (int)$request->id;
@@ -236,6 +239,7 @@ $router->with('/plugin/version', function () use ($router) {
     
     
     $router->respond('GET', '/[:id]/remove', function ($request) {
+        AuthHelper::init();
         AuthHelper::requireLogin();
         $id = (int)$request->id;
         $db = new DBHelper();

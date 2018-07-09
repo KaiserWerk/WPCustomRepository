@@ -1,11 +1,11 @@
 <?php
-AuthHelper::init();
 $router->with('/admin/tracking-mail', function () use ($router) {
     
     /**
      * Lists all email trackings with statistics
      */
     $router->respond('GET', '/list', function ($request) {
+        AuthHelper::init();
         AuthHelper::requireLogin();
         AuthHelper::requireAdmin();
         

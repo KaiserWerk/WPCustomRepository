@@ -1,8 +1,8 @@
 <?php
-AuthHelper::init();
 $router->with('/license', function () use ($router) {
     
     $router->respond('GET', '/list', function ($request) {
+        AuthHelper::init();
         AuthHelper::requireLogin();
         
         $db = new DBHelper();
@@ -18,6 +18,7 @@ $router->with('/license', function () use ($router) {
     });
     
     $router->respond(['GET', 'POST'], '/add', function ($request) {
+        AuthHelper::init();
         AuthHelper::requireLogin();
         
         $db = new DBHelper();
@@ -94,6 +95,7 @@ $router->with('/license', function () use ($router) {
     });
     
     $router->respond(['GET', 'POST'], '/[:id]/renew', function ($request) {
+        AuthHelper::init();
         AuthHelper::requireLogin();
         
         $db = new DBHelper();
@@ -130,6 +132,7 @@ $router->with('/license', function () use ($router) {
     });
     
     $router->respond(['GET', 'POST'], '/[:id]/edit', function ($request) {
+        AuthHelper::init();
         AuthHelper::requireLogin();
         
         $id = $request->id ?? null;
@@ -209,6 +212,7 @@ $router->with('/license', function () use ($router) {
     });
     
     $router->respond('GET', '/[:id]/remove', function ($request) {
+        AuthHelper::init();
         AuthHelper::requireLogin();
         
         $id = $request->id;

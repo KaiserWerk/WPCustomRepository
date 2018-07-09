@@ -1,16 +1,15 @@
 <?php
-AuthHelper::init();
 /**
  * Displays forms for changing various user setting, like email
  * or password
  */
 $router->respond(['GET', 'POST'], '/user/settings', function ($request) {
+    AuthHelper::init();
     $db = new DBHelper();
     
     AuthHelper::requireLogin();
     $user = Helper::getUserData($_SESSION['user']);
     
-
     /**
      * Change my data
      */

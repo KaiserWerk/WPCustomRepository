@@ -1,11 +1,12 @@
 <?php
-AuthHelper::init();
+
 $router->with('/admin/user', function () use ($router) {
     
     /**
      * List all users
      */
     $router->respond('GET', '/list', function ($request) {
+        AuthHelper::init();
         AuthHelper::requireLogin();
         AuthHelper::requireAdmin();
     
@@ -31,6 +32,7 @@ $router->with('/admin/user', function () use ($router) {
      * Change the 'locked' status of a user
      */
     $router->respond('GET', '/[:id]/status/locked', function ($request) {
+        AuthHelper::init();
         AuthHelper::requireLogin();
         AuthHelper::requireAdmin();
         
@@ -68,6 +70,7 @@ $router->with('/admin/user', function () use ($router) {
      * (not of oneself)
      */
     $router->respond('GET', '/[:id]/status/admin', function ($request) {
+        AuthHelper::init();
         AuthHelper::requireLogin();
         AuthHelper::requireAdmin();
         
@@ -104,9 +107,10 @@ $router->with('/admin/user', function () use ($router) {
      * Adds a new user and optionally sends out a notification
      */
     $router->respond(['GET', 'POST'], '/add', function ($request) {
-        $db = new DBHelper();
+        AuthHelper::init();
         AuthHelper::requireLogin();
         AuthHelper::requireAdmin();
+        $db = new DBHelper();
     
         if (isset($_POST['btn_add_user'])) {
             $_csrf_token = $_POST['_csrf_token'] ?? null;
@@ -206,6 +210,7 @@ $router->with('/admin/user', function () use ($router) {
      * Display the form for removing a user
      */
     $router->respond(['GET', 'POST'], '/[:id]/remove', function ($request) {
+        AuthHelper::init();
         AuthHelper::requireLogin();
         AuthHelper::requireAdmin();
         
@@ -244,6 +249,7 @@ $router->with('/admin/user', function () use ($router) {
      * Display the form for editing a user
      */
     $router->respond(['GET', 'POST'], '/[:id]/edit', function ($request) {
+        AuthHelper::init();
         AuthHelper::requireLogin();
         AuthHelper::requireAdmin();
         

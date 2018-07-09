@@ -1,8 +1,8 @@
 <?php
-AuthHelper::init();
 $router->with('/plugin/base', function () use ($router) {
     
     $router->respond('GET', '/list', function ($request) {
+        AuthHelper::init();
         AuthHelper::requireLogin();
         
         $db = new DBHelper();
@@ -24,6 +24,7 @@ $router->with('/plugin/base', function () use ($router) {
     });
     
     $router->respond('GET', '/[:id]/show', function ($request) {
+        AuthHelper::init();
         AuthHelper::requireLogin();
         
         $id = $request->id ?? null;
@@ -46,6 +47,7 @@ $router->with('/plugin/base', function () use ($router) {
     
     
     $router->respond(['GET', 'POST'], '/add', function ($request) {
+        AuthHelper::init();
         AuthHelper::requireLogin();
         
         if (isset($_POST['btn_plugin_base_add'])) {
@@ -115,6 +117,7 @@ $router->with('/plugin/base', function () use ($router) {
     
     
     $router->respond(['GET', 'POST'], '/[:id]/edit', function ($request) {
+        AuthHelper::init();
         AuthHelper::requireLogin();
         $id = (int)$request->id;
         $db = new DBHelper();
