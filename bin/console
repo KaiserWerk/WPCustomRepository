@@ -20,9 +20,13 @@ try {
             'longPrefix' => 'no-interaction',
             'description' => 'Uses the non-interactive mode',
         ],
+        'create-schema' => [
+            'longPrefix' => 'create-schema',
+            'description' => 'Creates an empty database schema. Requires proper database settings to be set.',
+        ],
         'clear-sessions' => [
             'longPrefix' => 'clear-sessions',
-            'description' => 'Removes all active sessions (which logs out all users)',
+            'description' => 'Removes all sessions files (and logs out all users)',
         ],
         'create-user' => [
             'longPrefix' => 'create-user',
@@ -59,6 +63,23 @@ try {
  */
 if ($climate->arguments->defined('help')) {
     $climate->usage();
+}
+
+/**
+ * Creates the empty tables in an existing database.
+ * Correct database settings are required.
+ */
+if ($climate->arguments->defined('create-schema')) {
+    $sqlFile = 'etc/schema.sql';
+    if (!file_exists($sqlFile)) {
+        $climate->red()->out('Schema file does not exist or could not be found!');
+    }
+    $confirm = $climate->confirm( 'Do you confirm?' );
+    if ( $confirm->confirmed() ) {
+        $sqlContent = file_get_contents($sqlFile);
+        $db->query($sqlContent);
+        $climate->lightGreen()->out('Schema created successfully!');
+    }
 }
 
 /**
