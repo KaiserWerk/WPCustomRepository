@@ -1,5 +1,4 @@
 <?php
-AuthHelper::init();
 $router->with('/api/information', function () use ($router) {
     
     $router->respond('GET', '/license', function ($request) {
