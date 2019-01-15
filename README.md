@@ -4,6 +4,8 @@ Everyone who used Wordpress at least once or twice knows about the wordpress.org
 
 I developed a plugin exclusive to one client to be installed on nine different sites. Very soon I was tired of manually updating the plugin on such a number of sites. Hence I started developing a custom Wordpress repository. It's intentionally held quite simple. All you can do is log in/out and upload new plugin versions. Currently I'm developing more features.
 
+There is still a lot to do. That means that not everything will work 100%.
+
 ### Features
 
 * Automatic plugin updates (haha)
