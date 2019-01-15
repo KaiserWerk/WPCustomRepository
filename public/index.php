@@ -2,8 +2,6 @@
 
 require '../bootstrap.php';
 
-
-
 // require helper
 $helperPath = '../helper/';
 $h = opendir($helperPath);
@@ -14,7 +12,6 @@ while($f = readdir($h)) {
 }
 closedir($h);
 
-
 // require all controllers
 $controllerPath = '../controller/';
 $h = opendir($controllerPath);
@@ -24,5 +21,6 @@ while($f = readdir($h)) {
     }
 }
 closedir($h);
+
 
 $router->dispatch();
