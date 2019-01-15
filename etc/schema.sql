@@ -1,17 +1,25 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.7
+-- version 4.8.2
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Erstellungszeit: 20. Jun 2018 um 12:18
--- Server-Version: 5.6.38
+-- Host: localhost
+-- Erstellungszeit: 15. Jan 2019 um 06:08
+-- Server-Version: 5.6.34-log
 -- PHP-Version: 7.2.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
 --
--- Datenbank: `db_wpcr`
+-- Datenbank: `wpcr`
 --
 
 -- --------------------------------------------------------
@@ -183,16 +191,11 @@ CREATE TABLE `user` (
   `confirmation_token` varchar(150) DEFAULT NULL,
   `confirmation_token_validity` datetime DEFAULT NULL,
   `last_login` datetime DEFAULT NULL,
-  `sex` varchar(1) NOT NULL DEFAULT 'm',
   `locale` varchar(5) NOT NULL DEFAULT 'en',
   `admin` tinyint(1) NOT NULL DEFAULT '0',
   `locked` tinyint(1) NOT NULL DEFAULT '0',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Daten für Tabelle `user`
---
 
 --
 -- Indizes der exportierten Tabellen
@@ -327,3 +330,8 @@ ALTER TABLE `theme_version`
 --
 ALTER TABLE `user`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
