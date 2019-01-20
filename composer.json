@@ -1,6 +1,6 @@
 {
-    "name": "WPCustomRepository",
-    "type": "project",
+    "name": "kaiserwerk/wp-custom-repository",
+    "description": "A custom repository for Wordpress plugins and themes.",
     "authors": [
         {
             "name": "Robin Kaiser",
