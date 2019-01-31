@@ -2,20 +2,16 @@
 wpcr.db
 .DS_Store
 public/.DS_Store
+composer.lock
 
 /.idea
 /.git
 /vendor
 
 /var/logs
-!/var/logs/.gitkeep
 /var/plugin_files
-!/var/plugin_files/.gitkeep
 /var/theme_files
-!/var/theme_files/.gitkeep
 /var/sessions
-!/var/sessions/.gitkeep
 /public/banner_files
-!/public/banner_files/.gitkeep
 
 
