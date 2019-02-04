@@ -38,10 +38,6 @@ There is still a lot to do. That means that not everything will work 100%.
 
 * Optional Step 4: Use the  parameters to override specific values: `new plugin_updater_pluginname(string $endpoint, string $license_user, string $license_key, string $slug, bool $disable_sslverify)`
 
-##### Part III: In Wordpress
-
-* Step 1: Add the code from `etc/wp-config.php.txt` to the end of your Wordpress installation's `wp-config.php` file and add the hostname of your WPCR installation to the array, e.g. `wpcr.local`. This might be necessary for Wordpress to allow connections to your host.
-
 ### Contributing
 First, make a feature request/open an issue. If I don't have the time to take care of it, feel free to create a pull request. Also, feel free to fork and create your own, better version!
 
