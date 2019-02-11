@@ -44,6 +44,8 @@ CREATE TABLE `api_request` (
 
 CREATE TABLE `license` (
   `id` int(11) NOT NULL,
+  `plugin_entry_id` int(11) DEFAULT NULL,
+  `theme_entry_id` int(11) DEFAULT NULL,
   `license_user` varchar(255) NOT NULL,
   `license_key` varchar(200) NOT NULL,
   `license_host` varchar(100) DEFAULT NULL,
