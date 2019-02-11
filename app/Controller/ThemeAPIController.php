@@ -17,7 +17,7 @@ class ThemeAPIController extends Controller
             ], 400);
         }
     
-        LicenseHelper::checkLicenseValidity();
+        #LicenseHelper::checkLicenseValidity();
     
         $db = new DBHelper();
     
@@ -75,7 +75,7 @@ class ThemeAPIController extends Controller
             ], 400);
         }
     
-        LicenseHelper::checkLicenseValidity();
+        #LicenseHelper::checkLicenseValidity();
     
         $db = new DBHelper();
     
