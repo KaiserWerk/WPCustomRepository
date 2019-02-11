@@ -1,26 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
 require '../bootstrap.php';
 
 // require helper
-$helperPath = '../helper/';
-$h = opendir($helperPath);
+$h = opendir(HELPERDIR);
 while($f = readdir($h)) {
     if ($f !== '.' && $f !== '..' && strpos($f, 'Helper.php') !== false) {
-        require $helperPath . $f;
+        require HELPERDIR . '/' . $f;
     }
 }
 closedir($h);
 
 // require all controllers
-$controllerPath = '../controller/';
-$h = opendir($controllerPath);
+$h = opendir(CONTROLLERDIR);
 while($f = readdir($h)) {
     if ($f !== '.' && $f !== '..' && strpos($f, 'Controller.php') !== false) {
-        require $controllerPath . $f;
+        require CONTROLLERDIR . '/' . $f;
     }
 }
 closedir($h);
 
-
+$router = new KRouter();
+#echo '<pre>';var_dump($router->getRoutes());die;
 $router->dispatch();

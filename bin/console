@@ -5,7 +5,7 @@ if (php_sapi_name() !== "cli") {
 }
 
 require __DIR__ . '/../bootstrap.php';
-require __DIR__ . '/../helper/DBHelper.php';
+require __DIR__ . '/../app/Helper/DBHelper.php';
 
 $climate = new \League\CLImate\CLImate;
 $db = new DBHelper();

@@ -1,82 +1,46 @@
 <?php
 
-require __DIR__ . '/vendor/autoload.php';
+define('PROJECTDIR', __DIR__);
+define('TEMPLATEDIR', __DIR__ . '/app/Resources/templates');
+define('TRANSLATIONDIR', __DIR__ . '/app/Resources/translations');
+define('CONTROLLERDIR', __DIR__ . '/app/Controller');
+define('HELPERDIR', __DIR__ . '/app/Helper');
+define('MODELDIR', __DIR__ . '/app/Model');
+define('VARDIR', __DIR__ . '/var');
 
-$router = new \Klein\Klein();
+// require the comments check
+require_once __DIR__ . '/bin/requirements_check.php';
+// require the autoloader
+require_once __DIR__ . '/vendor/autoload.php';
 
 try {
-// .env Configuration
-    $dotenv = new Dotenv\Dotenv(__DIR__);
-    $dotenv->load();
-} catch (Exception $exception) {
-    trigger_error('Could not load .env file (not found or erroneous).');
-}
-
-/**
- * Returns the root directory path of the project
- * a.k.a. the project directory.
- *
- * @param bool $echo
- * @return string
- */
-function projectDir($echo = false) {
-    if (!$echo) {
-        return __DIR__;
+    $configFile = PROJECTDIR . '/config.yml';
+    if (!file_exists($configFile)) {
+        die('Configuration file ' . $configFile . ' does not exists! Execute composer install first.');
     }
-    echo __DIR__;
+    $config = Symfony\Component\Yaml\Yaml::parseFile($configFile);
+} catch (Symfony\Component\Yaml\Exception\ParseException $exception) {
+    trigger_error('ParseException: Could not load config file ' . $configFile . ': ' . $e->getMessage());
+    die;
 }
 
-/**
- * Returns the public facing path (where the index.php file lies).
- * #
- * @param bool $echo
- * @return string
- */
-function publicDir($echo = false) {
-    if (!$echo) {
-        return __DIR__.'/public';
-    }
-    echo __DIR__.'/public';
-}
-
-/**
- * Returns the directory path containing
- * variable data, like log files and sessions.
- *
- * @param bool $echo
- * @return string
- */
-function tempDir($echo = false) {
-    if (!$echo) {
-        return __DIR__.'/var';
-    }
-    echo  __DIR__.'/var';
-}
-
-/**
- * Return the directory where templates live.
- *
- * @param bool $echo
- * @return string
- */
-function viewsDir($echo = false) {
-    if ( ! $echo ) {
-        return __DIR__.'/resources/views';
-    }
-    echo  __DIR__.'/resources/views';
-}
-
-ini_set('log_errors', true);
-ini_set('error_log', tempDir() . '/logs/php-errors.log');
-ini_set('session.save_handler', 'files');
-ini_set('session.save_path', tempDir() . '/sessions/');
-/** important for debian systems if you set a custom session save path */
-ini_set('session.gc_probability', 1);
-ini_set('session.name', getenv('SESSNAME'));
-if ((bool)getenv('DEBUG') === true) {
-    error_reporting(E_ALL);
-    ini_set('display_errors', true);
+// Display errors depending on environment
+if ($config['site']['env'] == 'dev') {
+    $displayErrors = 'On';
 } else {
-    error_reporting(0);
-    ini_set('display_errors', false);
+    $displayErrors = 'Off';
 }
+ini_set('display_errors', $displayErrors);
+// always log errors
+ini_set('log_errors', true);
+// the error log file path
+ini_set('error_log', VARDIR . '/logs/php-errors.log');
+// to be on the safe side, set save handler to files (maybe use redis?)
+ini_set('session.save_handler', 'files');
+// set the session temp dir to inside the project dir
+ini_set('session.save_path', VARDIR . '/sessions/');
+// important for debian based systems if you set a custom session save path
+ini_set('session.gc_probability', 1);
+// set the session name
+ini_set('session.name', $config['session']['name']);
+

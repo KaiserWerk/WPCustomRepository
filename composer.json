@@ -1,22 +1,22 @@
 {
-    "name": "kaiserwerk/wp-custom-repository",
-    "description": "A custom repository for Wordpress plugins and themes.",
-    "authors": [
-        {
-            "name": "Robin Kaiser",
-            "email": "m@r-k.mx"
-        }
-    ],
-    "require": {
-        "vlucas/phpdotenv": "^2.4",
-        "klein/klein": "^2.1",
-        "phpmailer/phpmailer": "^6.0",
-        "catfan/medoo": "^1.5.6",
-        "league/climate": "^3.4"
-    },
-    "scripts": {
-        "post-install-cmd": [
-            "php -r \"file_exists('.env') || copy('.env.default', '.env');\""
-        ]
+  "name": "kaiserwerk/wp-custom-repository",
+  "description": "A custom repository for Wordpress plugins and themes.",
+  "authors": [
+    {
+      "name": "Robin Kaiser",
+      "email": "m@r-k.mx"
     }
+  ],
+  "require": {
+    "phpmailer/phpmailer": "^6.0",
+    "catfan/medoo": "^1.5.6",
+    "league/climate": "^3.4",
+    "symfony/yaml": "^4.2",
+    "kaiserwerk/k-router": "dev-master"
+  },
+  "scripts": {
+    "post-install-cmd": [
+      "php -r \"file_exists('config.yml') || copy('config.yml.dist', 'config.yml');\""
+    ]
+  }
 }

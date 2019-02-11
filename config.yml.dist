@@ -1,0 +1,39 @@
+# site config
+site:
+  env: dev # dev/prod
+  name: WPCustomRepository
+  default_locale: en
+
+# session config
+sessions:
+  name: WPCRSID
+
+# cookie names
+cookies:
+  test: TESTCOOKIE
+  language: USERLANG
+  login_attempt: LA
+
+# database credentials
+database:
+  driver: mysql # or sqlite (file needs to be set)
+  host: 127.0.0.1
+  port: 3306
+  username: root
+  password:
+  dbname: wpcr
+  prefix:
+  charset: utf8
+  dbfile: wpcr.db
+
+# mailer config
+mailer:
+  host:
+  port: 587 # smtp default
+  encryption: tls # tls/ssl/none
+  username:  # usually your email address
+  fullname:
+  password:
+  replyto_address:
+  replyto_fullname:
+

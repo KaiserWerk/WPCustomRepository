@@ -1,8 +1,7 @@
-.env
+config.yml
 wpcr.db
 .DS_Store
 public/.DS_Store
-composer.lock
 
 /.idea
 /.git
