@@ -48,7 +48,7 @@ class HTTPHelper
             }
         }
         header('Content-Type: application/json');
-        echo \json_encode($message, JSON_PRETTY_PRINT);
+        echo \json_encode($message);
         die;
     }
 }
