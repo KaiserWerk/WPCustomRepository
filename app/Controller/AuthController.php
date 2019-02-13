@@ -3,7 +3,7 @@
 class AuthController extends Controller
 {
     /**
-     * @Route("/login", name="auth_login")
+     * @Route("/auth/login", name="auth_login")
      * @Method(["GET", "POST"])
      */
     public function loginAction()
@@ -145,7 +145,7 @@ class AuthController extends Controller
     }
     
     /**
-     * @Route("/logout", name="auth_logout")
+     * @Route("/auth/logout", name="auth_logout")
      * @Method(["GET"])
      */
     public function logoutAction()

@@ -98,11 +98,11 @@ $StopwatchHelper->start();
                         <?php if (AuthHelper::isLoggedIn()): ?>
                             <a class="dropdown-item" href="/user/settings">Settings</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/logout" data-tooltip="" data-placement="bottom" title="" data-original-title="Logged in as: <?=AuthHelper::getUsername();?>">
+                            <a class="dropdown-item" href="/auth/logout" data-tooltip="" data-placement="bottom" title="" data-original-title="Logged in as: <?=AuthHelper::getUsername();?>">
                                 Logout
                             </a>
                         <?php else: ?>
-                            <a class="dropdown-item" href="/login"><i class="fa fa-sign-in"></i> Login</a>
+                            <a class="dropdown-item" href="/auth/login"><i class="fa fa-sign-in"></i> Login</a>
                         <?php endif; ?>
                     </div>
                 </li>
