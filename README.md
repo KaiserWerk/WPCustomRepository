@@ -8,16 +8,16 @@ There is still a lot to do. That means that not everything will work 100%.
 
 ### Features
 
-* Automatic plugin updates (haha)
-* Automatic theme updates (work in progress)
-* Licensing system (yes, quite rudimentary; improvement in progress)
-* Tracking of active installations (see [Further Reading & Thoughts](#further-reading--thoughts))
+* Automatic plugin updates
+* Automatic theme updates
+* Licensing system (?)
+* Tracking of active installations (?)
 
 ### Requirements
-* PHP 7 (maybe it runs on PHP 5)
-* A MySQL/MariaDB database (Maybe I'll include SQLite support in the future)
+* PHP 7
+* A MySQL/MariaDB database
 * Some MB of webspace (remember the uploaded plugin/theme files also take up some space)
-* Apache (or Nginx) with rewrite module (standard anyway nowadays)
+* Apache (or Nginx) with rewrite module
 
 ### Installation
 ##### Part I: On your server
@@ -25,8 +25,9 @@ There is still a lot to do. That means that not everything will work 100%.
 * Step 0: Create a (sub)domain and a vHost.
 * Step 1: Upload the WPCR (WPCustomRepository) files on your webserver, either by zip file or a `git clone https://github.com/KaiserWerk/WPCustomRepository.git`.
 * Step 2: Do the infamous `composer install` to get started.
-* Step 3: Edit the values in the `.env` file according to your needs. Most of them are optional.
-* Step 4: Import the sql dump file from the `etc` directory. It contains a standard admin user with the credentials `admin/test`.
+* Step 3: Edit the values in the `config.yml` file according to your needs. Most of them are optional.
+* Step 4: Import the sql dump file from the `etc` directory.
+* Step 5: Create an administrative user with the following command: `php bin/console --create-user --admin` and enter the details as asked.
 
 * Optional Step 5: If you have composer installed locally but not on your server or if it's just a basic webspace, you can do the whole installation locally and upload everything to your webspace/server. Just remember to edit the `.env` file.
 
