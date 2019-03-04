@@ -29,7 +29,7 @@ There is still a lot to do. That means that not everything will work 100%.
 * Step 4: Import the sql dump file from the `etc` directory.
 * Step 5: Create an administrative user with the following command: `php bin/console --create-user --admin` and enter the details as asked.
 
-* Optional Step 5: If you have composer installed locally but not on your server or if it's just a basic webspace, you can do the whole installation locally and upload everything to your webspace/server. Just remember to edit the `.env` file.
+* Optional Step 6: If you have composer installed locally but not on your server or if it's just a basic webspace, you can do the whole installation locally and upload everything to your webspace/server. Just remember to edit the `config.yml` file.
 
 ##### Part II: In your custom plugin
 
@@ -37,7 +37,7 @@ There is still a lot to do. That means that not everything will work 100%.
 * Step 2: Change the class name in the file to something unique, ideally add the name of your plugin as prefix or suffix , e.g. `plugin_updater_pluginname` or similar. (If you forget to do this it will still work but you cannot use another custom plugin with the updater code.)
 * Step 3: include the plugin-updater.php file and create a new instance of it, e.g. `new plugin_updater_pluginname();`
 
-* Optional Step 4: Use the  parameters to override specific values: `new plugin_updater_pluginname(string $endpoint, string $license_user, string $license_key, string $slug, bool $disable_sslverify)`
+* Optional Step 4: Use the parameters to hardcode specifiv values: `new plugin_updater_pluginname(string $endpoint, string $license_user, string $license_key, string $slug, bool $disable_sslverify)`
 
 ### Contributing
 First, make a feature request/open an issue. If I don't have the time to take care of it, feel free to create a pull request. Also, feel free to fork and create your own, better version!
