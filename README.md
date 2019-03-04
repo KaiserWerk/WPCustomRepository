@@ -52,10 +52,6 @@ In order for newly uploaded plugin versions to be recognized, the version string
 
 An **automatic** installation would be reeeally great, but to my knowledge this is not currently possible. You have to manually install your custom plugin first. If you set up everything correctly, the automatic updates will take over.
 
-If you want to track active installations, use `<your_updater_class_name>::trackInstallations('uninstalled');` in your plugin's Deactivator class and `<your_updater_class_name>::trackInstallations('installed');` in your Activator class. Please pay attention to the plural in the function name: it's `::trackInstallations`.
-
 ### TODO
 * Add SQLite support
-* Pull new plugin versions direct from Git
-* Remove cookies from API calls (I mean wtf)
-* Add proper Foreign Key Constraints (maybe)
+* Pull new plugin versions direct from Git (?)
