@@ -19,21 +19,56 @@ class PluginAPIController extends Controller
             'slug' => $slug,
         ]);
     
-        $latest_version = $db->get('plugin_version', [
-            'version'
-        ], [
+        $latest_version = $db->get('plugin_version', '*', [
             'plugin_entry_id' => $base_plugin['id'],
             'ORDER' => [
                 'version' => 'DESC',
             ],
         ]);
-    
+        
+        // Als Objekt
         $response = new stdClass();
         $response->slug = $slug;
         $response->new_version = $latest_version['version'];
-        $response->package = Helper::getHost() . '/download/plugin/' . $slug . '/latest';
-    
-        HTTPHelper::jsonResponse((array)$response);
+        $response->package = Helper::getHost() . '/download/plugin/' . $slug . '/' . $latest_version['version'];
+        
+        
+        // Als Array
+        /*
+        $response = [];
+        $response['slug'] = $slug;
+        $response['new_version'] = $latest_version['version'];
+        $response['package'] = Helper::getHost() . '/download/plugin/' . $slug . '/latest';
+        */
+        /*
+        $pluginFile = $slug . '/' .$slug . '.php';
+        
+        $pluginPackage = [];
+        $pluginPackage['id'] = 'codeforge.me/info/plugin/' . $slug;
+        $pluginPackage['slug'] = $slug;
+        $pluginPackage['plugin'] = $pluginFile;
+        $pluginPackage['new_version'] = $latest_version['version'];
+        $pluginPackage['url'] = 'https://wpcr.codeforge.me/info/plugin/' . $slug;
+        $pluginPackage['package'] = Helper::getHost() . '/download/plugin/' . $slug . '/latest';
+        $pluginPackage['icons'] = [];
+        $pluginPackage['banners'] = [];
+        $pluginPackage['banners_rtl'] = [];
+        $pluginPackage['upgrade_notice'] = '<p>UPGRADE NOTICE</p>';
+        $pluginPackage['tested'] = $latest_version['tested'];
+        $pluginPackage['requires_php'] = $latest_version['requires_php'];
+        $pluginPackage['compatibility'] = [];
+        
+        
+        
+        $response = [];
+        $response['plugins'] = [
+            $pluginFile => $pluginPackage,
+            'translations' => [],
+            'no_update' => [],
+        ];
+        */
+        
+        HTTPHelper::jsonResponse($response);
     }
     
     /**
