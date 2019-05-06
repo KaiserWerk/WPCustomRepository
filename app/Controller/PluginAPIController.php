@@ -8,10 +8,10 @@ class PluginAPIController extends Controller
      */
     public function apiPluginsChecklatestversionAction($params)
     {
-        LoggerHelper::logAPIRequest('/api/plugins/check-latest-version/[:slug]', $_SERVER['REQUEST_METHOD'], getallheaders());
-        #LicenseHelper::checkLicenseValidity();
-    
         $slug = $params->slug;
+        LoggerHelper::logAPIRequest('/api/plugins/check-latest-version/' . $slug, $_SERVER['REQUEST_METHOD'], getallheaders());
+        #LicenseHelper::checkLicenseValidity();
+        
         $db = new DBHelper();
         $base_plugin = $db->get('plugin', [
             'id',
