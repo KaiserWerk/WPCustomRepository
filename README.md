@@ -6,7 +6,8 @@ I developed a plugin exclusive to one client to be installed on nine different s
 
 There is still a lot to do. That means that not everything will work 100%.
 
-Broken since WordPress version 5. :(
+Edit: Broken since WordPress version 5. :(
+Edit: Appears to work properly again (tested Nov. 12, 2019)
 
 ### Features
 
