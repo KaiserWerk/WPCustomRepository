@@ -142,33 +142,44 @@ class PluginBaseController extends Controller
         if (isset($_POST['btn_plugin_base_edit'])) {
             AuthHelper::requireValidCSRFToken();
             $_plugin_base_edit = $_POST['_plugin_base_edit'];
-    
-            if (in_array($_FILES['_plugin_base_edit_banner_low']['type'], array('image/png', 'image/jpeg', 'image/gif'))) {
-                $parts = explode('.', $_FILES['_plugin_base_edit_banner_low']['name']);
-                $end = $parts[count($parts)-1];
-                $dir = PROJECTDIR . '/public/banner_files/' . $_plugin_base_edit['slug'] . '/';
-                $file_name = $file_name = $_plugin_base_edit['slug'] . '_banner_low.' . $end;
-                if (!is_dir($dir)) {
-                    @mkdir($dir, 0775, true);
+            if (isset($_FILES['_plugin_base_edit_banner_low'])) {
+                if (in_array($_FILES['_plugin_base_edit_banner_low']['type'], [
+                    'image/png',
+                    'image/jpeg',
+                    'image/gif'
+                ])) {
+                    $parts = explode('.', $_FILES['_plugin_base_edit_banner_low']['name']);
+                    $end = $parts[count($parts) - 1];
+                    $dir = PROJECTDIR . '/public/banner_files/' . $_plugin_base_edit['slug'] . '/';
+                    $file_name = $file_name = $_plugin_base_edit['slug'] . '_banner_low.' . $end;
+                    if (!is_dir($dir)) {
+                        @mkdir($dir, 0775, true);
+                    }
+                    move_uploaded_file($_FILES['_plugin_base_edit_banner_low']['tmp_name'], $dir . $file_name);
+                } else {
+                    LoggerHelper::debug('banner low has incorrect file type', 'warn');
                 }
-                move_uploaded_file($_FILES['_plugin_base_edit_banner_low']['tmp_name'], $dir . $file_name);
-            } else {
-                LoggerHelper::debug('banner low has incorrect file type', 'warn');
-            }
-    
-            if (in_array($_FILES['_plugin_base_edit_banner_high']['type'], array('image/png', 'image/jpeg', 'image/gif'))) {
-                $parts = explode('.', $_FILES['_plugin_base_edit_banner_high']['name']);
-                $end = $parts[count($parts)-1];
-                $dir = PROJECTDIR . '/public/banner_files/' . $_plugin_base_edit['slug'] . '/';
-                $file_name = $file_name = $_plugin_base_edit['slug'] . '_banner_high.' . $end;
-                if (!is_dir($dir)) {
-                    @mkdir($dir, 0775, true);
-                }
-                move_uploaded_file($_FILES['_plugin_base_edit_banner_high']['tmp_name'], $dir . $file_name);
-            } else {
-                LoggerHelper::debug('banner high has incorrect file type', 'warn');
             }
             
+            if (isset($_FILES['_plugin_base_edit_banner_high'])) {
+                if (in_array($_FILES['_plugin_base_edit_banner_high']['type'], [
+                    'image/png',
+                    'image/jpeg',
+                    'image/gif'
+                ])) {
+                    $parts = explode('.', $_FILES['_plugin_base_edit_banner_high']['name']);
+                    $end = $parts[count($parts) - 1];
+                    $dir = PROJECTDIR . '/public/banner_files/' . $_plugin_base_edit['slug'] . '/';
+                    $file_name = $file_name = $_plugin_base_edit['slug'] . '_banner_high.' . $end;
+                    if (!is_dir($dir)) {
+                        @mkdir($dir, 0775, true);
+                    }
+                    move_uploaded_file($_FILES['_plugin_base_edit_banner_high']['tmp_name'], $dir . $file_name);
+                } else {
+                    LoggerHelper::debug('banner high has incorrect file type', 'warn');
+                }
+            }
+    
             $allowable_tags = '<b><i><p><strong><ul><ol><li><em><a><img>';
             
             $fields = [
@@ -187,8 +198,8 @@ class PluginBaseController extends Controller
             
         
             foreach ($_plugin_base_edit as $key => $value) {
-                if (!empty($_plugin_edit[$key])) {
-                    $fields[$key] = $_plugin_edit[$key];
+                if (!empty($_plugin_base_edit[$key])) {
+                    $fields[$key] = $_plugin_base_edit[$key];
                 } else {
                     unset($fields[$key]);
                 }
@@ -197,6 +208,7 @@ class PluginBaseController extends Controller
             $db->update('plugin', $fields, [
                 'id' => $id,
             ]);
+            #die;
         
             Helper::setMessage('Changes saved!', 'success');
             Helper::redirect('/plugin/base/list');

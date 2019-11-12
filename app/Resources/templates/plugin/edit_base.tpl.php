@@ -163,7 +163,7 @@
                                     <div class="card-body">
 
                                         <label for="section_changelog">Section - Changelog</label><br>
-                                        <textarea name="_plugin_base_edit[section_changelog]" id="section_changelog" class="form-control" rows="8" required><?=$plugin['section_changelogn'];?></textarea>
+                                        <textarea name="_plugin_base_edit[section_changelog]" id="section_changelog" class="form-control" rows="8" required><?=$plugin['section_changelog'];?></textarea>
                                         <script>
                                             CKEDITOR.replace('section_changelog');
                                         </script>
