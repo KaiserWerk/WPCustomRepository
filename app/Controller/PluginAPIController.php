@@ -112,7 +112,7 @@ class PluginAPIController extends Controller
         $response->tested = $latest_version['tested'];
         $response->rating = $rating;
         $response->num_ratings = $ratings_sum;
-        $response->downloaded = $base_plugin['downloaded'];
+        #$response->downloaded = $base_plugin['downloaded'];
         #$response->donate_link = 'http://donatelink.com';
         $response->active_installations = $latest_version['active_installations'];
         $response->last_updated = $base_plugin['last_updated'];
