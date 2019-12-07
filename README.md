@@ -13,7 +13,6 @@ Edit: Appears to work properly again (tested Nov. 12, 2019)
 
 * Automatic plugin updates
 * Automatic theme updates
-* Licensing system (?)
 * Tracking of active installations (?)
 
 ### Requirements
@@ -40,7 +39,7 @@ Edit: Appears to work properly again (tested Nov. 12, 2019)
 * Step 2: Change the class name in the file to something unique, ideally add the name of your plugin as prefix or suffix , e.g. `plugin_updater_pluginname` or similar. (If you forget to do this it will still work but you cannot use another custom plugin with the updater code.)
 * Step 3: include the plugin-updater.php file and create a new instance of it, e.g. `new plugin_updater_pluginname();`
 
-* Optional Step 4: Use the parameters to hardcode specifiv values: `new plugin_updater_pluginname(string $endpoint, string $license_user, string $license_key, string $slug, bool $disable_sslverify)`
+* Optional Step 4: Use the parameters to hardcode specific values: `new plugin_updater_pluginname(string $endpoint, string $license_user, string $license_key, string $slug, bool $disable_sslverify)`
 
 ### Contributing
 First, make a feature request/open an issue. If I don't have the time to take care of it, feel free to create a pull request. Also, feel free to fork and create your own, better version!
@@ -57,5 +56,5 @@ In order for newly uploaded plugin versions to be recognized, the version string
 An **automatic** installation would be reeeally great, but to my knowledge this is not currently possible. You have to manually install your custom plugin first. If you set up everything correctly, the automatic updates will take over.
 
 ### TODO
-* Add SQLite support
-* Pull new plugin versions direct from Git (?)
+* Add SQLite support (check)
+* Pull new plugin versions direct from Git (work in progress)
