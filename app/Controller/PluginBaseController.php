@@ -195,8 +195,6 @@ class PluginBaseController extends Controller
                 'last_updated' => date('Y-m-d H:i:s'),
             ];
             
-            
-        
             foreach ($_plugin_base_edit as $key => $value) {
                 if (!empty($_plugin_base_edit[$key])) {
                     $fields[$key] = $_plugin_base_edit[$key];

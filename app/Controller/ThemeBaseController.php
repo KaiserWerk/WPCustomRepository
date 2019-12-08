@@ -12,11 +12,7 @@ class ThemeBaseController extends Controller
         AuthHelper::requireLogin();
     
         $db = new DBHelper();
-        $base_themes = $db->select('theme', [
-            'id',
-            'theme_name',
-            'slug',
-        ], [
+        $base_themes = $db->select('theme', '*', [
             'ORDER' => [
                 'theme_name' => 'DESC',
             ]

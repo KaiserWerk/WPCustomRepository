@@ -83,11 +83,16 @@ class DownloadAPIController extends Controller
         $slug = $params->slug;
         $version = $params->version;
     
+        if ($slug === null || $version === null) {
+            HTTPHelper::jsonResponse([
+                'status' => 'error',
+                'message' => 'Invalid theme slug or version string',
+            ], 400);
+        }
+        
         $db = new DBHelper();
     
-        $base_theme = $db->get('theme', [
-            'id',
-        ], [
+        $base_theme = $db->get('theme', '*', [
             'slug' => $slug,
         ]);
     
@@ -112,21 +117,14 @@ class DownloadAPIController extends Controller
             ], 404);
         }
     
-        if ($slug === null || $version === null) {
-            HTTPHelper::jsonResponse([
-                'status' => 'error',
-                'message' => 'Invalid theme slug or version string',
-            ], 400);
-        }
-    
         if ($version === 'latest') {
-            $download_version = $latest_version;
+            $download_version = $latest_version['version'];
         } else {
             $download_version = $version;
         }
     
         $db->update('theme_version', [
-            'downloaded[+]' => 1,
+            'downloads[+]' => 1,
         ], [
             'theme_entry_id' => $base_theme['id'],
             'version' => $download_version,
@@ -135,6 +133,8 @@ class DownloadAPIController extends Controller
         $file_name = $slug . '_v' . $download_version . '.zip';
         $dir = VARDIR . '/theme_files/' . $slug . '/';
     
+        #die($dir . $file_name);
+        
         if (!file_exists($dir . $file_name)) {
             HTTPHelper::jsonResponse([
                 'status' => 'error',

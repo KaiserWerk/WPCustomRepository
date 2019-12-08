@@ -107,7 +107,7 @@ class ThemeVersionController extends Controller
                 Helper::setMessage('Theme file has an invalid mime type!', 'danger');
                 Helper::redirect('/theme/version/add');
             }
-            $dir = projectDir(). '/var/theme_files/' . $base_theme['slug'] . '/';
+            $dir = PROJECTDIR . '/var/theme_files/' . $base_theme['slug'] . '/';
             $file_name = $file_name = $base_theme['slug'] . '_v' . $_theme_version_add['version'] . '.zip';
             if (!is_dir($dir)) {
                 @mkdir($dir, 0775, true);

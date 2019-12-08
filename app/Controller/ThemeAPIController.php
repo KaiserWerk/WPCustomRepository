@@ -23,6 +23,7 @@ class ThemeAPIController extends Controller
     
         $base_theme = $db->get('theme', [
             'id',
+            'url'
         ], [
             'slug' => $slug,
         ]);
@@ -51,7 +52,7 @@ class ThemeAPIController extends Controller
         $response = array();
         $response['package'] = Helper::getHost() . '/download/theme/' . $slug . '/latest';
         $response['new_version'] = $latest_version['version'];
-        $response['url'] = $latest_version['url'];
+        $response['url'] = $base_theme['url'];
         $response['tags'] = array(
             'one' => 'ins',
             'two' => 'tzwi',
@@ -83,7 +84,7 @@ class ThemeAPIController extends Controller
             'slug' => $slug,
         ]);
     
-        if ($base_theme === false) {
+        if ($base_theme === false || $base_theme === null) {
             HTTPHelper::jsonResponse([
                 'status' => 'error',
                 'message' => 'Base theme not found',
@@ -105,19 +106,15 @@ class ThemeAPIController extends Controller
         }
     
         $data = new stdClass;
-        $data->slug = $slug;
-        $data->name = $base_theme['theme_name'];
-        $data->version = $latest_version['version'];
+        $data->theme = $slug; // SLUG
+        #$data->name = $base_theme['theme_name'];
+        $data->new_version = $latest_version['version'];
         $data->last_updated = $base_theme['updated_at'];
-        $data->download_link = Helper::getHost() . '/download/theme/' . $slug . '/latest';
-        $data->author = $base_theme['author'];
+        $data->package = Helper::getHost() . '/download/theme/' . $slug . '/latest';
+        $data->url = $base_theme['url'];
         $data->requires = $latest_version['requires'];
-        $data->tested = $latest_version['tested'];
-        $data->screenshot_url = 'https://www.whatsbroadcast.com/wp-content/uploads/2017/09/API.png'; // TODO
-        $data->sections = [
-            'description' => $base_theme['section_description'],
-        ];
-    
+        $data->requires_php = $latest_version['requires_php'];
+        
         HTTPHelper::jsonResponse($data);
     }
 }
