@@ -1,6 +1,6 @@
 <?php
 
-class plugin_updater_%%pluginname%% {
+class Plugin_Updater {
     
     /**
      * @var string
