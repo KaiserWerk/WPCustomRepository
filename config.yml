@@ -36,6 +36,6 @@ mailer:
   username:  # usually your email address
   fullname:
   password:
-  replyto_address: info@r-k.mx
+  replyto_address: 
   replyto_fullname:
 
