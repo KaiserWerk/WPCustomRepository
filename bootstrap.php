@@ -20,7 +20,7 @@ try {
     }
     $config = Symfony\Component\Yaml\Yaml::parseFile($configFile);
 } catch (Symfony\Component\Yaml\Exception\ParseException $exception) {
-    trigger_error('ParseException: Could not load config file ' . $configFile . ': ' . $e->getMessage());
+    trigger_error('ParseException: Could not load config file ' . $configFile . ': ' . $exception->getMessage());
     die;
 }
 
