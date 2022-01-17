@@ -1,15 +1,15 @@
 <?php
 
-define('PROJECTDIR', __DIR__);
-define('TEMPLATEDIR', __DIR__ . '/app/Resources/templates');
-define('TRANSLATIONDIR', __DIR__ . '/app/Resources/translations');
-define('CONTROLLERDIR', __DIR__ . '/app/Controller');
-define('HELPERDIR', __DIR__ . '/app/Helper');
-define('MODELDIR', __DIR__ . '/app/Model');
-define('VARDIR', __DIR__ . '/var');
+const PROJECTDIR = __DIR__;
+const TEMPLATEDIR = __DIR__ . '/app/Resources/templates';
+const TRANSLATIONDIR = __DIR__ . '/app/Resources/translations';
+const CONTROLLERDIR = __DIR__ . '/app/Controller';
+const HELPERDIR = __DIR__ . '/app/Helper';
+const MODELDIR = __DIR__ . '/app/Model';
+const VARDIR = __DIR__ . '/var';
 
 // require the comments check
-require_once __DIR__ . '/bin/requirements_check.php';
+//require_once __DIR__ . '/bin/requirements_check.php';
 // require the autoloader
 require_once __DIR__ . '/vendor/autoload.php';
 
