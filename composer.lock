@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "catfan/medoo",
-            "version": "v1.7.5",
+            "version": "v1.7.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/catfan/Medoo.git",
-                "reference": "3b28d9469fd3f6f6e9c1106ec4342111ab2b50c4"
+                "reference": "2d675f73e23f63bbaeb9a8aa33318659a3d3c32f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/catfan/Medoo/zipball/3b28d9469fd3f6f6e9c1106ec4342111ab2b50c4",
-                "reference": "3b28d9469fd3f6f6e9c1106ec4342111ab2b50c4",
+                "url": "https://api.github.com/repos/catfan/Medoo/zipball/2d675f73e23f63bbaeb9a8aa33318659a3d3c32f",
+                "reference": "2d675f73e23f63bbaeb9a8aa33318659a3d3c32f",
                 "shasum": ""
             },
             "require": {
@@ -68,7 +68,7 @@
                 "issues": "https://github.com/catfan/Medoo/issues",
                 "source": "https://github.com/catfan/Medoo"
             },
-            "time": "2019-10-12T13:13:11+00:00"
+            "time": "2020-02-11T08:20:42+00:00"
         },
         {
             "name": "kaiserwerk/k-router",
@@ -76,17 +76,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/KaiserWerk/KRouter.git",
-                "reference": "2bfc0967849167a4abb4a2ab5b49e765e73f722b"
+                "reference": "d9af3c10ef263b2a6f7b1f956370a605f94f8185"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KaiserWerk/KRouter/zipball/2bfc0967849167a4abb4a2ab5b49e765e73f722b",
-                "reference": "2bfc0967849167a4abb4a2ab5b49e765e73f722b",
+                "url": "https://api.github.com/repos/KaiserWerk/KRouter/zipball/d9af3c10ef263b2a6f7b1f956370a605f94f8185",
+                "reference": "d9af3c10ef263b2a6f7b1f956370a605f94f8185",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.0.0"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "files": [
@@ -105,31 +106,35 @@
                 }
             ],
             "description": "A little library which enables you to use @Route and @Method annotations in your vanilla PHP project.",
-            "time": "2019-02-10T20:27:04+00:00"
+            "support": {
+                "issues": "https://github.com/KaiserWerk/KRouter/issues",
+                "source": "https://github.com/KaiserWerk/KRouter/tree/master"
+            },
+            "time": "2021-12-27T14:00:43+00:00"
         },
         {
             "name": "league/climate",
-            "version": "3.4.1",
+            "version": "3.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/climate.git",
-                "reference": "d657a19837c1f79a891381fb128b755aa3386381"
+                "reference": "5c717c3032c5118be7ad2395dbe0813d9894e8c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/climate/zipball/d657a19837c1f79a891381fb128b755aa3386381",
-                "reference": "d657a19837c1f79a891381fb128b755aa3386381",
+                "url": "https://api.github.com/repos/thephpleague/climate/zipball/5c717c3032c5118be7ad2395dbe0813d9894e8c7",
+                "reference": "5c717c3032c5118be7ad2395dbe0813d9894e8c7",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.6|^7.0",
+                "php": "^7.3 || ^8.0",
                 "psr/log": "^1.0",
                 "seld/cli-prompt": "^1.0"
             },
             "require-dev": {
                 "mikey179/vfsstream": "^1.4",
-                "mockery/mockery": "^1.0",
-                "phpunit/phpunit": "^5.7.16"
+                "mockery/mockery": "^1.4.2",
+                "phpunit/phpunit": "^9.5.0"
             },
             "suggest": {
                 "ext-mbstring": "If ext-mbstring is not available you MUST install symfony/polyfill-mbstring"
@@ -146,15 +151,15 @@
             ],
             "authors": [
                 {
-                    "name": "Craig Duncan",
-                    "email": "git@duncanc.co.uk",
-                    "homepage": "https://github.com/duncan3dc",
-                    "role": "Developer"
-                },
-                {
                     "name": "Joe Tannenbaum",
                     "email": "hey@joe.codes",
                     "homepage": "http://joe.codes/",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Craig Duncan",
+                    "email": "git@duncanc.co.uk",
+                    "homepage": "https://github.com/duncan3dc",
                     "role": "Developer"
                 }
             ],
@@ -166,7 +171,11 @@
                 "php",
                 "terminal"
             ],
-            "time": "2018-04-29T16:43:54+00:00"
+            "support": {
+                "issues": "https://github.com/thephpleague/climate/issues",
+                "source": "https://github.com/thephpleague/climate/tree/3.7.0"
+            },
+            "time": "2021-01-10T20:18:52+00:00"
         },
         {
             "name": "phpmailer/phpmailer",
@@ -246,16 +255,16 @@
         },
         {
             "name": "psr/log",
-            "version": "1.1.0",
+            "version": "1.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/log.git",
-                "reference": "6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd"
+                "reference": "d49695b909c3b7628b6289db5479a1c204601f11"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd",
-                "reference": "6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/d49695b909c3b7628b6289db5479a1c204601f11",
+                "reference": "d49695b909c3b7628b6289db5479a1c204601f11",
                 "shasum": ""
             },
             "require": {
@@ -264,7 +273,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0.x-dev"
+                    "dev-master": "1.1.x-dev"
                 }
             },
             "autoload": {
@@ -279,7 +288,7 @@
             "authors": [
                 {
                     "name": "PHP-FIG",
-                    "homepage": "http://www.php-fig.org/"
+                    "homepage": "https://www.php-fig.org/"
                 }
             ],
             "description": "Common interface for logging libraries",
@@ -289,24 +298,30 @@
                 "psr",
                 "psr-3"
             ],
-            "time": "2018-11-20T15:27:04+00:00"
+            "support": {
+                "source": "https://github.com/php-fig/log/tree/1.1.4"
+            },
+            "time": "2021-05-03T11:20:27+00:00"
         },
         {
             "name": "seld/cli-prompt",
-            "version": "1.0.3",
+            "version": "1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/cli-prompt.git",
-                "reference": "a19a7376a4689d4d94cab66ab4f3c816019ba8dd"
+                "reference": "b8dfcf02094b8c03b40322c229493bb2884423c5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/cli-prompt/zipball/a19a7376a4689d4d94cab66ab4f3c816019ba8dd",
-                "reference": "a19a7376a4689d4d94cab66ab4f3c816019ba8dd",
+                "url": "https://api.github.com/repos/Seldaek/cli-prompt/zipball/b8dfcf02094b8c03b40322c229493bb2884423c5",
+                "reference": "b8dfcf02094b8c03b40322c229493bb2884423c5",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^0.12.63"
             },
             "type": "library",
             "extra": {
@@ -337,24 +352,31 @@
                 "input",
                 "prompt"
             ],
-            "time": "2017-03-18T11:32:45+00:00"
+            "support": {
+                "issues": "https://github.com/Seldaek/cli-prompt/issues",
+                "source": "https://github.com/Seldaek/cli-prompt/tree/1.0.4"
+            },
+            "time": "2020-12-15T21:32:01+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
-            "version": "v1.10.0",
+            "version": "v1.24.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-ctype.git",
-                "reference": "e3d826245268269cd66f8326bd8bc066687b4a19"
+                "reference": "30885182c981ab175d4d034db0f6f469898070ab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/e3d826245268269cd66f8326bd8bc066687b4a19",
-                "reference": "e3d826245268269cd66f8326bd8bc066687b4a19",
+                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/30885182c981ab175d4d034db0f6f469898070ab",
+                "reference": "30885182c981ab175d4d034db0f6f469898070ab",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.3"
+                "php": ">=7.1"
+            },
+            "provide": {
+                "ext-ctype": "*"
             },
             "suggest": {
                 "ext-ctype": "For best performance"
@@ -362,7 +384,11 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.9-dev"
+                    "dev-main": "1.23-dev"
+                },
+                "thanks": {
+                    "name": "symfony/polyfill",
+                    "url": "https://github.com/symfony/polyfill"
                 }
             },
             "autoload": {
@@ -379,12 +405,12 @@
             ],
             "authors": [
                 {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "name": "Gert de Pagter",
+                    "email": "BackEndTea@gmail.com"
                 },
                 {
-                    "name": "Gert de Pagter",
-                    "email": "backendtea@gmail.com"
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",
@@ -395,41 +421,53 @@
                 "polyfill",
                 "portable"
             ],
-            "time": "2018-08-06T14:22:27+00:00"
+            "support": {
+                "source": "https://github.com/symfony/polyfill-ctype/tree/v1.24.0"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2021-10-20T20:35:02+00:00"
         },
         {
             "name": "symfony/yaml",
-            "version": "v4.2.3",
+            "version": "v4.4.36",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "d461670ee145092b7e2a56c1da7118f19cadadb0"
+                "reference": "a19f7c44ba665fa9d9d415cc4493361381b93f9b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/d461670ee145092b7e2a56c1da7118f19cadadb0",
-                "reference": "d461670ee145092b7e2a56c1da7118f19cadadb0",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/a19f7c44ba665fa9d9d415cc4493361381b93f9b",
+                "reference": "a19f7c44ba665fa9d9d415cc4493361381b93f9b",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.1.3",
+                "php": ">=7.1.3",
                 "symfony/polyfill-ctype": "~1.8"
             },
             "conflict": {
                 "symfony/console": "<3.4"
             },
             "require-dev": {
-                "symfony/console": "~3.4|~4.0"
+                "symfony/console": "^3.4|^4.0|^5.0"
             },
             "suggest": {
                 "symfony/console": "For validating YAML files using the lint command"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "4.2-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Symfony\\Component\\Yaml\\": ""
@@ -452,9 +490,26 @@
                     "homepage": "https://symfony.com/contributors"
                 }
             ],
-            "description": "Symfony Yaml Component",
+            "description": "Loads and dumps YAML files",
             "homepage": "https://symfony.com",
-            "time": "2019-01-16T20:35:37+00:00"
+            "support": {
+                "source": "https://github.com/symfony/yaml/tree/v4.4.36"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2021-11-25T16:40:00+00:00"
         }
     ],
     "packages-dev": [],
@@ -467,5 +522,5 @@
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.0.0"
 }
