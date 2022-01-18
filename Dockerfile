@@ -16,12 +16,12 @@ RUN php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 
 COPY . /var/www/html
 
-COPY ./docker/vhost.conf /etc/apache2/sites-available/000-default.conf
+COPY ./vhost.conf /etc/apache2/sites-available/000-default.conf
 
 WORKDIR /var/www/html
 
 RUN mkdir -p /var/www/html/var/sessions
-RUN chmod -R 0777 /var/www/html/var
+
 RUN chown -R www-data:www-data /var/www/html
 RUN a2enmod rewrite
 
