@@ -19,10 +19,10 @@ cookie:
 # database credentials
 database:
   driver: mysql # or sqlite (file needs to be set)
-  host: 127.0.0.1
-  port: 3306
-  username: root
-  password: root
+  host: db
+  port: 3316
+  username: dbo
+  password: test123
   dbname: wpcr
   prefix:
   charset: utf8
@@ -36,6 +36,6 @@ mailer:
   username:  # usually your email address
   fullname:
   password:
-  replyto_address: 
+  replyto_address:
   replyto_fullname:
 

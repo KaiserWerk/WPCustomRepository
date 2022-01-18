@@ -1,0 +1,26 @@
+version: "2"
+
+services:
+  php:
+    build: .
+    container_name: wpcr_app
+    volumes:
+      - ./:/var/www/html
+      - /var/log/apache2/wpcr:/var/log/apache2
+    ports:
+      - "8000:80"
+    depends_on:
+      - db
+
+  db:
+    image: mysql:5.7
+    container_name: wpcr_db
+    environment:
+      MYSQL_ROOT_PASSWORD: sd496gf45r87532ktrdeog
+      MYSQL_DATABASE: wpcr
+      MYSQL_USER: dbo
+      MYSQL_PASSWORD: test123
+    ports:
+      - "3316:3306"
+    volumes:
+      - "./etc/schema.sql:/docker-entrypoint-initdb.d/1.sql"
