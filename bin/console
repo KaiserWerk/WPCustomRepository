@@ -70,7 +70,7 @@ if ($climate->arguments->defined('help')) {
  * Correct database settings are required.
  */
 if ($climate->arguments->defined('create-schema')) {
-    $sqlFile = 'etc/schema.sql';
+    $sqlFile = 'etc/01-schema.sql';
     if (!file_exists($sqlFile)) {
         $climate->red()->out('Schema file does not exist or could not be found!');
     }

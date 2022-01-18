@@ -1,6 +1,6 @@
 # site config
 site:
-  env: dev # dev/prod
+  env: prod # dev/prod
   name: WPCustomRepository
   operator: 1
   default_locale: en
@@ -20,7 +20,7 @@ cookie:
 database:
   driver: mysql # or sqlite (file needs to be set)
   host: db
-  port: 3316
+  port: 3306
   username: dbo
   password: test123
   dbname: wpcr

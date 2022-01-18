@@ -1,16 +1,19 @@
-version: "2"
+version: "3.9"
 
 services:
   php:
     build: .
-    container_name: wpcr_app
+    container_name: wpcr_php
     volumes:
       - ./:/var/www/html
       - /var/log/apache2/wpcr:/var/log/apache2
+      - vardata:/var/www/html/var
     ports:
-      - "8000:80"
+      - "9727:80"
     depends_on:
       - db
+    networks:
+      wpcr_net:
 
   db:
     image: mysql:5.7
@@ -20,7 +23,14 @@ services:
       MYSQL_DATABASE: wpcr
       MYSQL_USER: dbo
       MYSQL_PASSWORD: test123
-    ports:
-      - "3316:3306"
     volumes:
-      - "./etc/schema.sql:/docker-entrypoint-initdb.d/1.sql"
+      - "./etc/sql:/docker-entrypoint-initdb.d"
+    networks:
+      wpcr_net:
+
+networks:
+  wpcr_net:
+    driver: bridge
+
+volumes:
+  vardata:

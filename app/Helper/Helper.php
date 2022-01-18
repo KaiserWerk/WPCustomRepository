@@ -49,8 +49,8 @@ class Helper
         }
     }
     
-    public static function createZip($files = array(), $destination = '', $overwrite = false) {
-        
+    public static function createZip($files = array(), $destination = '', $overwrite = false)
+    {
         if (file_exists($destination) && !$overwrite) {
             return false;
         }
